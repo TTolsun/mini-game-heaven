@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "game-developer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/game-developer/SKILL.md",
+      "computedHash": "f3fe0ec8a36bf09f2e4fc9d55f213160acfce2b6400976f5455d1a513f2b7f5b"
+    },
+    "game-feel": {
+      "source": "gamedev-skills/awesome-gamedev-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/disciplines/game-feel/SKILL.md",
+      "computedHash": "03b9da7e669419e69dfeea8abe0a542e051b2ea1ef8e18cd8a39cb32855416b3"
+    }
+  }
+}
