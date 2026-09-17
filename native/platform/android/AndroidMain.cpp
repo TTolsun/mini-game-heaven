@@ -3,33 +3,53 @@
 
 #define LOG_TAG "AndroidMain"
 
+#include <android/keycodes.h>
 #include <game-activity/GameActivity.h>
 #include <game-activity/native_app_glue/android_native_app_glue.h>
 
+#include <algorithm>
 #include <memory>
 
 #include "app/MiniGameApp.h"
 #include "engine/Engine.h"
 #include "engine/core/Log.h"
 #include "platform/android/AndroidAssetLoader.h"
+#include "platform/android/AndroidAudio.h"
+#include "platform/android/AndroidHaptics.h"
 #include "platform/android/GlContext.h"
 
 namespace {
 
 using platform::android::AndroidAssetLoader;
+using platform::android::AndroidAudio;
+using platform::android::AndroidHaptics;
 using platform::android::GlContext;
 
 struct AppState {
     explicit AppState(android_app* app)
-        : assets(app->activity->assetManager), engine(assets) {}
+        : assets(app->activity->assetManager), engine(assets), haptics(app), audio(engine.mixer()) {
+        engine.setHaptics(&haptics);
+        engine.setDataPath(app->activity->internalDataPath);
+    }
 
     AndroidAssetLoader assets;
     engine::Engine engine;
+    AndroidHaptics haptics;
+    AndroidAudio audio;
     GlContext gl;
     bool hasFocus = false;
 
     bool animating() const { return gl.hasSurface() && hasFocus; }
 };
+
+// HUD keeps clear of the camera cutout and the system bars.
+void applyInsets(android_app* app, AppState& state) {
+    ARect cutout{};
+    ARect bars{};
+    GameActivity_getWindowInsets(app->activity, GAMECOMMON_INSETS_TYPE_DISPLAY_CUTOUT, &cutout);
+    GameActivity_getWindowInsets(app->activity, GAMECOMMON_INSETS_TYPE_SYSTEM_BARS, &bars);
+    state.engine.setSafeInsets(std::max(cutout.top, bars.top), std::max(cutout.bottom, bars.bottom));
+}
 
 void handleAppCmd(android_app* app, int32_t cmd) {
     auto* state = static_cast<AppState*>(app->userData);
@@ -39,6 +59,7 @@ void handleAppCmd(android_app* app, int32_t cmd) {
         if (app->window != nullptr && state->gl.createSurface(app->window)) {
             if (!state->engine.graphicsReady()) {
                 state->engine.initGraphics(state->gl.width(), state->gl.height());
+                applyInsets(app, *state);
                 state->engine.setScene(std::make_unique<app::MiniGameApp>());
             } else {
                 state->engine.resize(state->gl.width(), state->gl.height());
@@ -56,12 +77,17 @@ void handleAppCmd(android_app* app, int32_t cmd) {
             state->engine.resize(state->gl.width(), state->gl.height());
         }
         break;
+    case APP_CMD_WINDOW_INSETS_CHANGED:
+        applyInsets(app, *state);
+        break;
     case APP_CMD_GAINED_FOCUS:
         state->hasFocus = true;
         state->engine.resumeClock();
+        state->audio.start();
         break;
     case APP_CMD_LOST_FOCUS:
         state->hasFocus = false;
+        state->audio.stop();
         break;
     default:
         break;
@@ -114,9 +140,15 @@ void processInput(android_app* app, AppState& state) {
     }
     android_app_clear_motion_events(input);
 
-    if (input->keyEventsCount > 0) {
-        android_app_clear_key_events(input);
+    for (uint64_t i = 0; i < input->keyEventsCount; ++i) {
+        const GameActivityKeyEvent& key = input->keyEvents[i];
+        if (key.keyCode == AKEYCODE_BACK && key.action == AKEY_EVENT_ACTION_UP) {
+            if (!state.engine.onBack()) {
+                GameActivity_finish(app->activity);
+            }
+        }
     }
+    android_app_clear_key_events(input);
 }
 
 }  // namespace
@@ -128,8 +160,9 @@ extern "C" void android_main(android_app* app) {
     app->userData = &state;
     app->onAppCmd = handleAppCmd;
 
-    // Receive every motion source, not only the touchscreen default filter.
+    // Receive every motion source and every key (the default filter drops BACK).
     android_app_set_motion_event_filter(app, nullptr);
+    android_app_set_key_event_filter(app, nullptr);
 
     while (true) {
         int events = 0;

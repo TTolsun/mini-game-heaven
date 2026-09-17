@@ -12,6 +12,8 @@ add_library(${PROJECT_NAME} SHARED
     # engine: platform-independent core
     engine/Engine.cpp
     engine/asset/Image.cpp
+    engine/audio/Mixer.cpp
+    engine/audio/Synth.cpp
     engine/graphics/Animation.cpp
     engine/graphics/Font.cpp
     engine/graphics/Particles.cpp
@@ -23,6 +25,8 @@ add_library(${PROJECT_NAME} SHARED
     # app: scenes, game registry and the mini games
     app/GameAssets.cpp
     app/GameRegistry.cpp
+    app/HighScores.cpp
+    app/Sfx.cpp
     app/MiniGameApp.cpp
     app/scenes/MenuScene.cpp
     app/scenes/ResultScene.cpp
@@ -32,6 +36,8 @@ add_library(${PROJECT_NAME} SHARED
 
     # platform/android: the only Android-aware code
     platform/android/AndroidAssetLoader.cpp
+    platform/android/AndroidAudio.cpp
+    platform/android/AndroidHaptics.cpp
     platform/android/AndroidMain.cpp
     platform/android/GlContext.cpp
 )
@@ -55,5 +61,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     android
     EGL
     GLESv3
+    aaudio
     log
 )

@@ -18,6 +18,9 @@ public:
     virtual void update(float dt) = 0;
     virtual void render(SpriteBatch& batch) = 0;
     virtual void onTouch(const TouchEvent& /*event*/) {}
+
+    // System back. Return true if consumed; false lets the app exit.
+    virtual bool onBack() { return false; }
 };
 
 }  // namespace engine

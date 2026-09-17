@@ -34,12 +34,12 @@ private:
     struct Column {
         float x;               // left edge in world units
         bool ground;           // false = water gap
-        int jelly;             // 0 = none, else jelly sprite index 1..6
+        int obstacle;          // 0 none, 1 crate, 2 mushroom
         bool platform;         // floating platform above this column
         float platformY;
     };
 
-    enum class DeathCause { None, Jelly, Water };
+    enum class DeathCause { None, Obstacle, Water };
 
     void generateAhead();
     void pushColumn();
@@ -58,6 +58,7 @@ private:
     const engine::Font* font_ = nullptr;
 
     engine::Sprite background_;
+    std::vector<std::pair<float, int>> scenery_;  // x, sprite id (0-1 bush, 2-3 tree)
     engine::Animation runAnim_;
     engine::Animation jumpAnim_;
     engine::Animation deadAnim_;

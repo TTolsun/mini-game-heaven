@@ -24,15 +24,21 @@ bool Engine::initGraphics(int screenWidth, int screenHeight) {
         LOGE("sprite batch init failed");
         return false;
     }
-    atlas_ = std::make_unique<TextureAtlas>(2048);
+
+    // Use a 4096 atlas when the GPU allows it; 2048 is the GLES 3.0 minimum.
+    GLint maxTexture = 2048;
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTexture);
+    const int atlasSize = maxTexture >= 4096 ? 4096 : 2048;
+    atlas_ = std::make_unique<TextureAtlas>(atlasSize);
+
     resize(screenWidth, screenHeight);
     graphicsReady_ = true;
 
     if (scene_) {
         scene_->onEnter(*this);
     }
-    LOGI("graphics ready: screen %dx%d, world %.0fx%.0f", screenWidth, screenHeight, kWorldWidth,
-         worldHeight_);
+    LOGI("graphics ready: screen %dx%d, world %.0fx%.0f, atlas %d", screenWidth, screenHeight,
+         kWorldWidth, worldHeight_, atlasSize);
     return true;
 }
 
@@ -41,7 +47,17 @@ void Engine::resize(int screenWidth, int screenHeight) {
     screenHeight_ = screenHeight;
     screenToWorld_ = kWorldWidth / static_cast<float>(screenWidth);
     worldHeight_ = screenHeight * screenToWorld_;
+    safeTop_ = insetTopPx_ * screenToWorld_;
+    safeBottom_ = insetBottomPx_ * screenToWorld_;
     glViewport(0, 0, screenWidth, screenHeight);
+}
+
+void Engine::setSafeInsets(int top, int bottom) {
+    insetTopPx_ = top;
+    insetBottomPx_ = bottom;
+    safeTop_ = top * screenToWorld_;
+    safeBottom_ = bottom * screenToWorld_;
+    LOGI("safe insets: top %d px, bottom %d px", top, bottom);
 }
 
 void Engine::setScene(std::unique_ptr<Scene> scene) {
@@ -106,6 +122,10 @@ void Engine::onTouch(int32_t pointerId, TouchEvent::Phase phase, float screenX, 
     event.phase = phase;
     event.position = {screenX * screenToWorld_, screenY * screenToWorld_};
     scene_->onTouch(event);
+}
+
+bool Engine::onBack() {
+    return scene_ ? scene_->onBack() : false;
 }
 
 }  // namespace engine

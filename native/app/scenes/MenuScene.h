@@ -27,6 +27,9 @@ public:
     void onTouch(const engine::TouchEvent& event) override;
 
 private:
+    engine::Sprite iconFor(GameId id) const;
+    void drawScenery(engine::SpriteBatch& batch);
+
     const GameAssets& assets_;
     const HighScores& scores_;
     OnSelect onSelect_;
@@ -34,10 +37,13 @@ private:
 
     engine::Sprite background_;
     engine::Sprite groundTile_;
+    engine::Sprite dirtTile_;
     engine::Animation dinoIdle_;
     std::vector<ui::Button> cards_;
     float groundY_ = 0.0f;
-    float bob_ = 0.0f;
+    float titleY_ = 0.0f;
+    float time_ = 0.0f;
+    float enter_ = 0.0f;  // 0..1 cards slide in
 };
 
 }  // namespace app

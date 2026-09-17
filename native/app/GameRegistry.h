@@ -20,7 +20,8 @@ struct GameInfo {
     GameId id;
     const char* title;
     const char* hint;      // one line shown on the menu card
-    engine::Color accent;  // card colour
+    int buttonColor;       // GUI wide button skin: 0 blue, 1 green, 2 red
+    engine::Color accent;  // text accent matching the skin
     bool available;        // false until the game is implemented
 };
 

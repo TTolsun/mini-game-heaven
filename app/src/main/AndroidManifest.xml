@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-feature android:glEsVersion="0x00030000" android:required="true" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -9,8 +10,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:enableOnBackInvokedCallback="false"
         android:theme="@style/Theme.MiniGameHeaven">
 
+        <!-- enableOnBackInvokedCallback=false: with predictive back on, BACK never reaches
+             onKeyUp, so the native side could not return to the menu. -->
         <!-- No Kotlin/Java in this project: GameActivity from the AAR is the entry point.
              android.app.lib_name tells it which native library to load (libminigame.so). -->
         <activity

@@ -8,9 +8,9 @@ namespace app {
 
 const std::vector<GameInfo>& allGames() {
     static const std::vector<GameInfo> kGames = {
-        {GameId::Dodge, "DODGE", "Hold left / right to run", engine::Color::rgb8(255, 138, 101), true},
-        {GameId::Jump, "JUMP", "Tap to jump, tap again mid-air", engine::Color::rgb8(129, 199, 132), true},
-        {GameId::Tap, "TAP", "10 seconds. Tap like crazy", engine::Color::rgb8(100, 181, 246), true},
+        {GameId::Dodge, "DODGE", "Hold left / right to run", 2, engine::Color::rgb8(239, 83, 80), true},
+        {GameId::Jump, "JUMP", "Tap to jump, tap again mid-air", 1, engine::Color::rgb8(124, 179, 66), true},
+        {GameId::Tap, "TAP", "10 seconds. Smash the crate", 0, engine::Color::rgb8(41, 182, 246), true},
     };
     return kGames;
 }

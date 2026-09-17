@@ -34,30 +34,47 @@ bool GameAssets::load(engine::Engine& engine) {
     dinoJump_ = engine::Animation::fromAtlas(atlas, "dino_jump", 16.0f, false);
     dinoDead_ = engine::Animation::fromAtlas(atlas, "dino_dead", 12.0f, false);
 
-    for (int i = 1; i <= 6; ++i) {
-        char name[64];
-        char path[128];
-        std::snprintf(name, sizeof(name), "jelly_%d", i);
-        std::snprintf(path, sizeof(path), "sprites/jelly/jelly_%d.png", i);
-        atlas.add(assets, name, path);
-        jellies_[i - 1] = atlas.get(name);
-    }
-
-    // Tileset numbering: 2 grass top, 5 dirt, 13-15 floating platform L/M/R, 17-18 water.
-    struct TileFile {
+    // Single sprites: atlas name, file, destination.
+    struct File {
         const char* name;
-        const char* file;
+        const char* path;
         engine::Sprite* out;
     };
-    for (const TileFile& tile : {TileFile{"ground", "tiles/2.png", &groundTile_},
-                                 TileFile{"dirt", "tiles/5.png", &dirtTile_},
-                                 TileFile{"plat_l", "tiles/13.png", &platformLeft_},
-                                 TileFile{"plat_m", "tiles/14.png", &platformMid_},
-                                 TileFile{"plat_r", "tiles/15.png", &platformRight_},
-                                 TileFile{"water_top", "tiles/17.png", &waterTop_},
-                                 TileFile{"water", "tiles/18.png", &water_}}) {
-        atlas.add(assets, tile.name, tile.file);
-        *tile.out = atlas.get(tile.name);
+    const File files[] = {
+        // Tileset numbering: 2 grass top, 5 dirt, 13-15 floating platform L/M/R, 17-18 water.
+        {"ground", "tiles/2.png", &groundTile_},
+        {"dirt", "tiles/5.png", &dirtTile_},
+        {"plat_l", "tiles/13.png", &platformLeft_},
+        {"plat_m", "tiles/14.png", &platformMid_},
+        {"plat_r", "tiles/15.png", &platformRight_},
+        {"water_top", "tiles/17.png", &waterTop_},
+        {"water", "tiles/18.png", &water_},
+        {"crate", "objects/crate.png", &crate_},
+        {"stone", "objects/stone.png", &stone_},
+        {"mushroom_pink", "objects/mushroom_pink.png", &mushroomPink_},
+        {"mushroom_orange", "objects/mushroom_orange.png", &mushroomOrange_},
+        {"bush_1", "objects/bush_1.png", &bush1_},
+        {"bush_2", "objects/bush_2.png", &bush2_},
+        {"tree_1", "objects/tree_1.png", &tree1_},
+        {"tree_2", "objects/tree_2.png", &tree2_},
+        {"stump", "objects/stump.png", &stump_},
+        {"panel", "gui/panel.png", &panel_},
+        {"ribbon", "gui/ribbon.png", &ribbon_},
+        {"star", "gui/star.png", &star_},
+        {"btn_wide_blue", "gui/btn_wide_blue.png", &wideButtons_[0]},
+        {"btn_wide_green", "gui/btn_wide_green.png", &wideButtons_[1]},
+        {"btn_wide_red", "gui/btn_wide_red.png", &wideButtons_[2]},
+        {"btn_wide_gray", "gui/btn_wide_gray.png", &wideButtons_[3]},
+        {"btn_home", "gui/btn_home.png", &iconHome_},
+        {"btn_retry", "gui/btn_retry.png", &iconRetry_},
+        {"btn_play", "gui/btn_play.png", &iconPlay_},
+        {"btn_close", "gui/btn_close.png", &iconClose_},
+        {"btn_sound_on", "gui/btn_sound_on.png", &iconSoundOn_},
+        {"btn_sound_off", "gui/btn_sound_off.png", &iconSoundOff_},
+    };
+    for (const File& f : files) {
+        atlas.add(assets, f.name, f.path);
+        *f.out = atlas.get(f.name);
     }
 
     // The background is large and drawn once per frame, so it gets its own texture.
@@ -71,16 +88,18 @@ bool GameAssets::load(engine::Engine& engine) {
         return false;
     }
 
+    sfx_.build();
+
     LOGI("loaded (idle %d, run %d, jump %d, dead %d frames)", dinoIdle_.frameCount(),
          dinoRun_.frameCount(), dinoJump_.frameCount(), dinoDead_.frameCount());
-    return !dinoIdle_.empty() && forest_.isValid();
+    return !dinoIdle_.empty() && forest_.isValid() && panel_.isValid();
 }
 
-engine::Sprite GameAssets::jelly(int index) const {
-    if (index < 1 || index > 6) {
-        return {};
+engine::Sprite GameAssets::wideButton(int color) const {
+    if (color < 0 || color > 3) {
+        return wideButtons_[3];
     }
-    return jellies_[index - 1];
+    return wideButtons_[color];
 }
 
 }  // namespace app

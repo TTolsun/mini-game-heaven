@@ -6,6 +6,7 @@
 #include <cstdio>
 
 #include "app/GameAssets.h"
+#include "app/ui/Text.h"
 #include "engine/Engine.h"
 #include "engine/graphics/SpriteBatch.h"
 #include "engine/math/Ease.h"
@@ -25,7 +26,8 @@ constexpr float kStartSpeed = 400.0f;
 constexpr float kMaxSpeed = 760.0f;
 constexpr float kCoyoteTime = 0.10f;
 constexpr float kJumpBufferTime = 0.12f;
-constexpr float kJellyScale = 0.5f;
+constexpr float kCrateScale = 0.42f;     // crate ~80 world units: needs a real jump
+constexpr float kMushroomScale = 0.55f;  // mushroom ~67: a hop clears it
 constexpr float kDeathHold = 1.3f;
 
 }  // namespace
@@ -48,11 +50,18 @@ void JumpGame::onEnter(engine::Engine& engine) {
     speed_ = kStartSpeed;
 
     // Start with a safe stretch of ground: no gap for 14 columns and the
-    // first jelly can only appear once the player has had ~2.5 s to read the hint.
+    // first obstacle can only appear once the player has had ~2.5 s to read the hint.
     runLeft_ = 14;
     sinceObstacle_ = -10;
     columns_.clear();
     generateAhead();
+
+    // Background scenery scrolls at 60% speed for depth.
+    scenery_.clear();
+    std::uniform_int_distribution<int> kind(0, 3);
+    for (float x = 0.0f; x < engine.worldWidth() * 2.0f; x += 260.0f) {
+        scenery_.emplace_back(x, kind(rng_));
+    }
 }
 
 void JumpGame::pushColumn() {
@@ -60,7 +69,6 @@ void JumpGame::pushColumn() {
     Column column{x, true, 0, false, 0.0f};
 
     std::uniform_int_distribution<int> runLen(3, 7);
-    std::uniform_int_distribution<int> jellyPick(1, 6);
     std::uniform_real_distribution<float> chance(0.0f, 1.0f);
 
     if (gapLeft_ > 0) {
@@ -69,9 +77,9 @@ void JumpGame::pushColumn() {
     } else if (runLeft_ > 0) {
         --runLeft_;
         ++sinceObstacle_;
-        // Jellies only on solid ground, never right after a gap, never two in a row.
-        if (sinceObstacle_ >= 3 && runLeft_ >= 1 && chance(rng_) < 0.35f) {
-            column.jelly = jellyPick(rng_);
+        // Obstacles only on solid ground, never right after a gap, never two in a row.
+        if (sinceObstacle_ >= 3 && runLeft_ >= 1 && chance(rng_) < 0.38f) {
+            column.obstacle = chance(rng_) < 0.5f ? 1 : 2;
             sinceObstacle_ = 0;
         }
     } else {
@@ -140,9 +148,13 @@ void JumpGame::jump() {
     if (canGroundJump) {
         velocityY_ = kJumpVelocity;
         jumpsLeft_ = 1;
+        engine_->mixer().play(assets_.sfx().jump);
+        engine_->haptics().light();
     } else if (jumpsLeft_ > 0) {
         velocityY_ = kDoubleJumpVelocity;
         jumpsLeft_ = 0;
+        engine_->mixer().play(assets_.sfx().doubleJump);
+        engine_->haptics().light();
         engine::Particles::Burst puff;
         puff.count = 8;
         puff.speedMin = 120.0f;
@@ -174,6 +186,7 @@ void JumpGame::land() {
 
     squashFrom_ = {1.3f, 0.7f};
     squashTime_ = 0.0f;
+    engine_->mixer().play(assets_.sfx().land, 0.7f);
 
     engine::Particles::Burst dust;
     dust.count = 10;
@@ -195,10 +208,12 @@ void JumpGame::die(DeathCause cause) {
     }
     death_ = cause;
     deadAnim_.restart();
-    velocityY_ = cause == DeathCause::Jelly ? -500.0f : 0.0f;
+    velocityY_ = cause == DeathCause::Obstacle ? -500.0f : 0.0f;
 
-    engine_->hitStop(0.08f);
-    engine_->addTrauma(cause == DeathCause::Jelly ? 0.55f : 0.4f);
+    engine_->hitStop(0.09f);
+    engine_->addTrauma(cause == DeathCause::Obstacle ? 0.6f : 0.45f);
+    engine_->haptics().heavy();
+    engine_->mixer().play(cause == DeathCause::Obstacle ? assets_.sfx().hit : assets_.sfx().splash);
 
     engine::Particles::Burst burst;
     burst.count = 24;
@@ -282,19 +297,29 @@ void JumpGame::updateWorld(float dt) {
     }
     generateAhead();
 
-    // Jelly collisions.
+    // Scenery scrolls slower and wraps around.
+    const float wrap = engine_->worldWidth() * 2.0f;
+    for (auto& [x, kind] : scenery_) {
+        x -= step * 0.6f;
+        if (x < -200.0f) {
+            x += wrap;
+        }
+    }
+
+    // Obstacle collisions.
     const engine::Vec2 dinoSize = runAnim_.frame().size() * kDinoScale;
     const engine::Rect dinoBox = engine::Rect::fromCenter({dino_.x, dino_.y - dinoSize.y * 0.5f},
                                                           {dinoSize.x * 0.4f, dinoSize.y * 0.75f});
     for (const Column& c : columns_) {
-        if (c.jelly == 0) {
+        if (c.obstacle == 0) {
             continue;
         }
-        const engine::Vec2 size = assets_.jelly(c.jelly).size() * kJellyScale;
+        const engine::Sprite sprite = c.obstacle == 1 ? assets_.crate() : assets_.mushroomPink();
+        const engine::Vec2 size = sprite.size() * (c.obstacle == 1 ? kCrateScale : kMushroomScale);
         const engine::Rect box = engine::Rect::fromCenter({c.x + kTile * 0.5f, groundY_ - size.y * 0.5f},
-                                                          size * 0.7f);
+                                                          size * 0.75f);
         if (box.overlaps(dinoBox)) {
-            die(DeathCause::Jelly);
+            die(DeathCause::Obstacle);
             break;
         }
     }
@@ -310,7 +335,7 @@ void JumpGame::update(float dt) {
     if (death_ != DeathCause::None) {
         deadAnim_.update(dt);
         deathTimer_ += dt;
-        if (death_ == DeathCause::Jelly) {
+        if (death_ == DeathCause::Obstacle) {
             velocityY_ += kGravity * dt;
             dino_.y = std::min(groundY_, dino_.y + velocityY_ * dt);
         } else {
@@ -332,6 +357,13 @@ void JumpGame::drawWorld(engine::SpriteBatch& batch) {
     const engine::Sprite dirt = assets_.dirtTile();
     const engine::Sprite waterTop = assets_.waterTop();
     const engine::Sprite water = assets_.water();
+
+    for (const auto& [x, kind] : scenery_) {
+        const engine::Sprite s = kind < 2 ? assets_.bush(kind) : assets_.tree(kind - 2);
+        const float scale = kind < 2 ? 0.5f : 0.7f;
+        batch.draw(s, {x, groundY_ - s.height * scale * 0.5f + 10.0f}, scale,
+                   engine::Color::white().withAlpha(0.85f));
+    }
 
     for (const Column& c : columns_) {
         const float cx = c.x + kTile * 0.5f;
@@ -364,10 +396,10 @@ void JumpGame::drawWorld(engine::SpriteBatch& batch) {
     }
 
     for (const Column& c : columns_) {
-        if (c.jelly != 0) {
-            const engine::Sprite jelly = assets_.jelly(c.jelly);
-            const engine::Vec2 size = jelly.size() * kJellyScale;
-            batch.draw(jelly, {c.x + kTile * 0.5f, groundY_ - size.y * 0.5f + 4.0f}, size);
+        if (c.obstacle != 0) {
+            const engine::Sprite sprite = c.obstacle == 1 ? assets_.crate() : assets_.mushroomPink();
+            const engine::Vec2 size = sprite.size() * (c.obstacle == 1 ? kCrateScale : kMushroomScale);
+            batch.draw(sprite, {c.x + kTile * 0.5f, groundY_ - size.y * 0.5f + 4.0f}, size);
         }
     }
 
@@ -384,21 +416,19 @@ void JumpGame::drawWorld(engine::SpriteBatch& batch) {
 
 void JumpGame::drawHud(engine::SpriteBatch& batch) {
     const float w = engine_->worldWidth();
+    const float top = engine_->safeTop() + 16.0f;
     char text[32];
     std::snprintf(text, sizeof(text), "%d m", score_);
-    font_->draw(batch, text, {w * 0.5f + 3.0f, 43.0f}, 72.0f, engine::Color{0, 0, 0, 0.35f},
-                engine::TextAlign::Center);
-    font_->draw(batch, text, {w * 0.5f, 40.0f}, 72.0f, engine::Color::white(), engine::TextAlign::Center);
+    ui::shadowText(batch, *font_, text, {w * 0.5f, top}, ui::kHeadline, engine::Color::white(),
+                   engine::TextAlign::Center);
 
     if (death_ != DeathCause::None) {
         const char* msg = death_ == DeathCause::Water ? "SPLASH!" : "OUCH!";
-        font_->draw(batch, msg, {w * 0.5f + 4.0f, 244.0f}, 96.0f, engine::Color{0, 0, 0, 0.35f},
-                    engine::TextAlign::Center);
-        font_->draw(batch, msg, {w * 0.5f, 240.0f}, 96.0f, engine::Color::rgb8(255, 235, 59),
-                    engine::TextAlign::Center);
+        ui::shadowText(batch, *font_, msg, {w * 0.5f, top + 200.0f}, 96.0f,
+                       engine::Color::rgb8(255, 235, 59), engine::TextAlign::Center);
     } else if (scroll_ < 600.0f) {
-        font_->draw(batch, "TAP TO JUMP", {w * 0.5f, 300.0f}, 48.0f,
-                    engine::Color::white().withAlpha(1.0f - scroll_ / 600.0f), engine::TextAlign::Center);
+        ui::shadowText(batch, *font_, "TAP TO JUMP", {w * 0.5f, top + 260.0f}, ui::kBody,
+                       engine::Color::white().withAlpha(1.0f - scroll_ / 600.0f), engine::TextAlign::Center);
     }
 }
 
