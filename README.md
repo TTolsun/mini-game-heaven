@@ -1,4 +1,4 @@
-# MiniGameHeaven
+# mini-game-heaven
 
 C++로 만드는 안드로이드 미니게임 모음. 게임 로직과 렌더링은 거의 전부 C++이고, Android 쪽은 GameActivity와 Gradle 포장 계층만 남긴다.
 
@@ -28,7 +28,7 @@ C++로 만드는 안드로이드 미니게임 모음. 게임 로직과 렌더링
 ## 구조
 
 ```
-MiniGameHeaven/
+mini-game-heaven/
 ├── app/                      # Android shell (Gradle, Manifest, GameActivity)
 │   └── src/main/
 │       ├── AndroidManifest.xml
