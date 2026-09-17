@@ -23,9 +23,9 @@ on:
     branches: [main]
 
 env:
-  # camera-hal-sdd 의 고정 커밋 (source.exclude 와 --relative 지원). main 에 머지되면 main 으로 바꿉니다.
+  # camera-hal-sdd 의 브랜치. source.exclude 와 --relative 는 main 에 들어 있습니다 (PR #1).
   SDD_TOOL_REPO: TTolsun/camera-hal-sdd
-  SDD_TOOL_REF: 713372cfc71c86a2d796ddaa1238e583ad72f060
+  SDD_TOOL_REF: main
 
 jobs:
   check:
