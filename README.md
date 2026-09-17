@@ -18,11 +18,12 @@ C++로 만드는 안드로이드 미니게임 모음. 게임 로직과 렌더링
 | Android | NDK + GameActivity |
 | Build | CMake + Gradle |
 | Rendering | OpenGL ES 3.x |
-| Audio | Oboe 또는 AAudio |
+| Audio | AAudio + 자체 믹서, 효과음은 코드로 합성 (오디오 파일 없음) |
 | Input | GameActivity input |
 | Assets | AAssetManager |
 | UI | 자체 C++ UI |
-| Storage | native file |
+| Storage | native file (`highscores.txt`) |
+| Haptics | android.os.Vibrator (JNI 한 곳) |
 | Frame pacing | Choreographer |
 
 ## 구조
@@ -59,7 +60,7 @@ public:
 
 ## 로드맵
 
-- v0.1: Dodge / Jump / Tap
+- v0.1: Dodge / Jump / Tap (완료: 게임 3개, GUI 팩 UI, 햅틱, 효과음, 점수 저장)
 - v0.2: + Shooter, Racing
 - v0.3: + Rhythm, Fishing, Memory
 - v1.0: 10~15 mini games + 성능 디버그 화면 (FPS, frame time, draw calls, memory)
