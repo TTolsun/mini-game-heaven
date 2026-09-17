@@ -36,6 +36,10 @@ void TapGame::onTouch(const engine::TouchEvent& event) {
     if (event.phase != engine::TouchEvent::Phase::Down || timeLeft_ <= 0.0f) {
         return;
     }
+    // No crate to hit while the replacement is still falling in.
+    if (crateDrop_ > 0.0f) {
+        return;
+    }
     started_ = true;
     tap(event.position);
 }

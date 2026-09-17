@@ -27,6 +27,7 @@ private:
     jmethodID vibrateEffect_ = nullptr;
     bool resolved_ = false;
     bool available_ = false;
+    bool attachedThread_ = false;  // we attached the game thread; detach in the destructor
 };
 
 }  // namespace platform::android

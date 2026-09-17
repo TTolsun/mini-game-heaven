@@ -9,14 +9,19 @@ namespace platform::android {
 
 namespace {
 
-// Attaches the calling thread if needed. android_main runs on its own thread,
-// so the JavaVM must be attached before any JNI call.
-JNIEnv* attach(android_app* app) {
+// Attaches the calling thread if needed. android_main runs on its own thread
+// (native_app_glue does not attach it), so the JavaVM must be attached before
+// any JNI call. Sets *attached when this call did the attaching; the thread
+// must be detached before it exits or ART aborts the process.
+JNIEnv* attach(android_app* app, bool* attached) {
     JNIEnv* env = nullptr;
     JavaVM* vm = app->activity->vm;
     if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_6) == JNI_EDETACHED) {
         if (vm->AttachCurrentThread(&env, nullptr) != JNI_OK) {
             return nullptr;
+        }
+        if (attached != nullptr) {
+            *attached = true;
         }
     }
     return env;
@@ -35,7 +40,7 @@ bool clearException(JNIEnv* env) {
 AndroidHaptics::AndroidHaptics(android_app* app) : app_(app) {}
 
 AndroidHaptics::~AndroidHaptics() {
-    JNIEnv* env = attach(app_);
+    JNIEnv* env = attach(app_, &attachedThread_);
     if (env != nullptr) {
         if (vibrator_ != nullptr) {
             env->DeleteGlobalRef(vibrator_);
@@ -43,6 +48,10 @@ AndroidHaptics::~AndroidHaptics() {
         if (effectClass_ != nullptr) {
             env->DeleteGlobalRef(effectClass_);
         }
+    }
+    if (attachedThread_) {
+        app_->activity->vm->DetachCurrentThread();
+        attachedThread_ = false;
     }
 }
 
@@ -91,7 +100,7 @@ bool AndroidHaptics::resolve(JNIEnv* env) {
 }
 
 void AndroidHaptics::vibrate(Strength strength) {
-    JNIEnv* env = attach(app_);
+    JNIEnv* env = attach(app_, &attachedThread_);
     if (env == nullptr) {
         return;
     }

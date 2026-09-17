@@ -271,7 +271,10 @@ void JumpGame::updatePlayer(float dt) {
         }
     }
 
-    if (dino_.y > groundY_ + 110.0f) {
+    // Fell below the grass line: either deep enough to be in the water, or a
+    // ground column scrolled in underneath (ran into the ledge). Either way
+    // the run is over; without the ledge check the dino clips through dirt.
+    if (dino_.y > groundY_ + 110.0f || (solidBelow && dino_.y > groundY_ + 24.0f)) {
         die(DeathCause::Water);
     }
 

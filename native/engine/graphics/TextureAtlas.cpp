@@ -1,6 +1,8 @@
 #define LOG_TAG "TextureAtlas"
 #include "engine/graphics/TextureAtlas.h"
 
+#include <algorithm>
+
 #include "engine/asset/Image.h"
 #include "engine/core/Log.h"
 
@@ -9,8 +11,12 @@ namespace engine {
 TextureAtlas::TextureAtlas(int size) : size_(size) {
     texture_.create(size, size);
     // Clear to transparent so padding between sprites never shows garbage.
-    std::vector<uint8_t> zeros(static_cast<size_t>(size) * size * 4, 0);
-    texture_.upload(0, 0, size, size, zeros.data());
+    // Upload in strips: a full 4096x4096 RGBA clear would need a 64 MB buffer.
+    constexpr int kStripRows = 64;
+    std::vector<uint8_t> zeros(static_cast<size_t>(size) * kStripRows * 4, 0);
+    for (int y = 0; y < size; y += kStripRows) {
+        texture_.upload(0, y, size, std::min(kStripRows, size - y), zeros.data());
+    }
 }
 
 bool TextureAtlas::add(AssetLoader& loader, const std::string& name, const std::string& path) {
