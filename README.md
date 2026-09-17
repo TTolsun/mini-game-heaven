@@ -63,3 +63,15 @@ public:
 - v0.2: + Shooter, Racing
 - v0.3: + Rhythm, Fishing, Memory
 - v1.0: 10~15 mini games + 성능 디버그 화면 (FPS, frame time, draw calls, memory)
+
+## 빌드
+
+요구 사항: JDK 17, Android SDK (platform 36, NDK 29.0.14206865, CMake 3.31.6). NDK와 CMake는 `android sdk install ndk/29.0.14206865 cmake/3.31.6`으로 설치한다.
+
+```bash
+export JAVA_HOME="C:/Program Files/Eclipse Adoptium/jdk-17.0.20.101-hotspot"
+./gradlew assembleDebug
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
+
+`compile_commands.json`은 빌드마다 `app/.cxx/Debug/<hash>/arm64-v8a/`에 생성된다. clangd에서 쓰려면 `tools/sync-compile-commands.sh`로 저장소 루트에 복사한다.

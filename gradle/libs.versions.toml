@@ -1,0 +1,11 @@
+[versions]
+androidGradlePlugin = "9.0.1"
+gamesActivity = "4.4.2"
+appcompat = "1.8.0"
+
+[libraries]
+androidx-games-activity = { module = "androidx.games:games-activity", version.ref = "gamesActivity" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
