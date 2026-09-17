@@ -9,6 +9,20 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(game-activity REQUIRED CONFIG)
 
 add_library(${PROJECT_NAME} SHARED
+    # engine: platform-independent core
+    engine/Engine.cpp
+    engine/asset/Image.cpp
+    engine/graphics/Animation.cpp
+    engine/graphics/Shader.cpp
+    engine/graphics/SpriteBatch.cpp
+    engine/graphics/Texture.cpp
+    engine/graphics/TextureAtlas.cpp
+
+    # app: scenes and game registry
+    app/PlaygroundScene.cpp
+
+    # platform/android: the only Android-aware code
+    platform/android/AndroidAssetLoader.cpp
     platform/android/AndroidMain.cpp
     platform/android/GlContext.cpp
 )
@@ -16,6 +30,9 @@ add_library(${PROJECT_NAME} SHARED
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
+
+# stb headers are third-party; keep our warning flags off them.
+set_source_files_properties(engine/asset/Image.cpp PROPERTIES COMPILE_OPTIONS "-Wno-unused-function")
 
 # The static lib defines JNI entry points that nothing references directly,
 # so force the linker to keep them.

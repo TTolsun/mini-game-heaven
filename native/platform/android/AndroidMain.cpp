@@ -1,19 +1,34 @@
-// Android entry point. Bridges GameActivity's native_app_glue to the C++ game.
+// Android entry point. Bridges GameActivity's native_app_glue to the engine.
 // Everything Android-specific stays under platform/android/.
 
-#include <android/log.h>
-#include <game-activity/native_app_glue/android_native_app_glue.h>
-#include <GLES3/gl3.h>
+#define LOG_TAG "AndroidMain"
 
+#include <game-activity/GameActivity.h>
+#include <game-activity/native_app_glue/android_native_app_glue.h>
+
+#include <memory>
+
+#include "app/PlaygroundScene.h"
+#include "engine/Engine.h"
+#include "engine/core/Log.h"
+#include "platform/android/AndroidAssetLoader.h"
 #include "platform/android/GlContext.h"
 
 namespace {
 
-constexpr const char* kTag = "MiniGameHeaven";
+using platform::android::AndroidAssetLoader;
+using platform::android::GlContext;
 
 struct AppState {
-    platform::android::GlContext gl;
-    bool animating = false;
+    explicit AppState(android_app* app)
+        : assets(app->activity->assetManager), engine(assets) {}
+
+    AndroidAssetLoader assets;
+    engine::Engine engine;
+    GlContext gl;
+    bool hasFocus = false;
+
+    bool animating() const { return gl.hasSurface() && hasFocus; }
 };
 
 void handleAppCmd(android_app* app, int32_t cmd) {
@@ -21,52 +36,95 @@ void handleAppCmd(android_app* app, int32_t cmd) {
 
     switch (cmd) {
     case APP_CMD_INIT_WINDOW:
-        if (app->window != nullptr && state->gl.init(app->window)) {
-            state->animating = true;
+        if (app->window != nullptr && state->gl.createSurface(app->window)) {
+            if (!state->engine.graphicsReady()) {
+                state->engine.initGraphics(state->gl.width(), state->gl.height());
+                state->engine.setScene(std::make_unique<app::PlaygroundScene>());
+            } else {
+                state->engine.resize(state->gl.width(), state->gl.height());
+            }
+            state->engine.resumeClock();
         }
         break;
     case APP_CMD_TERM_WINDOW:
-        state->animating = false;
-        state->gl.shutdown();
+        state->gl.destroySurface();
+        break;
+    case APP_CMD_WINDOW_RESIZED:
+    case APP_CMD_CONFIG_CHANGED:
+        if (state->gl.hasSurface() && app->window != nullptr) {
+            state->gl.createSurface(app->window);
+            state->engine.resize(state->gl.width(), state->gl.height());
+        }
         break;
     case APP_CMD_GAINED_FOCUS:
-        state->animating = state->gl.isValid();
+        state->hasFocus = true;
+        state->engine.resumeClock();
         break;
     case APP_CMD_LOST_FOCUS:
-        state->animating = false;
+        state->hasFocus = false;
         break;
     default:
         break;
     }
 }
 
-void drainInput(android_app* app) {
+engine::TouchEvent::Phase phaseFor(int actionMasked) {
+    using Phase = engine::TouchEvent::Phase;
+    switch (actionMasked) {
+    case AMOTION_EVENT_ACTION_DOWN:
+    case AMOTION_EVENT_ACTION_POINTER_DOWN:
+        return Phase::Down;
+    case AMOTION_EVENT_ACTION_UP:
+    case AMOTION_EVENT_ACTION_POINTER_UP:
+        return Phase::Up;
+    case AMOTION_EVENT_ACTION_CANCEL:
+        return Phase::Cancel;
+    default:
+        return Phase::Move;
+    }
+}
+
+void processInput(android_app* app, AppState& state) {
     android_input_buffer* input = android_app_swap_input_buffers(app);
     if (input == nullptr) {
         return;
     }
-    // Input is not handled yet; just clear the buffers so they do not overflow.
-    if (input->motionEventsCount > 0) {
-        android_app_clear_motion_events(input);
+
+    for (uint64_t i = 0; i < input->motionEventsCount; ++i) {
+        const GameActivityMotionEvent& event = input->motionEvents[i];
+        const int actionMasked = event.action & AMOTION_EVENT_ACTION_MASK;
+        const engine::TouchEvent::Phase phase = phaseFor(actionMasked);
+
+        if (phase == engine::TouchEvent::Phase::Move) {
+            // MOVE carries every active pointer; report each one.
+            for (uint32_t p = 0; p < event.pointerCount; ++p) {
+                const GameActivityPointerAxes& ptr = event.pointers[p];
+                state.engine.onTouch(ptr.id, phase, GameActivityPointerAxes_getX(&ptr),
+                                     GameActivityPointerAxes_getY(&ptr));
+            }
+        } else {
+            const uint32_t index = (event.action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
+                                   AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+            if (index < event.pointerCount) {
+                const GameActivityPointerAxes& ptr = event.pointers[index];
+                state.engine.onTouch(ptr.id, phase, GameActivityPointerAxes_getX(&ptr),
+                                     GameActivityPointerAxes_getY(&ptr));
+            }
+        }
     }
+    android_app_clear_motion_events(input);
+
     if (input->keyEventsCount > 0) {
         android_app_clear_key_events(input);
     }
 }
 
-void drawFrame(AppState& state) {
-    glViewport(0, 0, state.gl.width(), state.gl.height());
-    glClearColor(0.08f, 0.09f, 0.14f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    state.gl.swapBuffers();
-}
-
 }  // namespace
 
 extern "C" void android_main(android_app* app) {
-    __android_log_print(ANDROID_LOG_INFO, kTag, "android_main start");
+    LOGI("android_main start");
 
-    AppState state;
+    AppState state(app);
     app->userData = &state;
     app->onAppCmd = handleAppCmd;
 
@@ -79,21 +137,22 @@ extern "C" void android_main(android_app* app) {
 
         // Block while idle, spin while animating. The timeout is re-evaluated
         // every iteration so a command that starts animation falls through to draw.
-        while (ALooper_pollOnce(state.animating ? 0 : -1, nullptr, &events,
+        while (ALooper_pollOnce(state.animating() ? 0 : -1, nullptr, &events,
                                 reinterpret_cast<void**>(&source)) >= 0) {
             if (source != nullptr) {
                 source->process(app, source);
             }
             if (app->destroyRequested) {
-                __android_log_print(ANDROID_LOG_INFO, kTag, "android_main exit");
+                LOGI("android_main exit");
                 return;
             }
         }
 
-        drainInput(app);
+        processInput(app, state);
 
-        if (state.animating) {
-            drawFrame(state);
+        if (state.animating()) {
+            state.engine.frame();
+            state.gl.swapBuffers();
         }
     }
 }

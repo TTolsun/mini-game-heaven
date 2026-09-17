@@ -1,0 +1,69 @@
+#define LOG_TAG "TextureAtlas"
+#include "engine/graphics/TextureAtlas.h"
+
+#include "engine/asset/Image.h"
+#include "engine/core/Log.h"
+
+namespace engine {
+
+TextureAtlas::TextureAtlas(int size) : size_(size) {
+    texture_.create(size, size);
+    // Clear to transparent so padding between sprites never shows garbage.
+    std::vector<uint8_t> zeros(static_cast<size_t>(size) * size * 4, 0);
+    texture_.upload(0, 0, size, size, zeros.data());
+}
+
+bool TextureAtlas::add(AssetLoader& loader, const std::string& name, const std::string& path) {
+    const Image image = Image::load(loader, path);
+    return image.isValid() && add(name, image);
+}
+
+bool TextureAtlas::add(const std::string& name, const Image& image) {
+    const int w = image.width;
+    const int h = image.height;
+
+    if (w + kPadding > size_ || h + kPadding > size_) {
+        LOGE("'%s' (%dx%d) is larger than the atlas", name.c_str(), w, h);
+        return false;
+    }
+
+    // Start a new shelf when this image does not fit on the current one.
+    if (shelfX_ + w + kPadding > size_) {
+        shelfX_ = 0;
+        shelfY_ += shelfHeight_ + kPadding;
+        shelfHeight_ = 0;
+    }
+    if (shelfY_ + h + kPadding > size_) {
+        LOGE("atlas full while adding '%s'", name.c_str());
+        return false;
+    }
+
+    texture_.upload(shelfX_, shelfY_, w, h, image.pixels.data());
+
+    Sprite sprite;
+    sprite.texture = &texture_;
+    sprite.u0 = static_cast<float>(shelfX_) / size_;
+    sprite.v0 = static_cast<float>(shelfY_) / size_;
+    sprite.u1 = static_cast<float>(shelfX_ + w) / size_;
+    sprite.v1 = static_cast<float>(shelfY_ + h) / size_;
+    sprite.width = static_cast<float>(w);
+    sprite.height = static_cast<float>(h);
+    sprites_[name] = sprite;
+
+    shelfX_ += w + kPadding;
+    if (h > shelfHeight_) {
+        shelfHeight_ = h;
+    }
+    return true;
+}
+
+Sprite TextureAtlas::get(const std::string& name) const {
+    const auto it = sprites_.find(name);
+    if (it == sprites_.end()) {
+        LOGW("unknown sprite '%s'", name.c_str());
+        return {};
+    }
+    return it->second;
+}
+
+}  // namespace engine
