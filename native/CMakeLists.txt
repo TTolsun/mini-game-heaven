@@ -14,6 +14,7 @@ add_library(${PROJECT_NAME} SHARED
     engine/asset/Image.cpp
     engine/graphics/Animation.cpp
     engine/graphics/Font.cpp
+    engine/graphics/Particles.cpp
     engine/graphics/Shader.cpp
     engine/graphics/SpriteBatch.cpp
     engine/graphics/Texture.cpp
@@ -26,6 +27,8 @@ add_library(${PROJECT_NAME} SHARED
     app/scenes/MenuScene.cpp
     app/scenes/ResultScene.cpp
     app/games/DodgeGame.cpp
+    app/games/JumpGame.cpp
+    app/games/TapGame.cpp
 
     # platform/android: the only Android-aware code
     platform/android/AndroidAssetLoader.cpp

@@ -41,6 +41,14 @@ public:
     // Call after a pause so the next frame's dt is not the paused duration.
     void resumeClock() { timer_.reset(); }
 
+    // Screen shake: trauma accumulates (0..1) and decays; the visual offset is
+    // trauma^2 so small hits barely move and big hits punch. Game positions
+    // are never touched, only the projection.
+    void addTrauma(float amount);
+
+    // Hit-stop: freezes scene updates for `seconds` of real time.
+    void hitStop(float seconds) { hitStopRemaining_ = seconds; }
+
     // Screen-space touch (pixels) -> world-space, forwarded to the scene.
     void onTouch(int32_t pointerId, TouchEvent::Phase phase, float screenX, float screenY);
 
@@ -65,6 +73,10 @@ private:
     float worldHeight_ = 1280.0f;
     float screenToWorld_ = 1.0f;
     bool graphicsReady_ = false;
+
+    float trauma_ = 0.0f;
+    float shakeTime_ = 0.0f;
+    float hitStopRemaining_ = 0.0f;
 };
 
 }  // namespace engine

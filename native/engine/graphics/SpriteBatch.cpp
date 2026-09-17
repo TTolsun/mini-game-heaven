@@ -36,16 +36,17 @@ void main() {
 }
 )";
 
-// Column-major orthographic matrix mapping (0,0)-(w,h) to clip space with y down.
-void makeOrtho(float w, float h, float out[16]) {
+// Column-major orthographic matrix mapping (0,0)-(w,h) to clip space with y down,
+// translated by `offset` world units.
+void makeOrtho(float w, float h, Vec2 offset, float out[16]) {
     for (int i = 0; i < 16; ++i) {
         out[i] = 0.0f;
     }
     out[0] = 2.0f / w;
     out[5] = -2.0f / h;
     out[10] = -1.0f;
-    out[12] = -1.0f;
-    out[13] = 1.0f;
+    out[12] = -1.0f + offset.x * 2.0f / w;
+    out[13] = 1.0f - offset.y * 2.0f / h;
     out[15] = 1.0f;
 }
 
@@ -116,8 +117,8 @@ bool SpriteBatch::init() {
     return glGetError() == GL_NO_ERROR;
 }
 
-void SpriteBatch::begin(float worldWidth, float worldHeight) {
-    makeOrtho(worldWidth, worldHeight, projection_);
+void SpriteBatch::begin(float worldWidth, float worldHeight, Vec2 offset) {
+    makeOrtho(worldWidth, worldHeight, offset, projection_);
     drawCalls_ = 0;
     currentTexture_ = nullptr;
     vertices_.clear();
@@ -162,6 +163,10 @@ void SpriteBatch::draw(const Sprite& sprite, Vec2 center, Vec2 size, Color tint,
     const float u0 = flipX ? sprite.u1 : sprite.u0;
     const float u1 = flipX ? sprite.u0 : sprite.u1;
     pushQuad(sprite.texture, corners, u0, sprite.v0, u1, sprite.v1, tint);
+}
+
+void SpriteBatch::drawQuad(Vec2 center, Vec2 size, Color color, float rotation) {
+    draw(whiteSprite_, center, size, color, rotation);
 }
 
 void SpriteBatch::drawRect(const Rect& rect, Color color) {

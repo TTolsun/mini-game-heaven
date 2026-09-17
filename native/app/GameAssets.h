@@ -26,7 +26,13 @@ public:
 
     // index 1..6
     engine::Sprite jelly(int index) const;
-    engine::Sprite groundTile() const { return groundTile_; }
+    engine::Sprite groundTile() const { return groundTile_; }  // grass top
+    engine::Sprite dirtTile() const { return dirtTile_; }      // filler below grass
+    engine::Sprite platformLeft() const { return platformLeft_; }
+    engine::Sprite platformMid() const { return platformMid_; }
+    engine::Sprite platformRight() const { return platformRight_; }
+    engine::Sprite waterTop() const { return waterTop_; }
+    engine::Sprite water() const { return water_; }
     engine::Sprite forestBackground() const { return forest_; }
 
     const engine::Font& font() const { return font_; }
@@ -35,6 +41,12 @@ private:
     engine::Texture forestTexture_;
     engine::Sprite forest_;
     engine::Sprite groundTile_;
+    engine::Sprite dirtTile_;
+    engine::Sprite platformLeft_;
+    engine::Sprite platformMid_;
+    engine::Sprite platformRight_;
+    engine::Sprite waterTop_;
+    engine::Sprite water_;
     engine::Sprite jellies_[6];
     engine::Animation dinoIdle_;
     engine::Animation dinoRun_;

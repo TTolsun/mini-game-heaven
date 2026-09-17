@@ -3,6 +3,9 @@
 
 #include <GLES3/gl3.h>
 
+#include <algorithm>
+#include <cmath>
+
 #include "engine/core/Log.h"
 
 namespace engine {
@@ -51,20 +54,43 @@ void Engine::setScene(std::unique_ptr<Scene> scene) {
     }
 }
 
+void Engine::addTrauma(float amount) {
+    trauma_ = std::min(1.0f, trauma_ + amount);
+}
+
 void Engine::frame() {
     if (!graphicsReady_) {
         return;
     }
-    const float dt = timer_.tick();
+    const float realDt = timer_.tick();
+
+    // Hit-stop consumes real time but hands the scene dt = 0.
+    float dt = realDt;
+    if (hitStopRemaining_ > 0.0f) {
+        hitStopRemaining_ -= realDt;
+        dt = 0.0f;
+    }
 
     if (scene_) {
         scene_->update(dt);
     }
 
+    // Shake decays in real time and is sampled from smooth sines, not per-frame noise.
+    Vec2 shake;
+    if (trauma_ > 0.0f) {
+        constexpr float kDecayPerSecond = 1.6f;
+        constexpr Vec2 kMaxOffset{18.0f, 12.0f};
+        trauma_ = std::max(0.0f, trauma_ - kDecayPerSecond * realDt);
+        shakeTime_ += realDt * 30.0f;
+        const float amount = trauma_ * trauma_;
+        shake = {kMaxOffset.x * amount * std::sin(shakeTime_ * 1.7f),
+                 kMaxOffset.y * amount * std::sin(shakeTime_ * 2.3f)};
+    }
+
     glClearColor(0.08f, 0.09f, 0.14f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    batch_->begin(kWorldWidth, worldHeight_);
+    batch_->begin(kWorldWidth, worldHeight_, shake);
     if (scene_) {
         scene_->render(*batch_);
     }

@@ -29,7 +29,9 @@ public:
     bool init();
 
     // worldWidth/worldHeight define the orthographic projection for this frame.
-    void begin(float worldWidth, float worldHeight);
+    // `offset` shifts everything drawn (used for screen shake) without touching
+    // any game-side positions.
+    void begin(float worldWidth, float worldHeight, Vec2 offset = {});
     void end();
 
     // Draws `sprite` centred at `center`, scaled to `size` world units.
@@ -43,6 +45,9 @@ public:
 
     // Solid rectangle (uses an internal 1x1 white texture).
     void drawRect(const Rect& rect, Color color);
+
+    // Solid rotated quad centred at `center`.
+    void drawQuad(Vec2 center, Vec2 size, Color color, float rotation = 0.0f);
 
     int drawCalls() const { return drawCalls_; }
 

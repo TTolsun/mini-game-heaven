@@ -43,8 +43,22 @@ bool GameAssets::load(engine::Engine& engine) {
         jellies_[i - 1] = atlas.get(name);
     }
 
-    atlas.add(assets, "ground", "tiles/2.png");
-    groundTile_ = atlas.get("ground");
+    // Tileset numbering: 2 grass top, 5 dirt, 13-15 floating platform L/M/R, 17-18 water.
+    struct TileFile {
+        const char* name;
+        const char* file;
+        engine::Sprite* out;
+    };
+    for (const TileFile& tile : {TileFile{"ground", "tiles/2.png", &groundTile_},
+                                 TileFile{"dirt", "tiles/5.png", &dirtTile_},
+                                 TileFile{"plat_l", "tiles/13.png", &platformLeft_},
+                                 TileFile{"plat_m", "tiles/14.png", &platformMid_},
+                                 TileFile{"plat_r", "tiles/15.png", &platformRight_},
+                                 TileFile{"water_top", "tiles/17.png", &waterTop_},
+                                 TileFile{"water", "tiles/18.png", &water_}}) {
+        atlas.add(assets, tile.name, tile.file);
+        *tile.out = atlas.get(tile.name);
+    }
 
     // The background is large and drawn once per frame, so it gets its own texture.
     forestTexture_.create(engine::Image::load(assets, "bg/forest.png"));
