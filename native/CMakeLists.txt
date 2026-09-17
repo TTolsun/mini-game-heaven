@@ -13,13 +13,19 @@ add_library(${PROJECT_NAME} SHARED
     engine/Engine.cpp
     engine/asset/Image.cpp
     engine/graphics/Animation.cpp
+    engine/graphics/Font.cpp
     engine/graphics/Shader.cpp
     engine/graphics/SpriteBatch.cpp
     engine/graphics/Texture.cpp
     engine/graphics/TextureAtlas.cpp
 
-    # app: scenes and game registry
-    app/PlaygroundScene.cpp
+    # app: scenes, game registry and the mini games
+    app/GameAssets.cpp
+    app/GameRegistry.cpp
+    app/MiniGameApp.cpp
+    app/scenes/MenuScene.cpp
+    app/scenes/ResultScene.cpp
+    app/games/DodgeGame.cpp
 
     # platform/android: the only Android-aware code
     platform/android/AndroidAssetLoader.cpp
@@ -32,7 +38,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 
 # stb headers are third-party; keep our warning flags off them.
-set_source_files_properties(engine/asset/Image.cpp PROPERTIES COMPILE_OPTIONS "-Wno-unused-function")
+set_source_files_properties(engine/asset/Image.cpp engine/graphics/Font.cpp
+    PROPERTIES COMPILE_OPTIONS "-Wno-unused-function")
 
 # The static lib defines JNI entry points that nothing references directly,
 # so force the linker to keep them.

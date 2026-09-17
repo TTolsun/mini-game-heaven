@@ -9,3 +9,4 @@ Files were resized for mobile; originals are not stored in this repository.
 | sprites/dino/ | Cute Dinosaur Free Character Sprite (freedinosprite.zip) |
 | sprites/jelly/ | Jelly Squash Free Sprites (jelly.zip) |
 | tiles/, bg/forest.png | Free Platformer Game Tileset (freetileset.zip) |
+| fonts/Fredoka-SemiBold.ttf | Fredoka by Milena Brandão (SIL Open Font License 1.1), via Google Fonts |

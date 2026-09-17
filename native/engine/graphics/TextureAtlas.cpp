@@ -40,12 +40,15 @@ bool TextureAtlas::add(const std::string& name, const Image& image) {
 
     texture_.upload(shelfX_, shelfY_, w, h, image.pixels.data());
 
+    // Inset by half a texel so linear filtering at the sprite's edge never
+    // blends in the padding (visible as seams between adjacent tiles).
+    constexpr float kInset = 0.5f;
     Sprite sprite;
     sprite.texture = &texture_;
-    sprite.u0 = static_cast<float>(shelfX_) / size_;
-    sprite.v0 = static_cast<float>(shelfY_) / size_;
-    sprite.u1 = static_cast<float>(shelfX_ + w) / size_;
-    sprite.v1 = static_cast<float>(shelfY_ + h) / size_;
+    sprite.u0 = (shelfX_ + kInset) / size_;
+    sprite.v0 = (shelfY_ + kInset) / size_;
+    sprite.u1 = (shelfX_ + w - kInset) / size_;
+    sprite.v1 = (shelfY_ + h - kInset) / size_;
     sprite.width = static_cast<float>(w);
     sprite.height = static_cast<float>(h);
     sprites_[name] = sprite;

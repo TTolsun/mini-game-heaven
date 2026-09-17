@@ -8,7 +8,7 @@
 
 #include <memory>
 
-#include "app/PlaygroundScene.h"
+#include "app/MiniGameApp.h"
 #include "engine/Engine.h"
 #include "engine/core/Log.h"
 #include "platform/android/AndroidAssetLoader.h"
@@ -39,7 +39,7 @@ void handleAppCmd(android_app* app, int32_t cmd) {
         if (app->window != nullptr && state->gl.createSurface(app->window)) {
             if (!state->engine.graphicsReady()) {
                 state->engine.initGraphics(state->gl.width(), state->gl.height());
-                state->engine.setScene(std::make_unique<app::PlaygroundScene>());
+                state->engine.setScene(std::make_unique<app::MiniGameApp>());
             } else {
                 state->engine.resize(state->gl.width(), state->gl.height());
             }

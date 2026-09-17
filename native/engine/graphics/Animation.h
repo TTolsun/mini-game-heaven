@@ -26,6 +26,7 @@ public:
     bool finished() const { return !loop_ && time_ >= duration(); }
     float duration() const { return frames_.empty() ? 0.0f : frames_.size() / fps_; }
     bool empty() const { return frames_.empty(); }
+    int frameCount() const { return static_cast<int>(frames_.size()); }
 
 private:
     std::vector<Sprite> frames_;
