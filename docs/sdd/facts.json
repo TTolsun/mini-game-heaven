@@ -1,8 +1,8 @@
 {
  "meta": {
-  "generated_at": "2026-09-17T14:44:46+00:00",
+  "generated_at": "2026-09-17T14:53:36+00:00",
   "source_root": "C:/Users/baboe/git/mini-game-heaven/native",
-  "source_commit": "b4e016048393b0285580f4897dc534a99b59117d",
+  "source_commit": "aeac21306341033f510bb6317043cf9fe2d6723b",
   "compile_commands": "C:/Users/baboe/git/mini-game-heaven/compile_commands.json",
   "translation_units": 26,
   "build_config": "simple_compdb",
@@ -9631,16 +9631,1312 @@
    "mermaid": "sequenceDiagram\n    participant GameAssets\n    participant Engine\n    participant TextureAtlas\n    participant Image\n    participant AndroidAssetLoader\n    participant Texture\n    participant Sprite\n    participant Animation\n    participant Font\n    participant Glyph\n    participant Sfx\n    participant Sound\n    participant Synth\n    GameAssets->>Engine: atlas()\n    GameAssets->>Engine: assets()\n    GameAssets->>TextureAtlas: add()\n    TextureAtlas->>Image: load()\n    Image->>Image: Image()\n    Image-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    Image->>Image: Image()\n    Image->>Image: Image()\n    Image->>Image: Image()\n    TextureAtlas->>Image: isValid()\n    TextureAtlas->>TextureAtlas: add()\n    TextureAtlas->>Texture: upload()\n    TextureAtlas->>Sprite: Sprite()\n    TextureAtlas->>Sprite: operator=()\n    GameAssets->>Animation: operator=()\n    GameAssets->>Animation: fromAtlas()\n    Animation->>Animation: Animation()\n    Animation->>TextureAtlas: has()\n    Animation->>TextureAtlas: get()\n    TextureAtlas->>Sprite: Sprite()\n    Animation->>Animation: Animation()\n    GameAssets->>Animation: operator=()\n    GameAssets->>Animation: fromAtlas()\n    Animation->>Animation: Animation()\n    Animation->>TextureAtlas: has()\n    Animation->>TextureAtlas: get()\n    TextureAtlas->>Sprite: Sprite()\n    Animation->>Animation: Animation()\n    GameAssets->>Animation: operator=()\n    GameAssets->>Animation: fromAtlas()\n    Animation->>Animation: Animation()\n    Animation->>TextureAtlas: has()\n    Animation->>TextureAtlas: get()\n    TextureAtlas->>Sprite: Sprite()\n    Animation->>Animation: Animation()\n    GameAssets->>Animation: operator=()\n    GameAssets->>Animation: fromAtlas()\n    Animation->>Animation: Animation()\n    Animation->>TextureAtlas: has()\n    Animation->>TextureAtlas: get()\n    TextureAtlas->>Sprite: Sprite()\n    Animation->>Animation: Animation()\n    GameAssets->>TextureAtlas: add()\n    TextureAtlas->>Image: load()\n    Image->>Image: Image()\n    Image-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    Image->>Image: Image()\n    Image->>Image: Image()\n    Image->>Image: Image()\n    TextureAtlas->>Image: isValid()\n    TextureAtlas->>TextureAtlas: add()\n    TextureAtlas->>Texture: upload()\n    TextureAtlas->>Sprite: Sprite()\n    TextureAtlas->>Sprite: operator=()\n    GameAssets->>Sprite: operator=()\n    GameAssets->>TextureAtlas: get()\n    TextureAtlas->>Sprite: Sprite()\n    GameAssets->>Texture: create()\n    Texture->>Image: isValid()\n    Texture->>Texture: create()\n    Texture->>Texture: release()\n    Texture->>Texture: upload()\n    GameAssets->>Image: load()\n    Image->>Image: Image()\n    Image-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    Image->>Image: Image()\n    Image->>Image: Image()\n    Image->>Image: Image()\n    GameAssets->>Texture: width()\n    GameAssets->>Texture: height()\n    GameAssets->>Font: load()\n    Font-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    Font->>Image: Image()\n    Font->>TextureAtlas: add()\n    TextureAtlas->>Texture: upload()\n    TextureAtlas->>Sprite: Sprite()\n    TextureAtlas->>Sprite: operator=()\n    Font->>Sprite: operator=()\n    Font->>TextureAtlas: get()\n    TextureAtlas->>Sprite: Sprite()\n    Font->>Glyph: operator=()\n    GameAssets->>Sfx: build()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Sfx->>Synth: noise()\n    Sfx->>Synth: tone()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Sfx->>Synth: noise()\n    Sfx->>Synth: tone()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Sfx->>Synth: noise()\n    Sfx->>Synth: tone()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Sfx->>Synth: noise()\n    Sfx->>Synth: tone()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: arpeggio()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: arpeggio()\n    GameAssets->>Animation: frameCount()\n    GameAssets->>Animation: frameCount()\n    GameAssets->>Animation: frameCount()\n    GameAssets->>Animation: frameCount()\n    GameAssets->>Animation: empty()\n    GameAssets->>Sprite: isValid()\n    GameAssets->>Sprite: isValid()",
    "unresolved": 2
   },
-  "audio_render": {
-   "id": "audio_render",
-   "title": "오디오 콜백 믹싱 (Mixer::render)",
-   "entry": "engine::Mixer::render(float *, int)",
+  "dodge_update": {
+   "id": "dodge_update",
+   "title": "Dodge 게임 한 틱 (DodgeGame::update)",
+   "entry": "app::DodgeGame::update(float)",
    "participants": [
-    "Mixer"
+    "DodgeGame",
+    "Particles",
+    "Vec2",
+    "Popups",
+    "Animation",
+    "Sprite",
+    "Rect",
+    "Engine",
+    "Haptics",
+    "Mixer",
+    "GameAssets",
+    "Burst",
+    "Color",
+    "Falling",
+    "Particle",
+    "Ease"
    ],
-   "messages": [],
-   "mermaid": "sequenceDiagram\n    participant Mixer",
-   "unresolved": 0
+   "messages": [
+    {
+     "src": "DodgeGame",
+     "dst": "Particles",
+     "name": "update",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 243
+     },
+     "note": ""
+    },
+    {
+     "src": "Particles",
+     "dst": "Vec2",
+     "name": "operator*=",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 45
+     },
+     "note": ""
+    },
+    {
+     "src": "Particles",
+     "dst": "Vec2",
+     "name": "operator+=",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 46
+     },
+     "note": ""
+    },
+    {
+     "src": "Particles",
+     "dst": "Vec2",
+     "name": "operator*",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 46
+     },
+     "note": ""
+    },
+    {
+     "src": "Vec2",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "engine/math/Vec2.h",
+      "line": 16
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Popups",
+     "name": "update",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 244
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Animation",
+     "name": "update",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 247
+     },
+     "note": ""
+    },
+    {
+     "src": "Animation",
+     "dst": "Animation",
+     "name": "duration",
+     "loc": {
+      "file": "engine/graphics/Animation.cpp",
+      "line": 32
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "DodgeGame",
+     "name": "updateFalling",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 249
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Animation",
+     "name": "frame",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 204
+     },
+     "note": ""
+    },
+    {
+     "src": "Animation",
+     "dst": "Sprite",
+     "name": "Sprite",
+     "loc": {
+      "file": "engine/graphics/Animation.cpp",
+      "line": 39
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Animation",
+     "name": "frame",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 204
+     },
+     "note": ""
+    },
+    {
+     "src": "Animation",
+     "dst": "Sprite",
+     "name": "Sprite",
+     "loc": {
+      "file": "engine/graphics/Animation.cpp",
+      "line": 39
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "operator*",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 205
+     },
+     "note": ""
+    },
+    {
+     "src": "Vec2",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "engine/math/Vec2.h",
+      "line": 16
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Sprite",
+     "name": "size",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 205
+     },
+     "note": ""
+    },
+    {
+     "src": "Sprite",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "engine/graphics/Sprite.h",
+      "line": 21
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Rect",
+     "name": "fromCenter",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 207
+     },
+     "note": ""
+    },
+    {
+     "src": "Rect",
+     "dst": "Rect",
+     "name": "Rect",
+     "loc": {
+      "file": "engine/math/Rect.h",
+      "line": 19
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 208
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 208
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "operator*",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 218
+     },
+     "note": ""
+    },
+    {
+     "src": "Vec2",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "engine/math/Vec2.h",
+      "line": 16
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Sprite",
+     "name": "size",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 218
+     },
+     "note": ""
+    },
+    {
+     "src": "Sprite",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "engine/graphics/Sprite.h",
+      "line": 21
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Rect",
+     "name": "fromCenter",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 219
+     },
+     "note": ""
+    },
+    {
+     "src": "Rect",
+     "dst": "Rect",
+     "name": "Rect",
+     "loc": {
+      "file": "engine/math/Rect.h",
+      "line": 19
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 219
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "operator*",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 219
+     },
+     "note": ""
+    },
+    {
+     "src": "Vec2",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "engine/math/Vec2.h",
+      "line": 16
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Rect",
+     "name": "overlaps",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 220
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "DodgeGame",
+     "name": "hit",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 221
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Animation",
+     "name": "restart",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 148
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Engine",
+     "name": "hitStop",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 149
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Engine",
+     "name": "addTrauma",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 150
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Haptics",
+     "name": "heavy",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 151
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Engine",
+     "name": "haptics",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 151
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Mixer",
+     "name": "play",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 152
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Engine",
+     "name": "mixer",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 152
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "GameAssets",
+     "name": "sfx",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 152
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Burst",
+     "name": "Burst",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 154
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "operator=",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 162
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "rgb8",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 162
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "operator=",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 163
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "rgb8",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 163
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Particles",
+     "name": "emit",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 164
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 164
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "DodgeGame",
+     "name": "land",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 224
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "operator*",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 97
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Sprite",
+     "name": "size",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 97
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Burst",
+     "name": "Burst",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 100
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "operator=",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 111
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "rgb8",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 111
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "operator=",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 112
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "rgb8",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 112
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Mixer",
+     "name": "play",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 113
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Engine",
+     "name": "mixer",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 113
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "GameAssets",
+     "name": "sfx",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 113
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Engine",
+     "name": "addTrauma",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 115
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "operator=",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 126
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "rgb8",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 126
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "operator=",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 127
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "rgb8",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 127
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Mixer",
+     "name": "play",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 128
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Engine",
+     "name": "mixer",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 128
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "GameAssets",
+     "name": "sfx",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 128
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Particles",
+     "name": "emit",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 130
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 130
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Popups",
+     "name": "add",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 137
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 137
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "rgb8",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 137
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Mixer",
+     "name": "play",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 138
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Engine",
+     "name": "mixer",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 138
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "GameAssets",
+     "name": "sfx",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 138
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Haptics",
+     "name": "light",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 139
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Engine",
+     "name": "haptics",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 139
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "DodgeGame",
+     "name": "spawn",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 259
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Engine",
+     "name": "worldWidth",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 82
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Falling",
+     "name": "Falling",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 86
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "DodgeGame",
+     "name": "chance",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 87
+     },
+     "note": "콜백 객체, 정적 추적 불가"
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Sprite",
+     "name": "operator=",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 88
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "GameAssets",
+     "name": "crate",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 88
+     },
+     "note": ""
+    },
+    {
+     "src": "GameAssets",
+     "dst": "Sprite",
+     "name": "Sprite",
+     "loc": {
+      "file": "app/GameAssets.h",
+      "line": 40
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "GameAssets",
+     "name": "stone",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 88
+     },
+     "note": ""
+    },
+    {
+     "src": "GameAssets",
+     "dst": "Sprite",
+     "name": "Sprite",
+     "loc": {
+      "file": "app/GameAssets.h",
+      "line": 41
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "operator=",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 89
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 89
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "DodgeGame",
+     "name": "x",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 89
+     },
+     "note": "콜백 객체, 정적 추적 불가"
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "DodgeGame",
+     "name": "fallSpeedAt",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 90
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "DodgeGame",
+     "name": "spin",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 91
+     },
+     "note": "콜백 객체, 정적 추적 불가"
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "DodgeGame",
+     "name": "spawnIntervalAt",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 260
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "DodgeGame",
+     "name": "updateDino",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 263
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Animation",
+     "name": "update",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 171
+     },
+     "note": ""
+    },
+    {
+     "src": "Animation",
+     "dst": "Animation",
+     "name": "duration",
+     "loc": {
+      "file": "engine/graphics/Animation.cpp",
+      "line": 32
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Burst",
+     "name": "Burst",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 177
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "operator=",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 188
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "withAlpha",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 188
+     },
+     "note": ""
+    },
+    {
+     "src": "Color",
+     "dst": "Color",
+     "name": "Color",
+     "loc": {
+      "file": "engine/math/Color.h",
+      "line": 21
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "rgb8",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 188
+     },
+     "note": ""
+    },
+    {
+     "src": "Color",
+     "dst": "Color",
+     "name": "Color",
+     "loc": {
+      "file": "engine/math/Color.h",
+      "line": 18
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "operator=",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 189
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "withAlpha",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 189
+     },
+     "note": ""
+    },
+    {
+     "src": "Color",
+     "dst": "Color",
+     "name": "Color",
+     "loc": {
+      "file": "engine/math/Color.h",
+      "line": 21
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Color",
+     "name": "rgb8",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 189
+     },
+     "note": ""
+    },
+    {
+     "src": "Color",
+     "dst": "Color",
+     "name": "Color",
+     "loc": {
+      "file": "engine/math/Color.h",
+      "line": 18
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Particles",
+     "name": "emit",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 190
+     },
+     "note": ""
+    },
+    {
+     "src": "Particles",
+     "dst": "Particles",
+     "name": "angle",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 20
+     },
+     "note": "콜백 객체, 정적 추적 불가"
+    },
+    {
+     "src": "Particles",
+     "dst": "Particles",
+     "name": "speed",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 21
+     },
+     "note": "콜백 객체, 정적 추적 불가"
+    },
+    {
+     "src": "Particles",
+     "dst": "Particles",
+     "name": "unit",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 22
+     },
+     "note": "콜백 객체, 정적 추적 불가"
+    },
+    {
+     "src": "Particles",
+     "dst": "Particle",
+     "name": "Particle",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 23
+     },
+     "note": ""
+    },
+    {
+     "src": "Particles",
+     "dst": "Vec2",
+     "name": "operator=",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "Particles",
+     "dst": "Vec2",
+     "name": "operator=",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 25
+     },
+     "note": ""
+    },
+    {
+     "src": "Particles",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 25
+     },
+     "note": ""
+    },
+    {
+     "src": "Particles",
+     "dst": "Particles",
+     "name": "life",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 26
+     },
+     "note": "콜백 객체, 정적 추적 불가"
+    },
+    {
+     "src": "Particles",
+     "dst": "Particles",
+     "name": "size",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 27
+     },
+     "note": "콜백 객체, 정적 추적 불가"
+    },
+    {
+     "src": "Particles",
+     "dst": "Particles",
+     "name": "angle",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 28
+     },
+     "note": "콜백 객체, 정적 추적 불가"
+    },
+    {
+     "src": "Particles",
+     "dst": "Particles",
+     "name": "spin",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 29
+     },
+     "note": "콜백 객체, 정적 추적 불가"
+    },
+    {
+     "src": "Particles",
+     "dst": "Color",
+     "name": "operator=",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 32
+     },
+     "note": ""
+    },
+    {
+     "src": "Particles",
+     "dst": "Color",
+     "name": "Color",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 32
+     },
+     "note": ""
+    },
+    {
+     "src": "Particles",
+     "dst": "Sprite",
+     "name": "operator=",
+     "loc": {
+      "file": "engine/graphics/Particles.cpp",
+      "line": 36
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 190
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Animation",
+     "name": "update",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 193
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Animation",
+     "name": "frame",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 195
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Engine",
+     "name": "worldWidth",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 196
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Ease",
+     "name": "outBack",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 199
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "operator=",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 200
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "Vec2",
+     "name": "Vec2",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 200
+     },
+     "note": ""
+    },
+    {
+     "src": "DodgeGame",
+     "dst": "DodgeGame",
+     "name": "updateFalling",
+     "loc": {
+      "file": "app/games/DodgeGame.cpp",
+      "line": 264
+     },
+     "note": ""
+    }
+   ],
+   "mermaid": "sequenceDiagram\n    participant DodgeGame\n    participant Particles\n    participant Vec2\n    participant Popups\n    participant Animation\n    participant Sprite\n    participant Rect\n    participant Engine\n    participant Haptics\n    participant Mixer\n    participant GameAssets\n    participant Burst\n    participant Color\n    participant Falling\n    participant Particle\n    participant Ease\n    DodgeGame->>Particles: update()\n    Particles->>Vec2: operator*=()\n    Particles->>Vec2: operator+=()\n    Particles->>Vec2: operator*()\n    Vec2->>Vec2: Vec2()\n    DodgeGame->>Popups: update()\n    DodgeGame->>Animation: update()\n    Animation->>Animation: duration()\n    DodgeGame->>DodgeGame: updateFalling()\n    DodgeGame->>Animation: frame()\n    Animation->>Sprite: Sprite()\n    DodgeGame->>Animation: frame()\n    Animation->>Sprite: Sprite()\n    DodgeGame->>Vec2: operator*()\n    Vec2->>Vec2: Vec2()\n    DodgeGame->>Sprite: size()\n    Sprite->>Vec2: Vec2()\n    DodgeGame->>Rect: fromCenter()\n    Rect->>Rect: Rect()\n    DodgeGame->>Vec2: Vec2()\n    DodgeGame->>Vec2: Vec2()\n    DodgeGame->>Vec2: operator*()\n    Vec2->>Vec2: Vec2()\n    DodgeGame->>Sprite: size()\n    Sprite->>Vec2: Vec2()\n    DodgeGame->>Rect: fromCenter()\n    Rect->>Rect: Rect()\n    DodgeGame->>Vec2: Vec2()\n    DodgeGame->>Vec2: operator*()\n    Vec2->>Vec2: Vec2()\n    DodgeGame->>Rect: overlaps()\n    DodgeGame->>DodgeGame: hit()\n    DodgeGame->>Animation: restart()\n    DodgeGame->>Engine: hitStop()\n    DodgeGame->>Engine: addTrauma()\n    DodgeGame->>Haptics: heavy()\n    DodgeGame->>Engine: haptics()\n    DodgeGame->>Mixer: play()\n    DodgeGame->>Engine: mixer()\n    DodgeGame->>GameAssets: sfx()\n    DodgeGame->>Burst: Burst()\n    DodgeGame->>Color: operator=()\n    DodgeGame->>Color: rgb8()\n    DodgeGame->>Color: operator=()\n    DodgeGame->>Color: rgb8()\n    DodgeGame->>Particles: emit()\n    DodgeGame->>Vec2: Vec2()\n    DodgeGame->>DodgeGame: land()\n    DodgeGame->>Vec2: operator*()\n    DodgeGame->>Sprite: size()\n    DodgeGame->>Burst: Burst()\n    DodgeGame->>Color: operator=()\n    DodgeGame->>Color: rgb8()\n    DodgeGame->>Color: operator=()\n    DodgeGame->>Color: rgb8()\n    DodgeGame->>Mixer: play()\n    DodgeGame->>Engine: mixer()\n    DodgeGame->>GameAssets: sfx()\n    DodgeGame->>Engine: addTrauma()\n    DodgeGame->>Color: operator=()\n    DodgeGame->>Color: rgb8()\n    DodgeGame->>Color: operator=()\n    DodgeGame->>Color: rgb8()\n    DodgeGame->>Mixer: play()\n    DodgeGame->>Engine: mixer()\n    DodgeGame->>GameAssets: sfx()\n    DodgeGame->>Particles: emit()\n    DodgeGame->>Vec2: Vec2()\n    DodgeGame->>Popups: add()\n    DodgeGame->>Vec2: Vec2()\n    DodgeGame->>Color: rgb8()\n    DodgeGame->>Mixer: play()\n    DodgeGame->>Engine: mixer()\n    DodgeGame->>GameAssets: sfx()\n    DodgeGame->>Haptics: light()\n    DodgeGame->>Engine: haptics()\n    DodgeGame->>DodgeGame: spawn()\n    DodgeGame->>Engine: worldWidth()\n    DodgeGame->>Falling: Falling()\n    DodgeGame-->>DodgeGame: chance() [콜백 객체, 정적 추적 불가]\n    DodgeGame->>Sprite: operator=()\n    DodgeGame->>GameAssets: crate()\n    GameAssets->>Sprite: Sprite()\n    DodgeGame->>GameAssets: stone()\n    GameAssets->>Sprite: Sprite()\n    DodgeGame->>Vec2: operator=()\n    DodgeGame->>Vec2: Vec2()\n    DodgeGame-->>DodgeGame: x() [콜백 객체, 정적 추적 불가]\n    DodgeGame->>DodgeGame: fallSpeedAt()\n    DodgeGame-->>DodgeGame: spin() [콜백 객체, 정적 추적 불가]\n    DodgeGame->>DodgeGame: spawnIntervalAt()\n    DodgeGame->>DodgeGame: updateDino()\n    DodgeGame->>Animation: update()\n    Animation->>Animation: duration()\n    DodgeGame->>Burst: Burst()\n    DodgeGame->>Color: operator=()\n    DodgeGame->>Color: withAlpha()\n    Color->>Color: Color()\n    DodgeGame->>Color: rgb8()\n    Color->>Color: Color()\n    DodgeGame->>Color: operator=()\n    DodgeGame->>Color: withAlpha()\n    Color->>Color: Color()\n    DodgeGame->>Color: rgb8()\n    Color->>Color: Color()\n    DodgeGame->>Particles: emit()\n    Particles-->>Particles: angle() [콜백 객체, 정적 추적 불가]\n    Particles-->>Particles: speed() [콜백 객체, 정적 추적 불가]\n    Particles-->>Particles: unit() [콜백 객체, 정적 추적 불가]\n    Particles->>Particle: Particle()\n    Particles->>Vec2: operator=()\n    Particles->>Vec2: operator=()\n    Particles->>Vec2: Vec2()\n    Particles-->>Particles: life() [콜백 객체, 정적 추적 불가]\n    Particles-->>Particles: size() [콜백 객체, 정적 추적 불가]\n    Particles-->>Particles: angle() [콜백 객체, 정적 추적 불가]\n    Particles-->>Particles: spin() [콜백 객체, 정적 추적 불가]\n    Particles->>Color: operator=()\n    Particles->>Color: Color()\n    Particles->>Sprite: operator=()\n    DodgeGame->>Vec2: Vec2()\n    DodgeGame->>Animation: update()\n    DodgeGame->>Animation: frame()\n    DodgeGame->>Engine: worldWidth()\n    DodgeGame->>Ease: outBack()\n    DodgeGame->>Vec2: operator=()\n    DodgeGame->>Vec2: Vec2()\n    DodgeGame->>DodgeGame: updateFalling()",
+   "unresolved": 10
   }
  },
  "includes": []

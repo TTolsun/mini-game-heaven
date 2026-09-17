@@ -1,6 +1,6 @@
 ---
-generated_at: 2026-09-17T14:41:41+00:00
-source_commit: b4e016048393b0285580f4897dc534a99b59117d
+generated_at: 2026-09-17T14:53:28+00:00
+source_commit: aeac21306341033f510bb6317043cf9fe2d6723b
 agent: ollama/qwen3.5:4b
 status: ok
 section: scenarios
@@ -13,7 +13,7 @@ section: scenarios
 | 지금 확인할 내용 | 이동할 절 |
 |---|---|
 | 앱 시작과 메인 루프 (android_main) 흐름을 추적합니다. | [앱 시작과 메인 루프 (android_main)](android_main.md) |
-| 오디오 콜백 믹싱 (Mixer::render) 흐름을 추적합니다. | [오디오 콜백 믹싱 (Mixer::render)](audio_render.md) |
+| Dodge 게임 한 틱 (DodgeGame::update) 흐름을 추적합니다. | [Dodge 게임 한 틱 (DodgeGame::update)](dodge_update.md) |
 | 한 프레임 (Engine::frame) 흐름을 추적합니다. | [한 프레임 (Engine::frame)](frame.md) |
 | 공유 에셋 로딩 (GameAssets::load) 흐름을 추적합니다. | [공유 에셋 로딩 (GameAssets::load)](load_assets.md) |
 | 게임 종료와 결과 화면 (MiniGameApp::showResult) 흐름을 추적합니다. | [게임 종료와 결과 화면 (MiniGameApp::showResult)](show_result.md) |
@@ -25,7 +25,7 @@ section: scenarios
 | 시나리오 | 진입점 | 단계 수 | 미해결 호출 |
 |---|---|---|---|
 | [앱 시작과 메인 루프 (android_main)](android_main.md) | `android_main(android_app *)` | 105 | 2 |
-| [오디오 콜백 믹싱 (Mixer::render)](audio_render.md) | `engine::Mixer::render(float *, int)` | 0 | 0 |
+| [Dodge 게임 한 틱 (DodgeGame::update)](dodge_update.md) | `app::DodgeGame::update(float)` | 128 | 10 |
 | [한 프레임 (Engine::frame)](frame.md) | `engine::Engine::frame()` | 138 | 15 |
 | [공유 에셋 로딩 (GameAssets::load)](load_assets.md) | `app::GameAssets::load(engine::Engine &)` | 151 | 2 |
 | [게임 종료와 결과 화면 (MiniGameApp::showResult)](show_result.md) | `app::MiniGameApp::showResult(app::GameId, int)` | 60 | 0 |
@@ -34,7 +34,7 @@ section: scenarios
 
 ??? note "근거와 검토 정보"
     - 근거 파일: (없음)
-    - 근거 수준: 코드 확인 (정적 분석, simple_compdb 구성, commit `b4e0160483`)
+    - 근거 수준: 코드 확인 (정적 분석, simple_compdb 구성, commit `aeac213063`)
     - 인용 검증: 통과
     - 검토: 2026-09-17 · ollama/qwen3.5:4b · 사람 검토 전
 

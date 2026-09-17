@@ -1,6 +1,6 @@
 ---
-generated_at: 2026-09-17T14:40:39+00:00
-source_commit: b4e016048393b0285580f4897dc534a99b59117d
+generated_at: 2026-09-17T14:53:04+00:00
+source_commit: aeac21306341033f510bb6317043cf9fe2d6723b
 agent: ollama/qwen3.5:4b
 status: ok
 section: scenarios
@@ -218,21 +218,21 @@ sequenceDiagram
 
 ## 이 흐름에서 확인할 것
 
-공유 에셋 로딩은 `app::GameAssets::load` 에서 시작하여 `TextureAtlas`, `Image`, `Sprite`, `Animation` 을 거쳐 최종적으로 애니메이션 데이터를 생성합니다. 호출 경로는 먼저 `Engine::atlas()` 를 통해 텍스처 아틀라스를 초기화하고, 이어 `Image::load()` 로 파일 내용을 읽은 뒤 메모리 객체를 생성합니다. 이후 `TextureAtlas::add()` 가 실행되어 스프라이트 객체가 만들어지고, 이 스프라이트가 애니메이션 생성에 사용됩니다. `Animation::fromAtlas()` 함수는 아틀라스를 통해 스프라이트를 가져와서 애니메이션 인스턴스를 완성하는 역할을 합니다.
+공유 에셋 로딩은 `GameAssets::load` 함수가 호출된 뒤부터 시작합니다. 진입점은 `app::GameAssets::load(engine::Engine &)` 입니다 `app/GameAssets.cpp:14`. 이 함수는 먼저 `Engine::atlas()` 를 호출하여 텍스처 아틀라스를 생성합니다 `app/GameAssets.cpp:15`. 이어지는 과정은 `TextureAtlas::add()` 를 통해 이미지 로딩으로 이어집니다 `app/GameAssets.cpp:29`.
 
-`GameAssets` 는 `Engine::atlas()` 를 호출하여 텍스처 아틀라스의 초기화를 시작합니다 `app/GameAssets.cpp:14`. 이 단계에서 `TextureAtlas` 는 `Image::load()` 를 통해 이미지 파일을 로드하고, 해당 데이터를 바탕으로 `Image::Image()` 객체를 생성합니다. `Image` 클래스는 `AndroidAssetLoader::readFile()` 을 호출하여 파일 내용을 읽은 후, 다시 `Image::Image()` 로 메모리 구조를 완성합니다. 로드된 이미지는 `TextureAtlas::add()` 를 통해 아틀라스에 추가되며, 이 과정에서 `Texture::upload()` 가 실행되어 GPU 에게 텍스처가 업로드됩니다.
+텍스처 아틀라스 내부에서는 `Image::load()` 가 실행되어 실제 파일 데이터를 읽습니다 `engine/graphics/TextureAtlas.cpp:23`. 이 단계에서 `AndroidAssetLoader::readFile()` 가상 함수가 호출되며 현재는 단일 구현이 사용되고 있습니다 `engine/asset/Image.cpp:17`. 로딩된 데이터는 `Image::Image()` 생성자로 전달되어 메모리에 복사됩니다 `engine/asset/Image.cpp:15`.
 
-텍스처 업로드 후 `TextureAtlas` 는 `Sprite::Sprite()` 를 호출하여 스프라이트 객체를 생성합니다. `GameAssets` 는 이후 `Animation::fromAtlas()` 를 통해 애니메이션 데이터를 생성하며, 이 함수는 `TextureAtlas::has()` 와 `TextureAtlas::get()` 를 호출하여 아틀라스 내의 스프라이트를 조회합니다. 각 스프라이트 정보를 바탕으로 `Sprite::Sprite()` 가 다시 호출되어 구체적인 스프라이트 인스턴스가 만들어지고, 이를 통해 `Animation::Animation()` 이 완성됩니다.
+로딩 완료 후 유효성 검사가 수행됩니다. `TextureAtlas` 는 `Image::isValid()` 를 호출하여 이미지 상태를 확인합니다 `engine/graphics/TextureAtlas.cpp:24`. 검사를 통과하면 `Texture::upload()` 가 실행되어 GPU 메모리로 전송됩니다 `engine/graphics/TextureAtlas.cpp:47`. 이 과정에서 `Sprite::Sprite()` 생성자가 호출되어 텍스처를 스프라이트 객체로 변환합니다 `engine/graphics/TextureAtlas.cpp:52`.
 
-`Animation::fromAtlas()` 함수는 반복적으로 아틀라스 내의 프레임들을 처리하며, 이는 `TextureAtlas::has()`, `TextureAtlas::get()`, `Sprite::Sprite()`, 그리고 `Animation::Animation()` 을 순차적으로 호출합니다. 각 프레임마다 스프라이트가 생성되고 애니메이션 객체가 초기화되며, 이 과정은 `GameAssets` 의 `Animation::operator=()` 를 통해 최종적으로 완료됩니다.
+텍스처 아틀라스는 다시 `Sprite::operator=()` 를 호출하여 스프라이트에 추가된 정보를 업데이트합니다 `engine/graphics/TextureAtlas.cpp:60`. 이후 `GameAssets` 는 애니메이션 생성을 위해 `Animation::fromAtlas()` 를 호출합니다 `app/GameAssets.cpp:32`. 이 함수 내부에서는 `TextureAtlas::has()` 와 `TextureAtlas::get()` 가 순차적으로 호출되어 아틀라스 내 스프라이트를 찾습니다 `engine/graphics/Animation.cpp:19` 및 `engine/graphics/Animation.cpp:22`.
 
-**확인 필요:** `Animation::fromAtlas()` 내부에서 스프라이트 목록을 어떻게 순회하는지, 그리고 각 프레임이 병렬로 처리되는지 확인해야 합니다.
+애니메이션 생성자는 `Sprite::Sprite()` 를 다시 호출하여 각 프레임의 텍스처를 초기화합니다 `engine/graphics/TextureAtlas.cpp:75`. 이 과정은 애니메이션 객체의 여러 번의 생성자 호출과 함께 반복되며, 최종적으로 `GameAssets` 가 `Animation::operator=()` 를 통해 애니메이션을 완성합니다 `app/GameAssets.cpp:33`.
 
 확인 필요: 가상 함수나 함수 포인터 때문에 정적으로 끊긴 호출이 2 개 있습니다. 끊긴 지점 이후는 코드를 직접 따라가야 합니다.
 
 ??? note "근거와 검토 정보"
     - 근거 파일: `app/GameAssets.cpp`, `engine/asset/Image.cpp`, `engine/graphics/Animation.cpp`, `engine/graphics/TextureAtlas.cpp`
-    - 근거 수준: 코드 확인 (정적 분석, simple_compdb 구성, commit `b4e0160483`)
+    - 근거 수준: 코드 확인 (정적 분석, simple_compdb 구성, commit `aeac213063`)
     - 인용 검증: 통과
     - 검토: 2026-09-17 · ollama/qwen3.5:4b · 사람 검토 전
 

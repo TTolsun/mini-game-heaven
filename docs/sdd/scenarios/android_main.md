@@ -1,6 +1,6 @@
 ---
-generated_at: 2026-09-17T14:39:57+00:00
-source_commit: b4e016048393b0285580f4897dc534a99b59117d
+generated_at: 2026-09-17T14:52:21+00:00
+source_commit: aeac21306341033f510bb6317043cf9fe2d6723b
 agent: ollama/qwen3.5:4b
 status: ok
 section: scenarios
@@ -188,18 +188,16 @@ sequenceDiagram
 
 ## 이 흐름에서 확인할 것
 
-앱 시작 시 호출 순서는 진입점인 `android_main(android_app *)` 에서 `AndroidMain` 가 `AppState::AppState()` 를 생성합니다 `platform/android/AndroidMain.cpp:159`. 이 과정에서 `AppState` 는 자산 로더, 엔진, 햅틱 및 오디오 시스템을 초기화하며 `Engine::mixer()`, `setHaptics()`, `setDataPath()` 를 차례로 호출합니다 `platform/android/AndroidMain.cpp:30~32`. 이후 애니메이션 루프 진입을 위해 `animating()` 을 실행하고 화면 표면 존재 여부를 확인한 뒤 `android_poll_source::process()` 를 통해 이벤트 처리를 시작합니다 `platform/android/AndroidMain.cpp:173, 42, 176`.
+앱 시작 시 호출이 `android_main` 를 거쳐 `AppState`, `Engine`, `AndroidMain` 의 사이클을 반복하며 진행됩니다. 진입점인 `AndroidMain::main()` 은 `AppState::AppState()` 를 생성하여 초기화를 시작합니다 `platform/android/AndroidMain.cpp:159`. 이어지는 초기화 과정에서 `AndroidAssetLoader`, `Engine`, `AndroidHaptics`, `AndroidAudio` 가 순차적으로 생성되며 각자의 설정 함수가 호출됩니다. `AppState` 는 `GlContext::hasSurface()` 를 확인한 뒤 `android_poll_source::process()` 를 통해 이벤트 루프 진입을 시도합니다. 정적 추적 불가인 `process()` 함수는 `processInput()` 과 같은 구체적인 입력 처리 로직으로 분기합니다.
 
-이벤트 처리 중 터치 입력은 `AndroidMain::processInput()` 에서 `Engine::onTouch()` 로 전달되며 `Scene` 의 가상 함수가 호출됩니다 `platform/android/AndroidMain.cpp:184, 128`. `Engine` 내부에서는 `TouchEvent` 객체를 생성하고 좌표 값을 설정한 뒤 최종적으로 `Scene::onTouch()` 를 실행합니다 `engine/Engine.cpp:120~124`. 백 버튼 처리 역시 유사한 경로를 거치며 `Engine` 가 `Scene`, `MiniGameApp`, `ResultScene` 의 가상 함수를 순차적으로 호출합니다 `platform/android/AndroidMain.cpp:146, engine/Engine.cpp:128`.
-
-프레임 렌더링은 `AppState::animating()` 에서 다시 `GlContext::hasSurface()` 를 확인한 뒤 `Engine::frame()` 을 실행하여 수행됩니다 `platform/android/AndroidMain.cpp:186, 42, 187`. 정적 추적 불가인 `android_poll_source::process()` 는 함수 포인터를 통해 호출되므로 구체적인 실행 흐름을 파악하기 어렵습니다 `platform/android/AndroidMain.cpp:176`.
+입력 처리 단계에서 `AndroidMain` 는 `Engine::onTouch()` 와 `Engine::frame()` 을 호출하여 게임 상태 업데이트를 주도합니다. `Engine` 내부에서는 `Scene::onTouch()` 와 같은 가상 함수가 호출되어 현재 활성화된 시나리오에 따라 동작이 결정됩니다. `Scene` 의 구현은 단일하게 존재하지만, `onBack()` 과 같은 특정 이벤트는 `MiniGameApp`, `ResultScene` 등 여러 후보 클래스를 거칩니다. 정적 추적의 한계로 인해 스레드 소유권이나 타이밍 정보는 현재 사실 목록에서 확인되지 않았습니다.
 
 확인 필요: 가상 함수나 함수 포인터 때문에 정적으로 끊긴 호출이 2 개 있습니다. 끊긴 지점 이후는 코드를 직접 따라가야 합니다.
 
 ??? note "근거와 검토 정보"
     - 근거 파일: `engine/Engine.cpp`, `platform/android/AndroidMain.cpp`
-    - 근거 수준: 코드 확인 (정적 분석, simple_compdb 구성, commit `b4e0160483`)
+    - 근거 수준: 코드 확인 (정적 분석, simple_compdb 구성, commit `aeac213063`)
     - 인용 검증: 통과
     - 검토: 2026-09-17 · ollama/qwen3.5:4b · 사람 검토 전
 
-다음 단계: [오디오 콜백 믹싱 (Mixer::render)](audio_render.md)
+다음 단계: [Dodge 게임 한 틱 (DodgeGame::update)](dodge_update.md)

@@ -35,7 +35,7 @@ scenarios:
     title: 공유 에셋 로딩 (GameAssets::load)
     from: "app::GameAssets::load(engine::Engine &)"
 
-  - id: audio_render
-    title: 오디오 콜백 믹싱 (Mixer::render)
-    from: "engine::Mixer::render(float *, int)"
+  - id: dodge_update
+    title: Dodge 게임 한 틱 (DodgeGame::update)
+    from: "app::DodgeGame::update(float)"
     depth: 3
