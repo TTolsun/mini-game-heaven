@@ -1,0 +1,9 @@
+sequenceDiagram
+    participant Engine
+    participant TouchEvent
+    participant Vec2
+    participant Scene
+    Engine->>TouchEvent: TouchEvent()
+    Engine->>Vec2: operator=()
+    Engine->>Vec2: Vec2()
+    Engine-->>Scene: onTouch() [virtual, 현재 구현 하나]

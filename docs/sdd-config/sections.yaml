@@ -1,0 +1,112 @@
+# mini-game-heaven SDD 섹션 정의 (camera-hal-sdd 의 config/sections.yaml 을 이 프로젝트에 맞게 조정).
+# 각 섹션은 "어떤 사실(facts)에서 나오는가" 와 "어떤 소스 변경에 영향을 받는가(watch)" 를 고정한다.
+#
+# kind:
+#   prose        - 결정적 표 + LLM 서술 한 번.
+#   per-package  - 패키지(디렉터리)마다 클래스 표 + LLM 서술.
+#   per-scenario - scenarios.yaml 의 시나리오마다 문서 하나.
+#   table        - LLM 없이 사실만으로 표를 만든다.
+#   manual       - 사람이 쓰는 문서. 파이프라인이 덮어쓰지 않는다.
+#
+# watch: 소스 루트(native/) 기준 glob.
+
+sections:
+  - id: overview
+    title: 시스템 개요
+    output: overview.md
+    kind: prose
+    lead: 수정할 기능이 engine / app / platform 중 어느 패키지에 있는지 아래 표에서 먼저 찾으세요.
+    reader: 이 게임 엔진을 처음 읽는 개발자
+    answers:
+      - 코드는 어떤 패키지로 나뉘고, 각 패키지는 무엇을 담당하는가?
+      - 패키지 사이의 의존 방향은 어디에서 어디로 향하는가? (engine 은 app 과 platform 을 모른다)
+      - Android 가 네이티브 코드를 부르는 진입점은 어디인가?
+    facts:
+      packages: ["*"]
+      functions: ["android_main", "handleAppCmd", "processInput", "createGame", "allGames"]
+      classes: ["*"]
+      class_table: false
+      impact_classes: []
+      reading_order: frame   # "코드를 처음 읽는 순서" 를 만들 시나리오
+    routes:
+      - q: 수정할 패키지를 찾습니다.
+        to: "#패키지별-역할"
+      - q: Android 에서 네이티브로 들어오는 진입점을 찾습니다.
+        to: "#hal-진입점"
+      - q: 코드를 처음 읽습니다.
+        to: "#코드를-처음-읽는-순서"
+      - q: 클래스 단위 책임을 확인합니다.
+        to: components.md
+    watch: ["**/*.h", "CMakeLists.txt"]
+    next: {title: 컴포넌트 구조와 책임, link: components.md}
+
+  - id: components
+    title: 컴포넌트 구조와 책임
+    output: components.md
+    kind: per-package
+    lead: 수정할 클래스가 속한 패키지의 절로 이동해 책임과 상속 관계부터 확인하세요.
+    reader: 특정 클래스를 수정하려는 개발자
+    answers:
+      - 이 패키지의 클래스들은 각각 무엇을 책임지는가?
+      - 클래스 사이의 상속, 소유, 의존 관계는 어떻게 되는가?
+      - GL 리소스, 오디오 보이스, Scene 을 누가 만들고 누가 해제하는가? (사실에 없으면 확인 필요로 남긴다)
+    facts:
+      diagram: class_overview
+      packages: ["*"]
+      classes: ["*"]
+    watch: ["**/*.h", "**/*.cpp"]
+    next: {title: 핵심 시나리오 시퀀스, link: scenarios/index.md}
+
+  - id: scenarios
+    title: 핵심 시나리오 시퀀스
+    output: scenarios/index.md
+    kind: per-scenario
+    lead: 추적하려는 동작의 시나리오를 표에서 고르세요. 각 시나리오는 진입 함수부터 호출 순서를 번호로 보여 줍니다.
+    reader: 특정 동작의 호출 경로를 추적하는 개발자
+    answers:
+      - 호출은 어떤 순서로 어느 컴포넌트를 지나가는가?
+      - 어디서 분기하고, 어디서 정적 추적이 끊기는가? (Scene 가상 함수, GameRegistry)
+    facts:
+      scenarios: "*"
+    watch: ["**/*.cpp"]
+    next: {title: 컴파일 플래그 매트릭스, link: feature-flags.md}
+
+  - id: feature-flags
+    title: 컴파일 플래그 매트릭스
+    output: feature-flags.md
+    kind: table
+    lead: 바꾸려는 동작이 어떤 -D 플래그나 #if 아래에 있는지 표에서 확인하세요. 이 표는 arm64-v8a Debug 구성 기준입니다.
+    facts:
+      defines: "*"
+    watch: ["CMakeLists.txt", "**/*.h", "**/*.cpp"]
+    next: {title: 스레드와 콜백 모델, link: threading.md}
+
+  - id: threading
+    title: 스레드와 콜백 모델
+    output: threading.md
+    kind: prose
+    lead: 게임 스레드(android_main), 오디오 콜백 스레드(AAudio), Java 메인 스레드가 만나는 지점은 정적 분석으로 다 나오지 않습니다. 아래 표의 클래스를 수정하기 전에 실행 스레드를 직접 확인하세요.
+    reader: 스레드 경계를 넘는 코드를 수정하는 개발자
+    answers:
+      - 어떤 클래스가 스레드나 콜백을 소유하는가? (Mixer 는 오디오 스레드에서 render 된다)
+      - 어떤 메서드가 스레드 경계에서 호출되는가?
+    facts:
+      packages: []
+      classes: ["*Mixer*", "*Audio*", "*Haptics*", "*Engine*", "*GlContext*"]
+    watch: ["engine/audio/**", "platform/android/**"]
+    needs_human: true
+    next: {title: 변경 시 지켜야 할 제약, link: constraints.md}
+
+  # ---- 사람이 쓰는 문서 --------------------------------------------------------
+
+  - id: constraints
+    title: 변경 시 지켜야 할 제약
+    output: constraints.md
+    kind: manual
+    next: {title: 설계 결정 기록, link: decisions.md}
+
+  - id: decisions
+    title: 설계 결정 기록
+    output: decisions.md
+    kind: manual
+    next: {title: 시스템 개요, link: overview.md}

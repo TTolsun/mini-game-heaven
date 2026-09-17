@@ -1,0 +1,41 @@
+# 시퀀스 다이어그램 진입점 목록. 이 목록이 SDD "핵심 시나리오" 목차와 1:1 로 대응한다.
+#
+# from: 완전한 함수 시그니처. 확인 방법: build/sdd/facts/facts.json 의 functions / classes 항목.
+# glob: 이 시나리오를 추적할 translation unit. 생략하면 defaults.glob 을 쓴다.
+# depth: 호출 깊이 상한.
+
+defaults:
+  glob: ["**/*.cpp"]
+  depth: 4
+
+scenarios:
+  - id: android_main
+    title: 앱 시작과 메인 루프 (android_main)
+    from: "android_main(android_app *)"
+    depth: 3
+
+  - id: frame
+    title: 한 프레임 (Engine::frame)
+    from: "engine::Engine::frame()"
+    depth: 5
+
+  - id: touch
+    title: 터치 입력 전달 (Engine::onTouch)
+    from: "engine::Engine::onTouch(int32_t, engine::TouchEvent::Phase, float, float)"
+
+  - id: start_game
+    title: 게임 시작 (MiniGameApp::startGame)
+    from: "app::MiniGameApp::startGame(app::GameId)"
+
+  - id: show_result
+    title: 게임 종료와 결과 화면 (MiniGameApp::showResult)
+    from: "app::MiniGameApp::showResult(app::GameId, int)"
+
+  - id: load_assets
+    title: 공유 에셋 로딩 (GameAssets::load)
+    from: "app::GameAssets::load(engine::Engine &)"
+
+  - id: audio_render
+    title: 오디오 콜백 믹싱 (Mixer::render)
+    from: "engine::Mixer::render(float *, int)"
+    depth: 3

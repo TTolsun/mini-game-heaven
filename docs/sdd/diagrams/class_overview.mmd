@@ -1,0 +1,387 @@
+classDiagram
+    class AppState {
+        +AppState()
+        +animating()
+    }
+    class DodgeGame {
+        +DodgeGame()
+        +onEnter()
+        +update()
+        +render()
+        +onTouch()
+        +isFinished()
+    }
+    class Falling {
+    }
+    class Kind {
+    }
+    class GameAssets {
+        +load()
+        +dinoIdle()
+        +dinoRun()
+        +dinoJump()
+        +dinoDead()
+        +groundTile()
+    }
+    class GameId {
+    }
+    class GameInfo {
+    }
+    class HighScores {
+        +load()
+        +best()
+        +submit()
+        +save()
+    }
+    class IMiniGame {
+        +~IMiniGame()
+        +isFinished()
+        +score()
+    }
+    class JumpGame {
+        +JumpGame()
+        +onEnter()
+        +update()
+        +render()
+        +onTouch()
+        +isFinished()
+    }
+    class Column {
+    }
+    class DeathCause {
+    }
+    class MenuScene {
+        +MenuScene()
+        +onEnter()
+        +update()
+        +render()
+        +onTouch()
+        +iconFor()
+    }
+    class MiniGameApp {
+        +onEnter()
+        +update()
+        +render()
+        +onTouch()
+        +onBack()
+        +showMenu()
+    }
+    class ResultScene {
+        +ResultScene()
+        +onEnter()
+        +update()
+        +render()
+        +onTouch()
+        +onBack()
+    }
+    class Outcome {
+    }
+    class Sfx {
+        +build()
+    }
+    class TapGame {
+        +TapGame()
+        +onEnter()
+        +update()
+        +render()
+        +onTouch()
+        +isFinished()
+    }
+    class Button {
+        +Button()
+        +handleTouch()
+        +update()
+        +draw()
+        +rect()
+        +setRect()
+    }
+    class Popups {
+        +add()
+        +update()
+        +render()
+        +clear()
+    }
+    class Item {
+    }
+    class Animation {
+        +Animation()
+        +fromAtlas()
+        +update()
+        +restart()
+        +frame()
+        +finished()
+    }
+    class AssetLoader {
+        +~AssetLoader()
+        +readFile()
+    }
+    class Color {
+        +Color()
+        +white()
+        +black()
+        +rgb8()
+        +withAlpha()
+    }
+    class Engine {
+        +Engine()
+        +~Engine()
+        +operator=()
+        +setHaptics()
+        +setDataPath()
+        +initGraphics()
+    }
+    class Font {
+        +load()
+        +draw()
+        +measure()
+        +isLoaded()
+        +glyph()
+    }
+    class Glyph {
+    }
+    class Haptics {
+        +~Haptics()
+        +vibrate()
+        +light()
+        +medium()
+        +heavy()
+    }
+    class Strength {
+    }
+    class Image {
+        +isValid()
+        +load()
+    }
+    class Mixer {
+        +play()
+        +render()
+        +setMasterGain()
+    }
+    class Voice {
+    }
+    class NullHaptics {
+        +vibrate()
+    }
+    class Particles {
+        +Particles()
+        +emit()
+        +update()
+        +render()
+        +clear()
+        +count()
+    }
+    class Burst {
+    }
+    class Particle {
+    }
+    class Rect {
+        +Rect()
+        +fromCenter()
+        +left()
+        +right()
+        +top()
+        +bottom()
+    }
+    class Scene {
+        +~Scene()
+        +onEnter()
+        +onExit()
+        +update()
+        +render()
+        +onTouch()
+    }
+    class Shader {
+        +Shader()
+        +~Shader()
+        +operator=()
+        +build()
+        +use()
+        +uniform()
+    }
+    class Sound {
+        +empty()
+    }
+    class Sprite {
+        +isValid()
+        +size()
+    }
+    class SpriteBatch {
+        +SpriteBatch()
+        +~SpriteBatch()
+        +operator=()
+        +init()
+        +begin()
+        +end()
+    }
+    class Vertex {
+    }
+    class TextAlign {
+    }
+    class Texture {
+        +Texture()
+        +~Texture()
+        +operator=()
+        +create()
+        +upload()
+        +bind()
+    }
+    class TextureAtlas {
+        +TextureAtlas()
+        +add()
+        +get()
+        +has()
+        +texture()
+    }
+    class Timer {
+        +Timer()
+        +tick()
+        +reset()
+        +elapsed()
+    }
+    class TouchEvent {
+    }
+    class Phase {
+    }
+    class Vec2 {
+        +Vec2()
+        +operator+()
+        +operator-()
+        +operator*()
+        +operator/()
+        +operator+=()
+    }
+    class AndroidAssetLoader {
+        +AndroidAssetLoader()
+        +readFile()
+    }
+    class AndroidAudio {
+        +AndroidAudio()
+        +~AndroidAudio()
+        +start()
+        +stop()
+        +onData()
+        +onError()
+    }
+    class AndroidHaptics {
+        +AndroidHaptics()
+        +~AndroidHaptics()
+        +vibrate()
+        +resolve()
+    }
+    class GlContext {
+        +GlContext()
+        +~GlContext()
+        +operator=()
+        +createSurface()
+        +destroySurface()
+        +shutdown()
+    }
+    Haptics <|-- NullHaptics
+    Scene <|-- IMiniGame
+    IMiniGame <|-- DodgeGame
+    IMiniGame <|-- JumpGame
+    IMiniGame <|-- TapGame
+    Scene <|-- MiniGameApp
+    Scene <|-- MenuScene
+    Scene <|-- ResultScene
+    AssetLoader <|-- AndroidAssetLoader
+    Haptics <|-- AndroidHaptics
+    TouchEvent --> Phase
+    TouchEvent --> Vec2
+    Mixer --> Voice
+    Voice --> Sound
+    Sprite --> Texture
+    SpriteBatch --> Shader
+    SpriteBatch --> Texture
+    SpriteBatch --> Sprite
+    SpriteBatch --> Vertex
+    TextureAtlas --> Texture
+    TextureAtlas --> Sprite
+    Engine --> AssetLoader
+    Engine --> SpriteBatch
+    Engine --> TextureAtlas
+    Engine --> Scene
+    Engine --> Timer
+    Engine --> Mixer
+    Engine --> NullHaptics
+    Engine --> Haptics
+    Animation --> Sprite
+    Font --> Sprite
+    Font --> Glyph
+    Particles --> Particle
+    Burst --> Color
+    Burst --> Sprite
+    Particle --> Vec2
+    Particle --> Color
+    Particle --> Sprite
+    Sfx --> Sound
+    GameAssets --> Texture
+    GameAssets --> Sprite
+    GameAssets --> Animation
+    GameAssets --> Font
+    GameAssets --> Sfx
+    File --> Sprite
+    GameInfo --> GameId
+    GameInfo --> Color
+    Popups --> Item
+    Item --> Vec2
+    Item --> Color
+    DodgeGame --> GameAssets
+    DodgeGame --> Engine
+    DodgeGame --> Font
+    DodgeGame --> Sprite
+    DodgeGame --> Animation
+    DodgeGame --> Particles
+    DodgeGame --> Popups
+    DodgeGame --> Vec2
+    DodgeGame --> Falling
+    Falling --> Kind
+    Falling --> Sprite
+    Falling --> Vec2
+    JumpGame --> GameAssets
+    JumpGame --> Engine
+    JumpGame --> Font
+    JumpGame --> Sprite
+    JumpGame --> Animation
+    JumpGame --> Particles
+    JumpGame --> Column
+    JumpGame --> Vec2
+    JumpGame --> DeathCause
+    TapGame --> GameAssets
+    TapGame --> Engine
+    TapGame --> Font
+    TapGame --> Sprite
+    TapGame --> Particles
+    TapGame --> Popups
+    TapGame --> Vec2
+    HighScores --> GameId
+    Button --> Rect
+    Button --> Sprite
+    MiniGameApp --> Engine
+    MiniGameApp --> GameAssets
+    MiniGameApp --> HighScores
+    MiniGameApp --> Scene
+    MiniGameApp --> IMiniGame
+    MiniGameApp --> GameId
+    MiniGameApp --> Button
+    MenuScene --> GameAssets
+    MenuScene --> HighScores
+    MenuScene --> Engine
+    MenuScene --> Sprite
+    MenuScene --> Animation
+    MenuScene --> Button
+    ResultScene --> GameAssets
+    ResultScene --> Outcome
+    ResultScene --> Engine
+    ResultScene --> Sprite
+    ResultScene --> Rect
+    ResultScene --> Button
+    ResultScene --> Particles
+    Outcome --> GameId
+    AndroidAssetLoader --> AAssetManager
+    AndroidAudio --> Mixer
+    AppState --> AndroidAssetLoader
+    AppState --> Engine
+    AppState --> AndroidHaptics
+    AppState --> AndroidAudio
+    AppState --> GlContext

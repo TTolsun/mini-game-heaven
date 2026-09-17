@@ -1,0 +1,135 @@
+sequenceDiagram
+    participant AndroidMain
+    participant AppState
+    participant AndroidAssetLoader
+    participant Engine
+    participant AndroidHaptics
+    participant AndroidAudio
+    participant GlContext
+    participant android_poll_source
+    participant TouchEvent
+    participant Vec2
+    participant Scene
+    participant MiniGameApp
+    participant ResultScene
+    participant Timer
+    participant DodgeGame
+    participant Particles
+    participant Popups
+    participant Animation
+    participant JumpGame
+    participant TapGame
+    participant Mixer
+    participant GameAssets
+    participant MenuScene
+    participant Button
+    participant Haptics
+    participant Burst
+    participant Color
+    participant Rect
+    participant SpriteBatch
+    AndroidMain->>AppState: AppState()
+    AppState->>AndroidAssetLoader: AndroidAssetLoader()
+    AppState->>Engine: Engine()
+    AppState->>AndroidHaptics: AndroidHaptics()
+    AppState->>AndroidAudio: AndroidAudio()
+    AppState->>Engine: mixer()
+    AppState->>Engine: setHaptics()
+    AppState->>Engine: setDataPath()
+    AndroidMain->>AppState: animating()
+    AppState->>GlContext: hasSurface()
+    AndroidMain-->>android_poll_source: process() [함수 포인터, 정적 추적 불가]
+    AndroidMain->>AndroidMain: processInput()
+    AndroidMain->>AndroidMain: phaseFor()
+    AndroidMain->>Engine: onTouch()
+    Engine->>TouchEvent: TouchEvent()
+    Engine->>Vec2: operator=()
+    Engine->>Vec2: Vec2()
+    Engine-->>Scene: onTouch() [virtual, 현재 구현 하나]
+    AndroidMain->>Engine: onTouch()
+    Engine->>TouchEvent: TouchEvent()
+    Engine->>Vec2: operator=()
+    Engine->>Vec2: Vec2()
+    Engine-->>Scene: onTouch() [virtual, 현재 구현 하나]
+    AndroidMain->>Engine: onBack()
+    Engine-->>Scene: onBack() [virtual 후보]
+    Engine-->>MiniGameApp: onBack() [virtual 후보]
+    Engine-->>ResultScene: onBack() [virtual 후보]
+    AndroidMain->>AppState: animating()
+    AppState->>GlContext: hasSurface()
+    AndroidMain->>Engine: frame()
+    Engine->>Timer: tick()
+    Engine-->>DodgeGame: update() [virtual 후보]
+    DodgeGame->>Particles: update()
+    DodgeGame->>Popups: update()
+    DodgeGame->>Animation: update()
+    DodgeGame->>DodgeGame: updateFalling()
+    DodgeGame->>DodgeGame: spawn()
+    DodgeGame->>DodgeGame: spawnIntervalAt()
+    DodgeGame->>DodgeGame: updateDino()
+    DodgeGame->>DodgeGame: updateFalling()
+    Engine-->>JumpGame: update() [virtual 후보]
+    JumpGame->>Particles: update()
+    JumpGame->>Animation: update()
+    JumpGame->>JumpGame: updateWorld()
+    JumpGame->>JumpGame: updatePlayer()
+    Engine-->>TapGame: update() [virtual 후보]
+    TapGame->>Particles: update()
+    TapGame->>Popups: update()
+    TapGame->>Mixer: play()
+    TapGame->>Engine: mixer()
+    TapGame->>GameAssets: sfx()
+    TapGame->>Engine: addTrauma()
+    TapGame->>Mixer: play()
+    TapGame->>Engine: mixer()
+    TapGame->>GameAssets: sfx()
+    TapGame->>TapGame: endRound()
+    Engine-->>MiniGameApp: update() [virtual 후보]
+    MiniGameApp-->>Scene: onExit() [virtual, 현재 구현 하나]
+    MiniGameApp-->>Scene: onEnter() [virtual, 현재 구현 하나]
+    MiniGameApp-->>DodgeGame: update() [virtual 후보]
+    MiniGameApp-->>JumpGame: update() [virtual 후보]
+    MiniGameApp-->>TapGame: update() [virtual 후보]
+    MiniGameApp-->>MiniGameApp: update() [virtual 후보]
+    MiniGameApp-->>MenuScene: update() [virtual 후보]
+    MiniGameApp-->>ResultScene: update() [virtual 후보]
+    MiniGameApp->>Button: update()
+    MiniGameApp-->>DodgeGame: isFinished() [virtual 후보]
+    MiniGameApp-->>JumpGame: isFinished() [virtual 후보]
+    MiniGameApp-->>TapGame: isFinished() [virtual 후보]
+    MiniGameApp->>MiniGameApp: showResult()
+    MiniGameApp-->>DodgeGame: score() [virtual 후보]
+    MiniGameApp-->>JumpGame: score() [virtual 후보]
+    MiniGameApp-->>TapGame: score() [virtual 후보]
+    Engine-->>MenuScene: update() [virtual 후보]
+    MenuScene->>Animation: update()
+    MenuScene->>Button: update()
+    Engine-->>ResultScene: update() [virtual 후보]
+    ResultScene->>Button: update()
+    ResultScene->>Button: update()
+    ResultScene->>Particles: update()
+    ResultScene->>Haptics: medium()
+    ResultScene->>Engine: haptics()
+    ResultScene->>Engine: addTrauma()
+    ResultScene->>Burst: Burst()
+    ResultScene->>Color: operator=()
+    ResultScene->>Color: rgb8()
+    ResultScene->>Color: operator=()
+    ResultScene->>Color: rgb8()
+    ResultScene->>Particles: emit()
+    ResultScene->>Vec2: Vec2()
+    ResultScene->>Rect: center()
+    ResultScene->>Rect: bottom()
+    Engine->>Vec2: Vec2()
+    Engine->>Vec2: Vec2()
+    Engine->>Vec2: operator=()
+    Engine->>Vec2: Vec2()
+    Engine->>SpriteBatch: begin()
+    SpriteBatch->>Vec2: Vec2()
+    SpriteBatch->>SpriteBatch: makeOrtho()
+    SpriteBatch->>Vec2: Vec2()
+    Engine->>Vec2: Vec2()
+    Engine-->>Scene: render() [virtual, override 없음]
+    Engine->>SpriteBatch: end()
+    SpriteBatch->>SpriteBatch: flush()
+    AndroidMain->>GlContext: swapBuffers()
