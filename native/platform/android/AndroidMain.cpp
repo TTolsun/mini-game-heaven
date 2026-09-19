@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <memory>
 
-#include "app/MiniGameApp.h"
+#include "app/castle/CastleScene.h"
 #include "engine/Engine.h"
 #include "engine/core/Log.h"
 #include "platform/android/AndroidAssetLoader.h"
@@ -60,7 +60,7 @@ void handleAppCmd(android_app* app, int32_t cmd) {
             if (!state->engine.graphicsReady()) {
                 state->engine.initGraphics(state->gl.width(), state->gl.height());
                 applyInsets(app, *state);
-                state->engine.setScene(std::make_unique<app::MiniGameApp>());
+                state->engine.setScene(std::make_unique<app::castle::CastleScene>());
             } else {
                 state->engine.resize(state->gl.width(), state->gl.height());
             }

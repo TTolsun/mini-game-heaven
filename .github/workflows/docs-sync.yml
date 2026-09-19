@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   sync:
-    if: github.repository == 'TTolsun/mini-game-heaven' && github.ref == 'refs/heads/main' && vars.DOCGEN_LOCAL_RUNNER_ENABLED == 'true'
+    if: github.repository == 'TTolsun/monster-garden' && github.ref == 'refs/heads/main' && vars.DOCGEN_LOCAL_RUNNER_ENABLED == 'true'
     runs-on: [self-hosted, docgen-qwen]
     timeout-minutes: 60
     defaults:

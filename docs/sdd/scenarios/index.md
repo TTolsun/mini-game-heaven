@@ -1,41 +1,21 @@
 ---
-generated_at: 2026-09-17T14:53:28+00:00
-source_commit: aeac21306341033f510bb6317043cf9fe2d6723b
-agent: ollama/qwen3.5:4b
 status: ok
 section: scenarios
+reviewer: Codex
+reviewed: 2026-09-19
 ---
 
-# 핵심 시나리오 시퀀스
+# 핵심 시나리오
 
-**추적하려는 동작의 시나리오를 표에서 고르세요. 각 시나리오는 진입 함수부터 호출 순서를 번호로 보여 줍니다.**
-
-| 지금 확인할 내용 | 이동할 절 |
+| 흐름 | 문서 |
 |---|---|
-| 앱 시작과 메인 루프 (android_main) 흐름을 추적합니다. | [앱 시작과 메인 루프 (android_main)](android_main.md) |
-| Dodge 게임 한 틱 (DodgeGame::update) 흐름을 추적합니다. | [Dodge 게임 한 틱 (DodgeGame::update)](dodge_update.md) |
-| 한 프레임 (Engine::frame) 흐름을 추적합니다. | [한 프레임 (Engine::frame)](frame.md) |
-| 공유 에셋 로딩 (GameAssets::load) 흐름을 추적합니다. | [공유 에셋 로딩 (GameAssets::load)](load_assets.md) |
-| 게임 종료와 결과 화면 (MiniGameApp::showResult) 흐름을 추적합니다. | [게임 종료와 결과 화면 (MiniGameApp::showResult)](show_result.md) |
-| 게임 시작 (MiniGameApp::startGame) 흐름을 추적합니다. | [게임 시작 (MiniGameApp::startGame)](start_game.md) |
-| 터치 입력 전달 (Engine::onTouch) 흐름을 추적합니다. | [터치 입력 전달 (Engine::onTouch)](touch.md) |
+| 플랫폼 진입과 생명주기 | [앱 시작](android_main.md) |
+| 글꼴과 저장 복원 | [자산 로딩](load_assets.md) |
+| 터치·BACK·연속 입력 | [터치 전달](touch.md) |
+| 합성 조건·재료 소모·도감 | [합성](fusion.md) |
+| 준비 상태에서 전투로 전환 | [방어 시작](start_game.md) |
+| 업데이트와 화면 출력 | [한 프레임](frame.md) |
+| 자동 전투·승패 판단 | [전투](dodge_update.md) |
+| 보상·날짜·재시작 | [결과](show_result.md) |
 
-## 시나리오 목록
-
-| 시나리오 | 진입점 | 단계 수 | 미해결 호출 |
-|---|---|---|---|
-| [앱 시작과 메인 루프 (android_main)](android_main.md) | `android_main(android_app *)` | 105 | 2 |
-| [Dodge 게임 한 틱 (DodgeGame::update)](dodge_update.md) | `app::DodgeGame::update(float)` | 128 | 10 |
-| [한 프레임 (Engine::frame)](frame.md) | `engine::Engine::frame()` | 138 | 15 |
-| [공유 에셋 로딩 (GameAssets::load)](load_assets.md) | `app::GameAssets::load(engine::Engine &)` | 151 | 2 |
-| [게임 종료와 결과 화면 (MiniGameApp::showResult)](show_result.md) | `app::MiniGameApp::showResult(app::GameId, int)` | 60 | 0 |
-| [게임 시작 (MiniGameApp::startGame)](start_game.md) | `app::MiniGameApp::startGame(app::GameId)` | 32 | 0 |
-| [터치 입력 전달 (Engine::onTouch)](touch.md) | `engine::Engine::onTouch(int32_t, engine::TouchEvent::Phase, float, float)` | 4 | 0 |
-
-??? note "근거와 검토 정보"
-    - 근거 파일: (없음)
-    - 근거 수준: 코드 확인 (정적 분석, simple_compdb 구성, commit `aeac213063`)
-    - 인용 검증: 통과
-    - 검토: 2026-09-17 · ollama/qwen3.5:4b · 사람 검토 전
-
-다음 단계: [컴파일 플래그 매트릭스](../feature-flags.md)
+호출 그래프는 정적 분석 결과이며 분기 조건과 소유권 설명은 해당 C++ 본문과 대조했습니다. 정적 호출 개수는 게임 로직의 검증 범위를 뜻하지 않습니다.
