@@ -2,13 +2,13 @@
 status: ok
 section: scenarios
 reviewer: Codex (AI)
-reviewed: 2026-09-19
+reviewed: 2026-09-20
 ---
 
-# 한 프레임과 전투 화면
+# 한 프레임과 표현
 
-Engine::frame은 경과 시간을 얻고 Scene::update를 호출한 뒤 배치를 시작해 Scene::render를 호출합니다. BattleScene::update는 짧은 입력 잠금 시간만 줄입니다. 전투 판정은 프레임마다 진행하지 않습니다.
+Engine::frame은 프레임 시간으로 Scene::update를 호출하고 배치 렌더링을 수행합니다. update는 표시 시간만 감소시킵니다. BattleScene::render는 캠페인 단계에 따라 이야기·도장·배치·전투·결과를 그리고 마지막에 모달을 표시합니다. 명령 판정은 render/update에서 실행하지 않습니다.
 
-BattleScene::render는 안전 영역·화면 비율에 맞춰 좌표를 정하고 지도·범위·단서·행동·예측을 그립니다. 결과나 안내창이 열리면 기존 입력 대상을 버리고 해당 창의 버튼만 등록합니다. 근거: `engine/Engine.cpp:77`, `app/srpg/BattleScene.cpp:45`, `app/srpg/BattleScene.cpp:107`.
+근거: app/srpg/BattleModel.cpp, app/srpg/BattleScene.cpp, engine/Engine.cpp, platform/android/AndroidMain.cpp.
 
 [시나리오 목록](index.md)

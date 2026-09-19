@@ -1,62 +1,57 @@
 #pragma once
-
 #include <array>
-
 namespace app::srpg {
-inline constexpr int kColumns = 7;
-inline constexpr int kRows = 7;
-inline constexpr int kCells = kColumns * kRows;
-inline constexpr int kLessons = 3;
-inline constexpr int kHealth = 72;
-inline constexpr int kMaxKi = 100;
-inline constexpr int kMove = 2;
-inline constexpr int kObserveRange = 3;
-inline constexpr int kStrikeRange = 2;
-inline constexpr int kBasicDamage = 6;
-inline constexpr int kCopyDamage = 10;
-inline constexpr int kMasterDamage = 18;
-inline constexpr int kCopyCost = 20;
-inline constexpr int kMasterCost = 15;
-inline constexpr int kWallDamage = 6;
-inline constexpr int kExposedDamage = 6;
-inline constexpr int kInterruptedKi = 10;
-inline constexpr int kMasteryUses = 2;
-inline constexpr int kFullInsight = 7;
-inline constexpr std::array<int, 3> kChargeGains{20, 30, 50};
-
-struct Cell {
-    int x = 0;
-    int y = 0;
-    friend bool operator==(Cell, Cell) = default;
-};
-constexpr bool inside(Cell cell) {
-    return cell.x >= 0 && cell.y >= 0 && cell.x < kColumns && cell.y < kRows;
-}
-constexpr int index(Cell cell) { return cell.y * kColumns + cell.x; }
-constexpr Cell cellAt(int value) { return {value % kColumns, value / kColumns}; }
-inline constexpr std::array<Cell, 4> kDirections{{{0,-1},{1,0},{0,1},{-1,0}}};
-
-enum class Action { Observe, Guard, Strike, Charge, Technique };
-enum class Phase { Playing, Victory, Defeat };
-enum class Insight { Motion = 1, Footwork = 2, Impact = 4 };
-
-struct Lesson {
-    const char* name;
-    const char* teacher;
-    const char* hint;
-    int enemyHealth;
-    int enemyDamage;
-    int roundLimit;
-    Cell start;
-    Cell opponent;
-    std::array<const char*, kRows> tiles;
-};
-inline constexpr std::array<Lesson, kLessons> kLessonData{{
-    {"첫 수련 · 주먹보다 먼저", "무태두", "상대의 주먹만 보지 마라. 발과 중심을 살펴라.",
-     30, 10, 18, {3,4}, {3,2}, {".......",".......",".......",".......",".......",".......","......."}},
-    {"두 번째 · 흉내에서 무술로", "학선인", "익힌 동작도 틈이 있다. 성공 뒤의 자세까지 보아라.",
-     44, 12, 20, {2,5}, {3,3}, {".......",".#...#.",".......",".......",".#.....",".......","......."}},
-    {"마지막 · 나의 붕권", "도장 사범", "강한 주먹보다 좋은 자리를 먼저 찾아라.",
-     62, 14, 22, {3,5}, {3,3}, {".......",".##.##.",".......",".......",".#...#.",".......","......."}},
+inline constexpr int kColumns=7, kRows=7, kCells=49, kHeroes=3, kUnits=7, kLessons=5, kSkills=10, kMaxKi=100;
+struct Cell { int x=-1,y=-1; friend bool operator==(Cell,Cell)=default; };
+constexpr bool inside(Cell c) { return c.x>=0 && c.y>=0 && c.x<kColumns && c.y<kRows; }
+constexpr int index(Cell c) { return c.y*kColumns+c.x; }
+constexpr Cell cellAt(int i) { return {i%kColumns,i/kColumns}; }
+inline constexpr std::array<Cell,4> kDirections{{{0,-1},{1,0},{0,1},{-1,0}}};
+enum class Phase { Story, Base, Deployment, Playing, Victory, Defeat, Complete };
+enum class Action { Strike, Skill, Guard, Charge, Observe, Item, Wait };
+enum class SkillShape { Single, Cross, Line, Heal };
+struct HeroData { const char* name; const char* role; int health,move; };
+inline constexpr std::array<HeroData,3> kHeroData{{
+ {"로시","밀쳐내기 · 반격",76,2},{"학선인","기동 · 추격",62,3},{"란란","기공 · 회복",60,2}
 }};
-} // namespace app::srpg
+struct EnemyData { const char* name; int health,damage,range,move; };
+inline constexpr std::array<EnemyData,4> kEnemyData{{
+ {"권사",30,10,1,2},{"철벽병",42,12,1,1},{"기공사",26,13,3,1},{"돌격수",34,15,2,2}
+}};
+struct SkillData { const char* name; int owner,cost,damage,range,push; SkillShape shape; bool stun; };
+inline constexpr std::array<SkillData,kSkills> kSkillData{{
+ {"발경",0,10,10,1,1,SkillShape::Single,false},
+ {"붕권",0,20,18,1,2,SkillShape::Single,false},
+ {"회선각",0,30,12,1,0,SkillShape::Cross,false},
+ {"연타",1,15,18,1,0,SkillShape::Single,false},
+ {"비연각",1,20,14,2,1,SkillShape::Single,false},
+ {"점혈",1,25,10,1,0,SkillShape::Single,true},
+ {"기탄",2,20,14,3,0,SkillShape::Single,false},
+ {"기공파",2,40,20,4,0,SkillShape::Line,false},
+ {"응급처치",2,15,18,2,0,SkillShape::Heal,false},
+ {"쌍룡격",0,40,24,1,1,SkillShape::Single,false}
+}};
+inline constexpr int kInitialSkills=(1<<0)|(1<<3)|(1<<6)|(1<<8);
+inline constexpr std::array<const char*,4> kTrainingNames{"산길 달리기","폭포 수련","무태두 대련","학선인 대련"};
+inline constexpr std::array<const char*,3> kGearNames{"낡은 도복","중량 등껍질","손목 보호대"};
+struct Lesson {
+ const char* name; const char* briefing; const char* speaker; const char* dialogue;
+ int roundLimit,enemyCount;
+ std::array<const char*,7> tiles;
+ std::array<Cell,3> starts;
+ std::array<Cell,4> enemies;
+ std::array<int,4> kinds;
+};
+inline constexpr std::array<Lesson,kLessons> kLessonData{{
+ {"산길의 세 사람","도둑을 격퇴하세요. 로시가 쓰러지면 실패합니다.","무태두","힘은 누구를 위해 쓰느냐에 따라 달라진다.",14,2,
+ {".......",".......",".......",".......",".......",".......","......."}, {{{2,5},{3,5},{4,5}}}, {{{3,2},{4,2},{-1,-1},{-1,-1}}}, {0,0,0,0}},
+ {"도장의 입문 시험","벽으로 밀고 동료의 추격을 연결하세요.","학선인","네가 길을 열어. 마지막 한 방은 내가 맡겠다.",15,3,
+ {".......",".##.##.",".......",".#.....",".......",".......","......."}, {{{2,5},{3,5},{4,5}}}, {{{3,2},{4,2},{5,3},{-1,-1}}}, {1,0,3,0}},
+ {"계곡의 빛","기공사의 사선과 기둥을 활용하세요.","란란","기는 멀리 뻗지만 바위를 뚫고 가진 못해.",16,3,
+ {".......",".......",".#...#.","...#...",".#...#.",".......","......."}, {{{2,5},{3,5},{4,5}}}, {{{2,1},{4,1},{3,2},{-1,-1}}}, {2,2,1,0}},
+ {"엇갈리는 발걸음","네 적의 틈을 나누어 공략하세요.","로시","혼자 이기려다 모두 놓칠 뻔했어. 이번엔 같이 가자.",17,4,
+ {".......","..#.#..",".......",".#...#.",".......",".......","......."}, {{{2,5},{3,5},{4,5}}}, {{{2,2},{3,2},{4,2},{5,1}}}, {3,0,1,2}},
+ {"함께 여는 길","기술과 위치를 연결해 마지막 대련을 마치세요.","무태두","배운 것을 잊지 말고, 곁에 선 사람을 보아라.",18,4,
+ {".......",".##.##.",".......",".......",".#...#.",".......","......."}, {{{2,5},{3,5},{4,5}}}, {{{2,2},{3,2},{4,2},{5,2}}}, {1,3,2,0}}
+}};
+}

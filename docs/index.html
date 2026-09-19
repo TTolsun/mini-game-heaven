@@ -28,47 +28,16 @@ summary { cursor:pointer; font-weight:600; }
 p.lead { font-weight:600; font-size:16px; }
 @media (max-width: 860px) { nav { position:static; width:auto; border-right:0; border-bottom:1px solid var(--line); } main { margin:0; padding:16px; } }
 </style></head>
-<body><nav><h1>무천 SRPG SDD</h1><a href="#page-index">시작</a><div class="group">코드로 확인한 구조</div><a href="#page-overview">시스템 개요 <span class="badge ok">ok</span></a><a href="#page-components">컴포넌트 구조와 책임 <span class="badge ok">ok</span></a><a href="#page-scenarios-index">핵심 시나리오</a><div class="group">scenarios</div><a class="sub" href="#page-scenarios-android-main">앱 시작과 메인 루프 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-command">이동·행동과 상대 응답 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-frame">한 프레임과 전투 화면 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-load-assets">글꼴과 수련 상태 불러오기 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-preview">명령 결과 예측 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-progression">배움을 유지하며 다음 수련 시작 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-save">확정된 턴과 배움 저장 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-touch">터치 입력 전달 <span class="badge ok">ok</span></a><div class="group">코드로 확인한 구조</div><a href="#page-feature-flags">컴파일 플래그 매트릭스 <span class="badge ok">ok</span></a><a href="#page-threading">스레드와 콜백 모델 <span class="badge needs-review">needs-review</span></a><div class="group">사람이 기록한 설계</div><a href="#page-constraints">변경 시 지켜야 할 제약 <span class="badge ok">ok</span></a><a href="#page-decisions">설계 결정 기록 <span class="badge ok">ok</span></a></nav>
-<main><section class="page" id="page-index"><h1>무천 SRPG SDD</h1><div class="meta"></div><p>C++ 코드에서 추출한 사실과 코드 대조로 검토한 설명을 담습니다. 게임 목표와 현재 구현은 <a href="../game-direction.md">게임 방향</a>, 실제 실행 결과는 <a href="../validation.md">검증 기록</a>에서 확인합니다.</p>
-<table>
-<thead>
-<tr>
-<th>내용</th>
-<th>문서</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>패키지와 진입점</td>
-<td><a href="#page-overview">시스템 개요</a></td>
-</tr>
-<tr>
-<td>상태·화면·엔진의 책임</td>
-<td><a href="#page-components">컴포넌트 구조</a></td>
-</tr>
-<tr>
-<td>명령·예측·저장·입력 흐름</td>
-<td><a href="#page-scenarios-index">핵심 시나리오</a></td>
-</tr>
-<tr>
-<td>빌드 플래그</td>
-<td><a href="#page-feature-flags">컴파일 플래그</a></td>
-</tr>
-<tr>
-<td>동시성과 남은 한계</td>
-<td><a href="#page-threading">스레드 모델</a></td>
-</tr>
-<tr>
-<td>변경 제약</td>
-<td><a href="#page-constraints">제약</a></td>
-</tr>
-<tr>
-<td>설계 이유</td>
-<td><a href="#page-decisions">결정</a></td>
-</tr>
-</tbody>
-</table>
-<p><code>status: ok</code>는 코드 대조 상태이며 기기 성능 보장이 아닙니다. <code>needs-review</code>는 명시한 미검증 한계를 유지한다는 뜻입니다. 내용 해시와 검토자는 <code>docs/sdd-review.json</code>에 기록합니다. 동기화 도구가 만든 설명도 코드와 대조한 뒤 승인합니다.</p></section><section class="page" id="page-overview"><h1>시스템 개요</h1><div class="meta"><span class="badge ok">ok</span></div><p>무천은 C++20 Android 무술 SRPG입니다. 현재는 세 개의 수련전에서 간파·모방·체득, 기 축적과 위험, 방향 예고와 밀쳐내기를 검증합니다.</p>
+<body><nav><h1>무천 SRPG SDD</h1><a href="#page-index">시작 <span class="badge ok">ok</span></a><div class="group">코드로 확인한 구조</div><a href="#page-overview">시스템 개요 <span class="badge ok">ok</span></a><a href="#page-components">컴포넌트 구조와 책임 <span class="badge ok">ok</span></a><a href="#page-scenarios-index">핵심 시나리오 <span class="badge ok">ok</span></a><div class="group">scenarios</div><a class="sub" href="#page-scenarios-android-main">Android 시작과 루프 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-command">아군 명령과 진영 전환 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-frame">한 프레임과 표현 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-load-assets">한국어 글꼴과 캠페인 불러오기 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-preview">동일 규칙으로 행동 결과 예측 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-progression">전리품·성장과 다음 이야기 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-save">캠페인과 출전 체크포인트 저장 <span class="badge ok">ok</span></a><a class="sub" href="#page-scenarios-touch">터치·확정과 모달 <span class="badge ok">ok</span></a><div class="group">코드로 확인한 구조</div><a href="#page-feature-flags">컴파일 플래그 매트릭스 <span class="badge ok">ok</span></a><a href="#page-threading">스레드와 콜백 모델 <span class="badge needs-review">needs-review</span></a><div class="group">사람이 기록한 설계</div><a href="#page-constraints">변경 시 지켜야 할 제약 <span class="badge ok">ok</span></a><a href="#page-decisions">설계 결정 기록 <span class="badge ok">ok</span></a></nav>
+<main><section class="page" id="page-index"><h1>무천 SRPG 설계 문서</h1><div class="meta"><span class="badge ok">ok</span></div><p>C++ 캠페인과 진영 턴 전투의 구조를 설명합니다.</p>
+<ul>
+<li><a href="#page-overview">시스템 개요</a></li>
+<li><a href="#page-components">구성</a></li>
+<li><a href="#page-scenarios-index">시나리오</a></li>
+<li><a href="#page-threading">스레드와 한계</a></li>
+<li><a href="#page-constraints">제약</a></li>
+<li><a href="#page-decisions">설계 결정</a></li>
+</ul></section><section class="page" id="page-overview"><h1>시스템 개요</h1><div class="meta"><span class="badge ok">ok</span></div><p>무천은 C++20 Android SRPG입니다. 현재는 스토리 → 도장 → 출전 → 진영 턴 전투 → 보상 루프를 다섯 맵에 연결합니다. 캐릭터 3명, 적 4종, 기술 10개를 고정 데이터로 정의합니다.</p>
 <table>
 <thead>
 <tr>
@@ -79,7 +48,7 @@ p.lead { font-weight:600; font-size:16px; }
 <tbody>
 <tr>
 <td>app/srpg</td>
-<td>전투 상태·명령·규칙·저장과 전투 화면을 담당합니다.</td>
+<td>캠페인 상태·전투·성장·연구·저장·화면을 담당합니다.</td>
 </tr>
 <tr>
 <td>engine</td>
@@ -91,79 +60,69 @@ p.lead { font-weight:600; font-size:16px; }
 </tr>
 </tbody>
 </table>
-<p>윈도우 생성 때 AndroidMain이 그래픽을 초기화하고 BattleScene을 설치합니다. 게임 루프는 입력을 전달하고 Engine::frame을 호출합니다. 근거: <code>platform/android/AndroidMain.cpp:54</code>, <code>platform/android/AndroidMain.cpp:156</code>.</p>
-<p>전투 상태는 매 프레임 자동 진행하지 않습니다. BattleScene::act가 유효한 확정 명령을 BattleModel::execute에 전달할 때 아군 행동과 상대 응답이 함께 처리됩니다. preview는 동일 명령을 복사본에서 실행합니다. 근거: <code>app/srpg/BattleScene.cpp:195</code>, <code>app/srpg/BattleModel.cpp:70</code>, <code>app/srpg/BattleModel.cpp:74</code>.</p>
-<p>읽는 순서는 AndroidMain → Engine::onTouch → BattleScene::onTouch/act → BattleModel::preview/execute → BattleScene::render입니다. engine은 app과 platform을 참조하지 않지만 현재 그래픽 구현은 GLES에, 로그는 Android API에 의존합니다.</p>
-<p>검토자는 실제 코드와 위 흐름을 대조했습니다. 실행 검증은 <a href="../validation.md">검증 기록</a>, 책임 분리는 <a href="#page-components">컴포넌트</a>를 참조합니다.</p></section><section class="page" id="page-components"><h1>컴포넌트 구조와 책임</h1><div class="meta"><span class="badge ok">ok</span></div><h2 id="page-components--app">app</h2>
-<table>
+<p>AndroidMain은 윈도우 생성 때 그래픽을 초기화하고 BattleScene을 설치합니다. 루프가 입력과 Engine::frame을 전달합니다. BattleScene::act는 현재 단계에 맞는 모델 명령을 실행하고 성공한 상태를 저장합니다. BattleModel::execute는 한 아군의 이동·행동을 처리하고 모든 아군이 행동했을 때 enemyTurn을 이어 실행합니다. 수동 턴 종료도 같은 enemyTurn을 사용합니다.</p>
+<p>preview는 모델 복사본에서 execute를 호출합니다. Outcome의 고정 크기 이벤트 목록으로 이동·충돌·추격 등을 표현합니다. 판정은 프레임 시간과 분리되며 표시는 0.55초 보간과 피드백을 사용합니다. 근거: app/srpg/BattleModel.cpp, BattleScene.cpp.</p>
+<p>읽는 순서는 AndroidMain → Engine::onTouch → BattleScene::onTouch/act → BattleModel → BattleScene::render입니다. engine은 app과 platform을 참조하지 않지만 현재 그래픽은 GLES, 로그는 Android API를 사용합니다. 검증 범위는 <a href="../validation.md">실행 기록</a>을 참조합니다.</p></section><section class="page" id="page-components"><h1>컴포넌트 구조와 책임</h1><div class="meta"><span class="badge ok">ok</span></div><table>
 <thead>
 <tr>
 <th>구성</th>
-<th>책임과 수명</th>
+<th>책임</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>BattleData</td>
-<td>격자·행동·단서·기술 수치와 세 수련의 읽기 전용 정의입니다.</td>
+<td>세 동료·네 적·열 기술·다섯 맵·격자와 열거형 정의입니다.</td>
+</tr>
+<tr>
+<td>HeroProgress / Unit</td>
+<td>장기 성장·수련·장비·발견과 전투 위치·체력·기·행동·추격 상태를 나눕니다.</td>
 </tr>
 <tr>
 <td>BattleState</td>
-<td>현재 수련·턴·두 인물의 위치·체력·기·배움·승패를 저장합니다.</td>
+<td>캠페인 단계·관계·자원·보상 이력·편성·배치·성장과 출전 체크포인트를 소유합니다.</td>
 </tr>
 <tr>
-<td>Command / Outcome</td>
-<td>목적지와 행동을 입력받고 피해·새 단서·체득·밀쳐내기 결과를 반환합니다.</td>
+<td>Command / Outcome / BattleEvent</td>
+<td>인물·이동·행동·대상을 입력받아 판정 요약과 최대 40개 이벤트를 반환합니다.</td>
 </tr>
 <tr>
 <td>BattleModel</td>
-<td>BattleState를 값으로 소유합니다. BFS 이동, 시야·공격선, 명령 처리, 재도전과 파일 저장을 수행합니다.</td>
+<td>단계별 명령, BFS·시야·기술·추격·적 행동·성장·검증된 저장을 처리하는 값 타입입니다.</td>
 </tr>
 <tr>
 <td>BattleScene</td>
-<td>BattleModel·Font·Sfx·입력 대상 목록을 소유합니다. Engine 포인터는 소유하지 않는 참조입니다.</td>
-</tr>
-<tr>
-<td>Sfx</td>
-<td>시작 시 합성한 클릭·타격·깨달음 효과음의 PCM 데이터를 소유합니다.</td>
+<td>모델·글꼴·효과음·입력 대상과 임시 선택·모달·표시 시간을 소유합니다. Engine 포인터는 비소유 참조입니다.</td>
 </tr>
 </tbody>
 </table>
-<p>근거: <code>app/srpg/BattleData.h</code>, <code>app/srpg/BattleModel.h</code>, <code>app/srpg/BattleScene.h</code>, <code>app/Sfx.h</code>.</p>
-<h2 id="page-components--engine">engine</h2>
-<p>Engine은 현재 Scene, SpriteBatch와 TextureAtlas를 unique_ptr로 소유하며, Mixer·Timer를 값으로 보유합니다. Font는 공용 아틀라스에 구운 글리프를 참조합니다. SpriteBatch는 사각형을 모아 그립니다. Mixer는 재생 중인 Sound를 참조하므로 Sound가 더 오래 살아 있어야 합니다.</p>
-<p>근거: <code>engine/Engine.h</code>, <code>engine/graphics/Font.h</code>, <code>engine/graphics/SpriteBatch.h</code>, <code>engine/audio/Mixer.h</code>.</p>
-<h2 id="page-components--platform">platform</h2>
-<p>AppState는 AndroidAssetLoader·Engine·AndroidHaptics·AndroidAudio·GlContext를 소유합니다. 선언 순서의 역순으로 해제되므로 AndroidAudio는 Engine보다 먼저 파괴됩니다. EGL display/context/surface는 GlContext가 소유하고, 윈도우 해제에서는 surface만 제거합니다.</p>
-<p>근거: <code>platform/android/AndroidMain.cpp:28</code>, <code>platform/android/GlContext.cpp</code>.</p>
-<h2 id="page-components--명령-경계">명령 경계</h2>
-<p>Scene은 화면과 입력을 담당하고 Model은 규칙을 담당합니다. 모델은 Android·GLES 객체를 소유하지 않습니다. 미리보기 복사본과 실제 모델에 같은 execute를 사용하므로 별도의 피해 예측 공식을 두지 않습니다. 이 시제품은 다중 부대용 AI나 캠페인 클래스를 아직 갖고 있지 않습니다.</p></section><section class="page" id="page-scenarios-index"><h1>핵심 시나리오</h1><div class="meta"></div><ul>
-<li><a href="#page-scenarios-android-main">앱 시작과 메인 루프</a></li>
-<li><a href="#page-scenarios-frame">한 프레임과 전투 화면</a></li>
-<li><a href="#page-scenarios-touch">터치 입력 전달</a></li>
-<li><a href="#page-scenarios-load-assets">글꼴과 수련 상태 불러오기</a></li>
-<li><a href="#page-scenarios-command">이동·행동과 상대 응답</a></li>
-<li><a href="#page-scenarios-preview">명령 결과 예측</a></li>
-<li><a href="#page-scenarios-progression">배움을 유지하며 다음 수련 시작</a></li>
-<li><a href="#page-scenarios-save">확정된 턴과 배움 저장</a></li>
-</ul></section><section class="page" id="page-scenarios-android-main"><h1>앱 시작과 메인 루프</h1><div class="meta"><span class="badge ok">ok</span></div><p>윈도우 생성 이벤트에서 GlContext가 surface를 만들고 Engine의 그래픽을 초기화합니다. 안전 영역을 적용한 뒤 BattleScene을 설치하여 onEnter를 실행합니다. 이후 android_main 루프에서 이벤트와 입력을 처리하고, surface와 포커스가 있으면 프레임을 그립니다.</p>
-<p>윈도우 해제는 surface를 제거하고, 포커스 상실은 오디오를 멈춥니다. 앱 종료 시 AppState 소유 객체가 정리됩니다. 근거: <code>platform/android/AndroidMain.cpp:54</code>, <code>platform/android/AndroidMain.cpp:156</code>.</p>
-<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-command"><h1>이동·행동과 상대 응답</h1><div class="meta"><span class="badge ok">ok</span></div><p>BattleModel::execute는 진영 상태·목적지·이동 가능 여부·사거리·단서·기력을 검증합니다. 실패하면 상태를 변경하지 않습니다. 유효하면 아군의 위치와 공격·기 축적을 반영합니다.</p>
-<p>상대가 살아 있고 밀쳐내기나 벽 충돌로 공격이 끊기지 않았다면 예고된 공격을 해결합니다. 관찰·회피·방어의 서로 다른 단서를 등록하고 피해·축적 중단을 처리합니다. 체력이 소진되면 패배, 상대 체력이 소진되면 승리이며 마지막 허용 턴의 승리는 시간 초과보다 먼저 판정합니다.</p>
-<p>전투가 계속되면 턴을 늘리고 상대가 필요한 경우 한 칸 접근하여 다음 공격 방향을 준비합니다. 결과는 Outcome으로 반환합니다. 근거: <code>app/srpg/BattleModel.cpp:74</code>, <code>app/srpg/BattleModel.cpp:165</code>.</p>
-<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-frame"><h1>한 프레임과 전투 화면</h1><div class="meta"><span class="badge ok">ok</span></div><p>Engine::frame은 경과 시간을 얻고 Scene::update를 호출한 뒤 배치를 시작해 Scene::render를 호출합니다. BattleScene::update는 짧은 입력 잠금 시간만 줄입니다. 전투 판정은 프레임마다 진행하지 않습니다.</p>
-<p>BattleScene::render는 안전 영역·화면 비율에 맞춰 좌표를 정하고 지도·범위·단서·행동·예측을 그립니다. 결과나 안내창이 열리면 기존 입력 대상을 버리고 해당 창의 버튼만 등록합니다. 근거: <code>engine/Engine.cpp:77</code>, <code>app/srpg/BattleScene.cpp:45</code>, <code>app/srpg/BattleScene.cpp:107</code>.</p>
-<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-load-assets"><h1>글꼴과 수련 상태 불러오기</h1><div class="meta"><span class="badge ok">ok</span></div><p>BattleScene::onEnter는 srpg-glyphs.txt와 NotoSansKR.ttf로 글리프를 아틀라스에 굽고 Sfx를 합성합니다. 내부 파일 경로의 wuten-v1.txt를 읽은 뒤 이동 범위와 선택 행동 예측을 갱신합니다.</p>
-<p>저장을 읽지 못하면 초기 모델을 유지합니다. load는 후보를 검증한 뒤 반영하므로 부분적으로 읽힌 상태가 게임에 들어오지 않습니다. 근거: <code>app/srpg/BattleScene.cpp:27</code>, <code>app/srpg/BattleModel.cpp:246</code>.</p>
-<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-preview"><h1>명령 결과 예측</h1><div class="meta"><span class="badge ok">ok</span></div><p>BattleModel::preview는 현재 모델을 값으로 복사하고 복사본의 execute를 호출합니다. 화면은 반환된 피해·기 변화·새 단서를 표시합니다. 실제 모델과 저장 파일은 변경하지 않습니다.</p>
-<p>확정할 때 동일한 명령을 실제 모델에 실행하므로 별도 예측 공식을 유지하지 않습니다. 규칙 변경 시 예측과 실행 일치 테스트를 확인합니다. 근거: <code>app/srpg/BattleModel.cpp:70</code>, <code>app/srpg/BattleScene.cpp:195</code>.</p>
-<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-progression"><h1>배움을 유지하며 다음 수련 시작</h1><div class="meta"><span class="badge ok">ok</span></div><p>nextLesson은 승리 상태이고 다음 수련이 있을 때만 진행합니다. 현재 단서와 모방 성공 횟수를 다음 수련 입장 상태로 넘기고 위치·체력·기·턴을 초기화합니다.</p>
-<p>retry는 이번 수련의 입장 단서·성공 횟수로 되돌립니다. 실패한 수련을 반복해서 지식을 복제하지 않습니다. restart는 첫 수련과 빈 배움으로 시작합니다. 마지막 수련 뒤에는 잘못된 다음 인덱스로 넘어가지 않습니다. 근거: <code>app/srpg/BattleModel.cpp:193</code>, <code>app/srpg/BattleModel.cpp:203</code>.</p>
-<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-save"><h1>확정된 턴과 배움 저장</h1><div class="meta"><span class="badge ok">ok</span></div><p>save는 상태를 검증하고 WUTEN 1 헤더와 필드를 임시 파일에 기록합니다. 쓰기·닫기 오류를 검사한 뒤 Android/POSIX rename으로 기존 파일을 교체합니다. 이는 동기 호출이며 결과 콜백이나 재귀는 없습니다.</p>
-<p>load는 별도 후보에 전체 필드를 읽습니다. 형식·범위·중복 점유·단서와 성공 횟수의 정합성·승패 상태·후행 데이터를 검사하고 성공한 후보만 반영합니다. 화면의 미확정 이동은 모델 밖에 있어 저장되지 않습니다. 근거: <code>app/srpg/BattleModel.cpp:209</code>, <code>app/srpg/BattleModel.cpp:228</code>, <code>app/srpg/BattleModel.cpp:246</code>.</p>
-<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-touch"><h1>터치 입력 전달</h1><div class="meta"><span class="badge ok">ok</span></div><p>AndroidMain::processInput은 포인터 이벤트를 Engine::onTouch로 전달합니다. Engine은 화면 좌표를 월드 좌표로 바꾸고 BattleScene::onTouch를 호출합니다.</p>
-<p>누를 때 대상과 포인터 ID를 기억하고, 뗄 때 동일한 유효 대상 안인지 확인한 후 act를 호출합니다. act와 BACK은 이전 hit 목록과 진행 중인 제스처를 폐기합니다. 이동 미리보기 상태의 BACK은 원래 위치를 복원하고 턴을 소비하지 않습니다.</p>
-<p>근거: <code>platform/android/AndroidMain.cpp:113</code>, <code>engine/Engine.cpp:116</code>, <code>app/srpg/BattleScene.cpp:195</code>, <code>app/srpg/BattleScene.cpp:223</code>, <code>app/srpg/BattleScene.cpp:239</code>.</p>
+<p>근거: app/srpg/BattleData.h, BattleModel.h, BattleScene.h.</p>
+<p>Engine은 Scene·SpriteBatch·TextureAtlas를 unique_ptr로, Mixer·Timer를 값으로 소유합니다. Font는 공용 아틀라스 글리프를 참조합니다. Mixer의 Sound 참조보다 Scene의 Sfx 수명이 길어야 합니다. AppState의 선언 역순 파괴로 AndroidAudio가 Engine보다 먼저 닫힙니다. 근거: engine/Engine.h, engine/audio/Mixer.h, platform/android/AndroidMain.cpp.</p>
+<p>캠페인과 전투는 현재 단일 작은 BattleModel에 있고 별도 Campaign 클래스나 비동기 AI는 없습니다. Android/GLES 의존성은 모델 밖에 유지합니다.</p></section><section class="page" id="page-scenarios-index"><h1>핵심 시나리오</h1><div class="meta"><span class="badge ok">ok</span></div><ul>
+<li><a href="#page-scenarios-command">아군 명령과 진영 전환</a></li>
+<li><a href="#page-scenarios-progression">전리품·성장과 다음 이야기</a></li>
+<li><a href="#page-scenarios-save">캠페인과 출전 체크포인트 저장</a></li>
+<li><a href="#page-scenarios-preview">동일 규칙으로 행동 결과 예측</a></li>
+<li><a href="#page-scenarios-load-assets">한국어 글꼴과 캠페인 불러오기</a></li>
+<li><a href="#page-scenarios-frame">한 프레임과 표현</a></li>
+<li><a href="#page-scenarios-touch">터치·확정과 모달</a></li>
+<li><a href="#page-scenarios-android-main">Android 시작과 루프</a></li>
+</ul></section><section class="page" id="page-scenarios-android-main"><h1>Android 시작과 루프</h1><div class="meta"><span class="badge ok">ok</span></div><p>android_main은 AppState와 플랫폼 서비스를 구성하고 native_app_glue 명령·입력을 처리합니다. 윈도우 생성 때 EGL surface와 Engine 그래픽을 준비하고 BattleScene을 설치합니다. 입력 처리 뒤 Engine::frame과 swap을 수행합니다. surface 재생성 때 기존 모델 상태를 유지합니다.</p>
+<p>근거: app/srpg/BattleModel.cpp, app/srpg/BattleScene.cpp, engine/Engine.cpp, platform/android/AndroidMain.cpp.</p>
+<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-command"><h1>아군 명령과 진영 전환</h1><div class="meta"><span class="badge ok">ok</span></div><p>execute는 단계·행동 여부·이동·사거리·시야·해금·기·대상 조건을 검증하고 실패 시 변경하지 않습니다. 이동과 사거리 이탈, 행동, 피해·밀기·충돌·추격을 처리합니다. 각 동료 추격은 한 번이며 재귀하지 않습니다. 마지막 살아 있는 아군이 행동하면 enemyTurn을 같은 명령 안에서 실행합니다. 적은 지형 BFS로 접근하고 사거리 안의 아군을 공격합니다. 로시 전투 불능, 적 전멸, 라운드 제한 순으로 상태를 정합니다.</p>
+<p>근거: app/srpg/BattleModel.cpp, app/srpg/BattleScene.cpp, engine/Engine.cpp, platform/android/AndroidMain.cpp.</p>
+<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-frame"><h1>한 프레임과 표현</h1><div class="meta"><span class="badge ok">ok</span></div><p>Engine::frame은 프레임 시간으로 Scene::update를 호출하고 배치 렌더링을 수행합니다. update는 표시 시간만 감소시킵니다. BattleScene::render는 캠페인 단계에 따라 이야기·도장·배치·전투·결과를 그리고 마지막에 모달을 표시합니다. 명령 판정은 render/update에서 실행하지 않습니다.</p>
+<p>근거: app/srpg/BattleModel.cpp, app/srpg/BattleScene.cpp, engine/Engine.cpp, platform/android/AndroidMain.cpp.</p>
+<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-load-assets"><h1>한국어 글꼴과 캠페인 불러오기</h1><div class="meta"><span class="badge ok">ok</span></div><p>BattleScene::onEnter는 srpg-glyphs.txt와 NotoSansKR.ttf를 아틀라스에 굽고 Sfx를 합성합니다. 내부 데이터 경로의 wuten-v2.txt를 불러와 단계·선택 가능 인물·이동 범위·미리보기를 갱신합니다. 저장이 없거나 잘못되면 첫 Story로 시작합니다.</p>
+<p>근거: app/srpg/BattleModel.cpp, app/srpg/BattleScene.cpp, engine/Engine.cpp, platform/android/AndroidMain.cpp.</p>
+<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-preview"><h1>동일 규칙으로 행동 결과 예측</h1><div class="meta"><span class="badge ok">ok</span></div><p>preview는 모델을 값으로 복사해 execute를 호출합니다. 원본 모델·파일은 바꾸지 않습니다. 반환된 직접·충돌·추격 피해, 기 변화와 마지막 행동 뒤 적 차례의 아군 피해를 UI에 표시합니다. 별도 예측 공식은 없습니다.</p>
+<p>근거: app/srpg/BattleModel.cpp, app/srpg/BattleScene.cpp, engine/Engine.cpp, platform/android/AndroidMain.cpp.</p>
+<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-progression"><h1>전리품·성장과 다음 이야기</h1><div class="meta"><span class="badge ok">ok</span></div><p>nextLesson은 Victory이고 보상을 아직 받지 않은 맵에서만 실행됩니다. 완료 비트, 보급·약초·행동 경험·중량 보너스·관계를 반영하고 전투 Unit 배열을 비웁니다. 다음 Story 또는 마지막 Complete로 바뀝니다. retry와 returnToBase는 패배 때 출전 체크포인트의 배움·발견·약초를 복원합니다.</p>
+<p>근거: app/srpg/BattleModel.cpp, app/srpg/BattleScene.cpp, engine/Engine.cpp, platform/android/AndroidMain.cpp.</p>
+<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-save"><h1>캠페인과 출전 체크포인트 저장</h1><div class="meta"><span class="badge ok">ok</span></div><p>save는 validState를 통과한 WUTEN 2 상태를 임시 파일에 쓰고 flush·close 오류를 검사한 뒤 rename으로 교체합니다. load는 후보 전체를 읽고 숫자·bool·범위·배치 순열·완료 비트·비전투 빈 Unit·전투 점유·승패를 검사합니다. 후행 데이터나 불완전 파일을 거부하며 실패 시 기존 상태를 유지합니다. 이전 WUTEN 1 파일은 별도 파일명으로 유지합니다.</p>
+<p>근거: app/srpg/BattleModel.cpp, app/srpg/BattleScene.cpp, engine/Engine.cpp, platform/android/AndroidMain.cpp.</p>
+<p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-scenarios-touch"><h1>터치·확정과 모달</h1><div class="meta"><span class="badge ok">ok</span></div><p>Engine::onTouch는 화면 좌표를 world 좌표로 바꿉니다. BattleScene은 현재 hit 목록의 Down/Up 일치를 검사하고 act로 전달합니다. act는 먼저 hit와 포인터를 폐기합니다. 화면 변경 직후 들어온 중복 이벤트가 새 명령을 실행하지 못합니다. BACK은 모달·미확정 이동을 취소하고 배치에서는 도장으로 돌아갑니다.</p>
+<p>근거: app/srpg/BattleModel.cpp, app/srpg/BattleScene.cpp, engine/Engine.cpp, platform/android/AndroidMain.cpp.</p>
 <p><a href="#page-scenarios-index">시나리오 목록</a></p></section><section class="page" id="page-feature-flags"><h1>컴파일 플래그</h1><div class="meta"><span class="badge ok">ok</span></div><p>arm64-v8a Debug CMake compile database에서 확인한 정의입니다.</p>
 <table>
 <thead>
@@ -220,31 +179,29 @@ p.lead { font-weight:600; font-size:16px; }
 <p>BattleModel에는 비동기 작업이나 별도 스레드가 없습니다. 명령·미리보기·저장은 호출한 게임 스레드에서 동기적으로 완료됩니다.</p>
 <p>Mixer::play는 빈 보이스의 필드를 채운 뒤 release 저장으로 Sound 포인터를 공개합니다. 콜백은 acquire 읽기로 이를 확인하고 재생 종료 때 nullptr를 release 저장합니다. 게임 스레드는 재생 중인 보이스를 덮어쓰지 않습니다. 근거: <code>engine/audio/Mixer.cpp</code>.</p>
 <p>BattleScene이 소유한 Sfx는 장면이 살아 있는 동안 유지됩니다. AppState 멤버는 역순으로 파괴되어 AndroidAudio가 Engine보다 먼저 닫힙니다. 다른 장면으로 전환하는 기능을 추가할 때 재생 중인 Sound 수명을 다시 검토해야 합니다. 근거: <code>app/srpg/BattleScene.h</code>, <code>platform/android/AndroidMain.cpp:28</code>.</p>
-<p>정적 분석만으로 여러 기기의 콜백 종료 순서, 오디오 라우트 변경, 장시간 프레임·배터리 동작을 보장할 수 없습니다. onData 버퍼는 용량 증가 때 할당할 수 있고 오류 콜백은 자동 스트림 복구를 구현하지 않습니다. 이 한계를 남기므로 needs-review를 유지합니다. 근거: <code>platform/android/AndroidAudio.cpp:78</code>, <code>platform/android/AndroidAudio.cpp:89</code>.</p></section><section class="page" id="page-constraints"><h1>변경 시 지켜야 할 제약</h1><div class="meta"><span class="badge ok">ok</span></div><h2 id="page-constraints--전투-모델과-표현을-분리한다">전투 모델과 표현을 분리한다</h2>
-<p>BattleModel은 Android·GLES·Scene을 참조하지 않습니다. 명령 하나가 아군 행동과 상대 응답을 원자적으로 처리하고, preview는 모델 복사본에 동일한 execute를 실행합니다. 미리보기에서 실제 상태를 바꾸거나 애니메이션 프레임에 따라 피해를 계산하지 않습니다. 근거: <code>native/app/srpg/BattleModel.cpp</code>.</p>
-<h2 id="page-constraints--입력-대상은-상태-변경-즉시-폐기한다">입력 대상은 상태 변경 즉시 폐기한다</h2>
-<p>BattleScene은 메뉴·선택·명령·BACK 처리 때 기존 hit 목록과 포인터 상태를 폐기합니다. 한 Android 입력 버퍼에 여러 탭이 와도 이전 프레임의 확정 버튼으로 명령을 반복 실행하지 못하게 합니다. 근거: <code>native/app/srpg/BattleScene.cpp</code>.</p>
-<h2 id="page-constraints--기력과-배움은-행동-결과다">기력과 배움은 행동 결과다</h2>
-<p>같은 종류의 단서는 중복 성장하지 않습니다. 체득 이후 성공 횟수는 상한을 유지합니다. 기 축적은 이동과 피격으로 연속 효과가 끊기며, 충돌·밀쳐내기로 중단된 적의 기술은 관찰할 수 없습니다. 근거: <code>native/app/srpg/BattleModel.cpp</code>, <code>native/app/srpg/BattleData.h</code>.</p>
-<h2 id="page-constraints--확정된-상태만-저장한다">확정된 상태만 저장한다</h2>
-<p><code>wuten-v1.txt</code>에 위치·턴·체력·기·단서·성공 횟수·입장 상태·승패를 저장합니다. 임시 파일을 닫은 뒤 Android의 rename으로 교체합니다. 파싱과 범위 검증을 통과한 후보만 반영하며 실패 시 기존 상태를 유지합니다. 재도전은 수련 입장 상태로 돌아갑니다. 근거: <code>native/app/srpg/BattleModel.cpp</code>.</p>
-<h2 id="page-constraints--엔진의-의존-방향과-서비스-수명">엔진의 의존 방향과 서비스 수명</h2>
-<p>engine은 app과 platform을 include하지 않습니다. Scene이 소유한 효과음은 재생 중인 보이스보다 오래 살아야 합니다. AndroidAudio는 Engine보다 먼저 파괴됩니다. 장면 전환을 추가할 때 재생 중인 Sound 수명을 다시 검토합니다. 근거: <code>native/engine/audio/Mixer.cpp</code>, <code>native/platform/android/AndroidMain.cpp</code>.</p>
-<h2 id="page-constraints--표시와-검증">표시와 검증</h2>
-<p>화면은 safeTop·safeBottom을 피하고, 한국어 글리프는 소스에서 재생성합니다. 색상에 더해 공격선의 느낌표·방향 점·문구를 표시합니다. 신규 명령은 모델 예측 일치·잘못된 입력 거부·저장 복원·실제 Scene 입력 테스트를 함께 확인합니다.</p>
-<p>코드 변경 뒤 Debug·Release 빌드, lint, 모델·Scene 테스트, 문서 동기화·검토·검사를 수행합니다. 모델 성능 수치는 전체 프레임·배터리 성능이 아닙니다. 실제 검증 범위는 <a href="../validation.md">검증 기록</a>을 따릅니다.</p></section><section class="page" id="page-decisions"><h1>SRPG 설계 결정</h1><div class="meta"><span class="badge ok">ok</span></div><h2 id="page-decisions--d-001-c-핵심-엔진과-android-플랫폼-계층을-유지한다">D-001 C++ 핵심 엔진과 Android 플랫폼 계층을 유지한다</h2>
-<p>사용자의 확정 요구입니다. GameActivity·OpenGL ES·AAudio·한국어 글꼴·햅틱을 재사용하고 게임 규칙은 별도 C++ 모델에 둡니다. 범용 엔진을 교체하는 일보다 전투 중 배움의 재미를 먼저 검증합니다.</p>
-<h2 id="page-decisions--d-002-세-수련전으로-간파모방체득을-검증한다">D-002 세 수련전으로 간파·모방·체득을 검증한다</h2>
-<p>첫 서사 장 전체를 구현하기 전에 철산격 한 기술과 세 도장 맵에 집중합니다. 관찰 횟수를 쌓는 대신 동작·회피·방어라는 서로 다른 경험을 요구합니다. 성공한 모방은 전투 도중 자기 기술로 바뀌고, 다음 수련으로 이어집니다.</p>
-<h2 id="page-decisions--d-003-첫-시제품은-결정적-전투를-사용한다">D-003 첫 시제품은 결정적 전투를 사용한다</h2>
-<p>명중 난수 대신 미완성 기술의 높은 기력 비용과 노출 피해로 위험을 표현합니다. 예측과 실제 결과가 일치해 플레이어가 자신의 선택을 이해할 수 있어야 합니다. 향후 난수를 넣을 경우 예측·저장·재현 규칙을 함께 바꿉니다.</p>
-<h2 id="page-decisions--d-004-확정-명령을-원자적으로-처리한다">D-004 확정 명령을 원자적으로 처리한다</h2>
-<p>작은 1 대 1 수련전에서는 아군 행동과 상대 응답을 한 명령으로 해결합니다. 별도의 실시간 AI 갱신을 두지 않습니다. 동료 진영 턴과 여러 상대를 추가할 때에는 명령 단위와 연출 이벤트를 확장해야 합니다.</p>
-<h2 id="page-decisions--d-005-기-축적과-공간-제어를-연결한다">D-005 기 축적과 공간 제어를 연결한다</h2>
-<p>안전한 위치에서 기를 모으고, 더 모으려다 맞으면 손해를 봅니다. 체득한 붕권은 상대를 밀거나 벽에 충돌시켜 다음 공격을 끊습니다. 기를 단순한 전투 전 보유 MP로 취급하지 않습니다.</p>
-<h2 id="page-decisions--d-006-배포-식별자는-유지하고-게임-구현은-교체한다">D-006 배포 식별자는 유지하고 게임 구현은 교체한다</h2>
-<p>프로젝트·라이브러리·namespace·테마는 무천 이름을 사용합니다. 이미 설치된 앱의 업데이트 경로를 유지하기 위해 applicationId만 그대로 둡니다. 새로운 수련 저장은 독립된 파일과 버전을 사용하며 기존 게임 데이터를 임의 변환하지 않습니다.</p>
-<h2 id="page-decisions--d-007-현재-구현과-목표-설계를-구분한다">D-007 현재 구현과 목표 설계를 구분한다</h2>
-<p>전체 이야기는 어린 무천도사부터 손오공과의 만남까지입니다. 세 수련전에는 본편 시나리오·동료 파티·장기 성장 트리·고저차·지형 파괴를 구현하지 않았습니다. 이 차이를 <a href="../game-direction.md">게임 방향</a>과 <a href="../srpg-design.md">SRPG 설계</a>에 명시합니다.</p></section></main>
+<p>정적 분석만으로 여러 기기의 콜백 종료 순서, 오디오 라우트 변경, 장시간 프레임·배터리 동작을 보장할 수 없습니다. onData 버퍼는 용량 증가 때 할당할 수 있고 오류 콜백은 자동 스트림 복구를 구현하지 않습니다. 이 한계를 남기므로 needs-review를 유지합니다. 근거: <code>platform/android/AndroidAudio.cpp:78</code>, <code>platform/android/AndroidAudio.cpp:89</code>.</p></section><section class="page" id="page-constraints"><h1>변경 시 지켜야 할 제약</h1><div class="meta"><span class="badge ok">ok</span></div><h2 id="page-constraints--모델과-표현">모델과 표현</h2>
+<p>BattleModel은 Android·GLES·Scene을 참조하지 않습니다. 단계와 입력 전체를 검증한 뒤 명령을 적용합니다. preview는 복사본에서 동일 execute를 사용합니다. 마지막 아군의 명령은 적 차례까지 포함하므로 미리보기에도 같은 결과가 포함되어야 합니다. 이벤트·애니메이션이 판정을 바꾸면 안 됩니다.</p>
+<h2 id="page-constraints--입력과-모달">입력과 모달</h2>
+<p>선택·확정·BACK·화면 전환 때 이전 hit 목록과 포인터를 폐기합니다. 연출 중 입력은 잠그고 종료 후 다시 만듭니다. 턴 종료와 새 여정은 확인창을 사용합니다. 모달 아래의 지도·메뉴는 입력 대상이 아닙니다.</p>
+<h2 id="page-constraints--자원과-연계">자원과 연계</h2>
+<p>추격은 동료마다 라운드당 한 번이며 추격이 추가 추격·밀기·공격 성공 기를 생성하지 않습니다. 보상은 완료 비트로 한 번만 지급합니다. 재도전과 패배 후 정비는 출전 당시의 배움·발견·약초를 복원합니다. 같은 종류의 단서는 중복 성장하지 않습니다. 행동 경험 상한은 6입니다.</p>
+<h2 id="page-constraints--저장">저장</h2>
+<p>wuten-v2.txt에 확정된 캠페인 상태와 출전 체크포인트를 기록합니다. 비전투 단계는 Unit 배열이 비어 있어야 하며, 전투 단계는 편성·유형·좌표·점유·체력·기·승패·보상 이력을 검사합니다. 파싱 실패나 범위 오류 때 기존 모델을 유지합니다. Android/POSIX 임시 파일 교체를 사용합니다. 이전 버전 파일은 독립적으로 남기며 자동 변환하지 않습니다.</p>
+<h2 id="page-constraints--수명과-검증">수명과 검증</h2>
+<p>효과음은 오디오 참조보다 오래 살아야 합니다. 엔진 의존 방향과 스레드 구조를 유지합니다. 화면은 안전 영역과 비율을 반영하고 한국어 글리프는 소스에서 갱신합니다. 코드 변경 후 빌드·lint·모델/Scene·정책·문서 검사를 수행합니다. 실제 재미와 장시간 다기기 성능은 자동 테스트와 구분합니다.</p>
+<p>근거: app/srpg/BattleModel.cpp, BattleScene.cpp, engine/Engine.h, platform/android/AndroidMain.cpp.</p></section><section class="page" id="page-decisions"><h1>SRPG 설계 결정</h1><div class="meta"><span class="badge ok">ok</span></div><h2 id="page-decisions--d-001-c-핵심-엔진을-유지한다">D-001 C++ 핵심 엔진을 유지한다</h2>
+<p>GameActivity·OpenGL ES·AAudio·한국어 글꼴·햅틱을 재사용하고 규칙은 순수 C++ 모델에 둡니다.</p>
+<h2 id="page-decisions--d-002-조조전식-캠페인-루프를-먼저-완성한다">D-002 조조전식 캠페인 루프를 먼저 완성한다</h2>
+<p>스토리·도장·출전·진영 턴 전투·결과를 다섯 맵에 연결합니다. 세 동료·네 적 유형·열 기술을 시제품 범위로 고정합니다. 이전 세 수련전의 즉시 체득은 발견·사용 경험·거점 연구로 변경합니다.</p>
+<h2 id="page-decisions--d-003-위치와-순서가-연계를-만든다">D-003 위치와 순서가 연계를 만든다</h2>
+<p>밀려난 적 옆의 동료가 제한된 추격을 수행합니다. 재귀 추격과 추격의 공격 성공 기를 금지해 무한 연계를 막습니다. 벽·적 충돌과 직선 기공파는 지원하며 지형 파괴·절벽은 보류합니다.</p>
+<h2 id="page-decisions--d-004-결정적-명령과-진영-턴을-사용한다">D-004 결정적 명령과 진영 턴을 사용한다</h2>
+<p>아군은 각자 한 번 행동하고, 마지막 행동 또는 확인한 턴 종료 뒤 적 차례를 처리합니다. 명중 난수는 없으며 모델 복사로 예측합니다. 표시 이벤트와 파일 저장은 게임 스레드에서 순차 처리합니다.</p>
+<h2 id="page-decisions--d-005-기를-행동과-위험에-연결한다">D-005 기를 행동과 위험에 연결한다</h2>
+<p>기본 타격·사거리 이탈·피격으로 기를 얻고 연속 모음은 노출 위험을 감수합니다. 기술·추격은 일반 타격의 기 보너스를 받지 않습니다.</p>
+<h2 id="page-decisions--d-006-보상과-재도전을-구분한다">D-006 보상과 재도전을 구분한다</h2>
+<p>각 전투 보상은 한 번만 받습니다. 패배는 배움·약초를 출전 체크포인트로 복원하며 도장 정비도 허용합니다. 기존 앱 업데이트 식별자와 서명은 유지하고 새 저장 버전은 분리합니다.</p>
+<h2 id="page-decisions--d-007-구현과-장기-서사를-구분한다">D-007 구현과 장기 서사를 구분한다</h2>
+<p>첫 장은 짧은 대화·배치·전투로 이어지는 시제품입니다. 무태두의 희생부터 손오공과의 만남까지의 전체 캠페인, 상세 관계 이벤트와 최종 캐릭터 아트는 후속 범위입니다. 란란과 기술 규칙은 게임 창작이며 원작 사실과 구분합니다.</p></section></main>
 <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true, securityLevel: "loose" });</script>
 </body></html>

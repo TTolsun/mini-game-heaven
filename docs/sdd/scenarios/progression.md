@@ -2,13 +2,13 @@
 status: ok
 section: scenarios
 reviewer: Codex (AI)
-reviewed: 2026-09-19
+reviewed: 2026-09-20
 ---
 
-# 배움을 유지하며 다음 수련 시작
+# 전리품·성장과 다음 이야기
 
-nextLesson은 승리 상태이고 다음 수련이 있을 때만 진행합니다. 현재 단서와 모방 성공 횟수를 다음 수련 입장 상태로 넘기고 위치·체력·기·턴을 초기화합니다.
+nextLesson은 Victory이고 보상을 아직 받지 않은 맵에서만 실행됩니다. 완료 비트, 보급·약초·행동 경험·중량 보너스·관계를 반영하고 전투 Unit 배열을 비웁니다. 다음 Story 또는 마지막 Complete로 바뀝니다. retry와 returnToBase는 패배 때 출전 체크포인트의 배움·발견·약초를 복원합니다.
 
-retry는 이번 수련의 입장 단서·성공 횟수로 되돌립니다. 실패한 수련을 반복해서 지식을 복제하지 않습니다. restart는 첫 수련과 빈 배움으로 시작합니다. 마지막 수련 뒤에는 잘못된 다음 인덱스로 넘어가지 않습니다. 근거: `app/srpg/BattleModel.cpp:193`, `app/srpg/BattleModel.cpp:203`.
+근거: app/srpg/BattleModel.cpp, app/srpg/BattleScene.cpp, engine/Engine.cpp, platform/android/AndroidMain.cpp.
 
 [시나리오 목록](index.md)
