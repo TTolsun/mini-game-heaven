@@ -1,16 +1,14 @@
 ---
 status: ok
 section: scenarios
-reviewer: Codex
+reviewer: Codex (AI)
 reviewed: 2026-09-19
 ---
 
 # 앱 시작과 메인 루프
 
-android_main은 AppState를 만들고 onAppCmd와 입력 필터를 등록합니다. AppState는 자산 로더, Engine, 햅틱, 오디오, GL을 소유합니다. `platform/android/AndroidMain.cpp:156`, `platform/android/AndroidMain.cpp:28`
+윈도우 생성 이벤트에서 GlContext가 surface를 만들고 Engine의 그래픽을 초기화합니다. 안전 영역을 적용한 뒤 BattleScene을 설치하여 onEnter를 실행합니다. 이후 android_main 루프에서 이벤트와 입력을 처리하고, surface와 포커스가 있으면 프레임을 그립니다.
 
-이벤트 루프는 surface와 포커스가 없으면 대기합니다. APP_CMD_INIT_WINDOW에서 surface와 초기 그래픽·CastleScene을 준비하고, 복귀 시에는 크기와 타이머를 갱신합니다. 포커스를 잃으면 오디오를 중지하고 프레임 진행을 멈춥니다. 윈도우 종료 시 surface를 해제합니다. `platform/android/AndroidMain.cpp:54`
+윈도우 해제는 surface를 제거하고, 포커스 상실은 오디오를 멈춥니다. 앱 종료 시 AppState 소유 객체가 정리됩니다. 근거: `platform/android/AndroidMain.cpp:54`, `platform/android/AndroidMain.cpp:156`.
 
-모든 대기 이벤트를 처리한 뒤 processInput을 호출하고, 활성 상태라면 Engine::frame과 swapBuffers를 수행합니다. BACK은 Scene이 처리하지 않으면 GameActivity_finish로 종료합니다. `platform/android/AndroidMain.cpp:113`
-
-native_app_glue의 콜백 전달과 AAudio 콜백 타이밍은 외부 플랫폼 경계입니다. 이 설명은 코드의 호출 순서를 확인한 것이며 모든 기기에서 생명주기 스트레스 테스트를 했다는 의미는 아닙니다.
+[시나리오 목록](index.md)

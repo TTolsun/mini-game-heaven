@@ -1,4 +1,4 @@
-# App scenarios for the monster collection game.
+# App scenarios for the martial-arts SRPG prototype.
 defaults:
   glob: ["**/*.cpp"]
   depth: 4
@@ -8,25 +8,25 @@ scenarios:
     from: "android_main(android_app *)"
     depth: 3
   - id: frame
-    title: 한 프레임과 자동 방어
+    title: 한 프레임과 전투 화면
     from: "engine::Engine::frame()"
     depth: 5
   - id: touch
     title: 터치 입력 전달
     from: "engine::Engine::onTouch(int32_t, engine::TouchEvent::Phase, float, float)"
-  - id: start_game
-    title: 방어전 시작
-    from: "app::castle::CastleModel::startRaid()"
-  - id: show_result
-    title: 방어 결과와 보상
-    from: "app::castle::CastleModel::finishRaid()"
+  - id: command
+    title: 이동·행동과 상대 응답의 원자적 처리
+    from: "app::srpg::BattleModel::execute(app::srpg::Command)"
+  - id: progression
+    title: 배움을 유지하며 다음 수련 시작
+    from: "app::srpg::BattleModel::nextLesson()"
   - id: load_assets
-    title: 한국어 글꼴과 저장된 성 불러오기
-    from: "app::castle::CastleScene::onEnter(engine::Engine &)"
-  - id: dodge_update
-    title: 마물과 용사의 자동 전투
-    from: "app::castle::CastleModel::update(float)"
+    title: 한국어 글꼴과 수련 상태 불러오기
+    from: "app::srpg::BattleScene::onEnter(engine::Engine &)"
+  - id: preview
+    title: 모델 복사본으로 명령 결과 예측
+    from: "app::srpg::BattleModel::preview(app::srpg::Command)"
     depth: 3
-  - id: fusion
-    title: 마물 합성과 도감 등록
-    from: "app::castle::CastleModel::fuse(int, int)"
+  - id: save
+    title: 확정된 턴과 배움 저장
+    from: "app::srpg::BattleModel::save(const std::string &)"

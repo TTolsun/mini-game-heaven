@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant BattleModel
+    participant BattleState
+    participant Cell
+    BattleModel->>BattleModel: resetLesson()
+    BattleModel->>BattleState: operator=()
+    BattleModel->>Cell: operator=()
+    BattleModel->>BattleModel: lesson()
+    BattleModel->>Cell: operator=()
+    BattleModel->>BattleModel: lesson()
+    BattleModel->>BattleModel: lesson()
+    BattleModel->>BattleModel: directionTo()
+    BattleModel->>Cell: Cell()
+    BattleModel->>Cell: Cell()

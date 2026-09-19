@@ -1,8 +1,8 @@
 {
  "meta": {
-  "generated_at": "2026-09-19T12:27:09+00:00",
+  "generated_at": "2026-09-19T14:53:12+00:00",
   "source_root": "C:/Users/baboe/git/mini-game-heaven/native",
-  "source_commit": "d1468df2a11c810a170e827c6712dfa46121d2c5",
+  "source_commit": "87a127c8acb93170475792a9be1618e8dd621304",
   "compile_commands": "C:/Users/baboe/git/mini-game-heaven/compile_commands.json",
   "translation_units": 19,
   "build_config": "simple_compdb",
@@ -11,16 +11,16 @@
    "tus": 19,
    "errors": 0,
    "classes": 47,
-   "methods": 341,
-   "functions": 26
+   "methods": 305,
+   "functions": 30
   },
   "callgraph": {
-   "functions": 233,
+   "functions": 220,
    "scenarios": 8,
    "missing_entries": 0
   },
   "classes": 47,
-  "functions": 21,
+  "functions": 25,
   "scenarios": 8,
   "defines": 3
  },
@@ -234,7 +234,7 @@
      }
     }
    ],
-   "brief": "One screen of the app (menu, a mini game, result). The engine drives exactly one scene at a time.",
+   "brief": "One screen of the app (battle, training, result). The engine drives exactly one scene at a time.",
    "kind": "class"
   },
   "engine::Sound": {
@@ -1806,10 +1806,70 @@
    "brief": "Every sound effect in the game, synthesised at startup (no audio files).",
    "kind": "class"
   },
-  "app::castle::Facility": {
-   "name": "app::castle::Facility",
+  "app::srpg::Cell": {
+   "name": "app::srpg::Cell",
    "loc": {
-    "file": "app/castle/CastleModel.h",
+    "file": "app/srpg/BattleData.h",
+    "line": 27
+   },
+   "package": "app",
+   "bases": [],
+   "methods": [],
+   "brief": "",
+   "kind": "class"
+  },
+  "app::srpg::Action": {
+   "name": "app::srpg::Action",
+   "loc": {
+    "file": "app/srpg/BattleData.h",
+    "line": 39
+   },
+   "package": "app",
+   "bases": [],
+   "methods": [],
+   "brief": "",
+   "kind": "class"
+  },
+  "app::srpg::Phase": {
+   "name": "app::srpg::Phase",
+   "loc": {
+    "file": "app/srpg/BattleData.h",
+    "line": 40
+   },
+   "package": "app",
+   "bases": [],
+   "methods": [],
+   "brief": "",
+   "kind": "class"
+  },
+  "app::srpg::Insight": {
+   "name": "app::srpg::Insight",
+   "loc": {
+    "file": "app/srpg/BattleData.h",
+    "line": 41
+   },
+   "package": "app",
+   "bases": [],
+   "methods": [],
+   "brief": "",
+   "kind": "class"
+  },
+  "app::srpg::Lesson": {
+   "name": "app::srpg::Lesson",
+   "loc": {
+    "file": "app/srpg/BattleData.h",
+    "line": 43
+   },
+   "package": "app",
+   "bases": [],
+   "methods": [],
+   "brief": "",
+   "kind": "class"
+  },
+  "app::srpg::BattleState": {
+   "name": "app::srpg::BattleState",
+   "loc": {
+    "file": "app/srpg/BattleModel.h",
     "line": 8
    },
    "package": "app",
@@ -1818,11 +1878,11 @@
    "brief": "",
    "kind": "class"
   },
-  "app::castle::Species": {
-   "name": "app::castle::Species",
+  "app::srpg::Command": {
+   "name": "app::srpg::Command",
    "loc": {
-    "file": "app/castle/CastleModel.h",
-    "line": 9
+    "file": "app/srpg/BattleModel.h",
+    "line": 25
    },
    "package": "app",
    "bases": [],
@@ -1830,11 +1890,11 @@
    "brief": "",
    "kind": "class"
   },
-  "app::castle::Phase": {
-   "name": "app::castle::Phase",
+  "app::srpg::Outcome": {
+   "name": "app::srpg::Outcome",
    "loc": {
-    "file": "app/castle/CastleModel.h",
-    "line": 10
+    "file": "app/srpg/BattleModel.h",
+    "line": 26
    },
    "package": "app",
    "bases": [],
@@ -1842,485 +1902,209 @@
    "brief": "",
    "kind": "class"
   },
-  "app::castle::FacilityInfo": {
-   "name": "app::castle::FacilityInfo",
+  "app::srpg::BattleModel": {
+   "name": "app::srpg::BattleModel",
    "loc": {
-    "file": "app/castle/CastleModel.h",
-    "line": 11
-   },
-   "package": "app",
-   "bases": [],
-   "methods": [],
-   "brief": "",
-   "kind": "class"
-  },
-  "app::castle::InvasionRoute": {
-   "name": "app::castle::InvasionRoute",
-   "loc": {
-    "file": "app/castle/CastleModel.h",
-    "line": 31
-   },
-   "package": "app",
-   "bases": [],
-   "methods": [],
-   "brief": "",
-   "kind": "class"
-  },
-  "app::castle::Room": {
-   "name": "app::castle::Room",
-   "loc": {
-    "file": "app/castle/CastleModel.h",
-    "line": 32
-   },
-   "package": "app",
-   "bases": [],
-   "methods": [],
-   "brief": "",
-   "kind": "class"
-  },
-  "app::castle::Monster": {
-   "name": "app::castle::Monster",
-   "loc": {
-    "file": "app/castle/CastleModel.h",
-    "line": 33
-   },
-   "package": "app",
-   "bases": [],
-   "methods": [],
-   "brief": "",
-   "kind": "class"
-  },
-  "app::castle::Hero": {
-   "name": "app::castle::Hero",
-   "loc": {
-    "file": "app/castle/CastleModel.h",
-    "line": 34
-   },
-   "package": "app",
-   "bases": [],
-   "methods": [],
-   "brief": "",
-   "kind": "class"
-  },
-  "app::castle::CastleModel": {
-   "name": "app::castle::CastleModel",
-   "loc": {
-    "file": "app/castle/CastleModel.h",
-    "line": 39
+    "file": "app/srpg/BattleModel.h",
+    "line": 41
    },
    "package": "app",
    "bases": [],
    "methods": [
     {
-     "name": "CastleModel",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 41
-     },
+     "name": "state",
+     "loc": null,
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 9
+      "file": "app/srpg/BattleModel.h",
+      "line": 43
      }
     },
     {
-     "name": "resident",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 54
-     },
+     "name": "lesson",
+     "loc": null,
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 83
+      "file": "app/srpg/BattleModel.h",
+      "line": 44
      }
     },
     {
-     "name": "roomCount",
+     "name": "blocked",
      "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 55
+      "file": "app/srpg/BattleModel.h",
+      "line": 45
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 87
-     }
-    },
-    {
-     "name": "digCost",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 56
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 90
-     }
-    },
-    {
-     "name": "trainingCost",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 57
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 91
-     }
-    },
-    {
-     "name": "maxHp",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 58
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 101
-     }
-    },
-    {
-     "name": "attack",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 59
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 106
-     }
-    },
-    {
-     "name": "trapDamage",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 60
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 110
-     }
-    },
-    {
-     "name": "nextHeroCount",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 61
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 111
-     }
-    },
-    {
-     "name": "nextHeroHp",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 62
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 112
-     }
-    },
-    {
-     "name": "adjacentRooms",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 63
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 18
-     }
-    },
-    {
-     "name": "canDig",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 64
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 78
-     }
-    },
-    {
-     "name": "connected",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 65
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
+      "file": "app/srpg/BattleModel.cpp",
       "line": 23
      }
     },
     {
-     "name": "togglePassage",
+     "name": "threatened",
      "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 66
+      "file": "app/srpg/BattleModel.h",
+      "line": 46
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 59
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 26
      }
     },
     {
-     "name": "moveThrone",
+     "name": "movement",
      "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 67
+      "file": "app/srpg/BattleModel.h",
+      "line": 47
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 67
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 35
      }
     },
     {
-     "name": "throneRoom",
-     "loc": null,
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 68
-     }
-    },
-    {
-     "name": "invasionRoute",
-     "loc": null,
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 69
-     }
-    },
-    {
-     "name": "heroRoom",
+     "name": "preview",
      "loc": {
-      "file": "app/castle/CastleModel.h",
+      "file": "app/srpg/BattleModel.h",
+      "line": 48
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/srpg/BattleModel.cpp",
       "line": 70
+     }
+    },
+    {
+     "name": "execute",
+     "loc": {
+      "file": "app/srpg/BattleModel.h",
+      "line": 49
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
+      "file": "app/srpg/BattleModel.cpp",
       "line": 74
      }
     },
     {
-     "name": "build",
+     "name": "nextLesson",
      "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 71
+      "file": "app/srpg/BattleModel.h",
+      "line": 50
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 113
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 203
      }
     },
     {
-     "name": "dig",
+     "name": "retry",
      "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 72
+      "file": "app/srpg/BattleModel.h",
+      "line": 51
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 123
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 207
      }
     },
     {
-     "name": "summon",
+     "name": "restart",
      "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 73
+      "file": "app/srpg/BattleModel.h",
+      "line": 52
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 135
-     }
-    },
-    {
-     "name": "assign",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 74
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 148
-     }
-    },
-    {
-     "name": "train",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 75
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 155
-     }
-    },
-    {
-     "name": "fusionResult",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 76
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 162
-     }
-    },
-    {
-     "name": "fuse",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 77
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 171
-     }
-    },
-    {
-     "name": "startRaid",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 78
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 186
-     }
-    },
-    {
-     "name": "update",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 79
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 197
-     }
-    },
-    {
-     "name": "continueBuilding",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 80
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 263
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 208
      }
     },
     {
      "name": "save",
      "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 81
+      "file": "app/srpg/BattleModel.h",
+      "line": 53
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 269
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 228
      }
     },
     {
      "name": "load",
      "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 82
+      "file": "app/srpg/BattleModel.h",
+      "line": 54
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 283
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 246
      }
     },
     {
-     "name": "rebuildRoute",
+     "name": "visible",
      "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 89
+      "file": "app/srpg/BattleModel.h",
+      "line": 57
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 31
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 54
      }
     },
     {
-     "name": "connectRooms",
+     "name": "prepareEnemy",
      "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 90
+      "file": "app/srpg/BattleModel.h",
+      "line": 58
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 27
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 165
      }
     },
     {
-     "name": "adjacentFacilities",
+     "name": "resetLesson",
      "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 91
+      "file": "app/srpg/BattleModel.h",
+      "line": 59
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 92
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 193
      }
     },
     {
-     "name": "finishRaid",
+     "name": "validState",
      "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 92
+      "file": "app/srpg/BattleModel.h",
+      "line": 60
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 251
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 209
      }
     }
    ],
-   "brief": "Deterministic simulation, independent of graphics and Android. A fixed-size actor pool keeps battle updates allocation-free; permanent state saves at player actions and settlement. Interrupted battles",
+   "brief": "A complete command and the enemy response form one atomic, deterministic round. Presentation never changes rules; preview executes a copy of the model.",
    "kind": "class"
   },
-  "app::castle::CastleScene": {
-   "name": "app::castle::CastleScene",
+  "app::srpg::BattleScene": {
+   "name": "app::srpg::BattleScene",
    "loc": {
-    "file": "app/castle/CastleScene.h",
+    "file": "app/srpg/BattleScene.h",
     "line": 12
    },
    "package": "app",
@@ -2331,203 +2115,203 @@
     {
      "name": "onEnter",
      "loc": {
-      "file": "app/castle/CastleScene.h",
+      "file": "app/srpg/BattleScene.h",
       "line": 14
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 29
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 27
      }
     },
     {
      "name": "onExit",
      "loc": {
-      "file": "app/castle/CastleScene.h",
+      "file": "app/srpg/BattleScene.h",
       "line": 15
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 47
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 37
      }
     },
     {
      "name": "update",
      "loc": {
-      "file": "app/castle/CastleScene.h",
+      "file": "app/srpg/BattleScene.h",
       "line": 16
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 48
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 45
      }
     },
     {
      "name": "render",
      "loc": {
-      "file": "app/castle/CastleScene.h",
+      "file": "app/srpg/BattleScene.h",
       "line": 17
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 324
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 107
      }
     },
     {
      "name": "onTouch",
      "loc": {
-      "file": "app/castle/CastleScene.h",
+      "file": "app/srpg/BattleScene.h",
       "line": 18
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 400
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 223
      }
     },
     {
      "name": "onBack",
      "loc": {
-      "file": "app/castle/CastleScene.h",
+      "file": "app/srpg/BattleScene.h",
       "line": 19
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 417
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 239
+     }
+    },
+    {
+     "name": "refresh",
+     "loc": {
+      "file": "app/srpg/BattleScene.h",
+      "line": 44
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 39
      }
     },
     {
      "name": "save",
      "loc": {
-      "file": "app/castle/CastleScene.h",
-      "line": 38
+      "file": "app/srpg/BattleScene.h",
+      "line": 45
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 38
+     }
+    },
+    {
+     "name": "invalidateInput",
+     "loc": {
+      "file": "app/srpg/BattleScene.h",
       "line": 46
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 44
      }
     },
     {
      "name": "act",
      "loc": {
-      "file": "app/castle/CastleScene.h",
-      "line": 39
+      "file": "app/srpg/BattleScene.h",
+      "line": 47
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 364
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 195
      }
     },
     {
-     "name": "label",
+     "name": "box",
      "loc": {
-      "file": "app/castle/CastleScene.h",
-      "line": 40
+      "file": "app/srpg/BattleScene.h",
+      "line": 48
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 60
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 46
+     }
+    },
+    {
+     "name": "rect",
+     "loc": {
+      "file": "app/srpg/BattleScene.h",
+      "line": 49
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 49
+     }
+    },
+    {
+     "name": "text",
+     "loc": {
+      "file": "app/srpg/BattleScene.h",
+      "line": 50
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 50
      }
     },
     {
      "name": "button",
      "loc": {
-      "file": "app/castle/CastleScene.h",
-      "line": 42
+      "file": "app/srpg/BattleScene.h",
+      "line": 52
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 63
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 53
      }
     },
     {
-     "name": "monster",
+     "name": "board",
      "loc": {
-      "file": "app/castle/CastleScene.h",
-      "line": 44
+      "file": "app/srpg/BattleScene.h",
+      "line": 54
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 74
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 62
      }
     },
     {
-     "name": "roomRect",
+     "name": "overlay",
      "loc": {
-      "file": "app/castle/CastleScene.h",
-      "line": 45
+      "file": "app/srpg/BattleScene.h",
+      "line": 55
      },
      "brief": "",
      "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 70
-     }
-    },
-    {
-     "name": "renderMap",
-     "loc": {
-      "file": "app/castle/CastleScene.h",
-      "line": 46
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 83
-     }
-    },
-    {
-     "name": "renderPanel",
-     "loc": {
-      "file": "app/castle/CastleScene.h",
-      "line": 47
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 191
-     }
-    },
-    {
-     "name": "renderRouteEditor",
-     "loc": {
-      "file": "app/castle/CastleScene.h",
-      "line": 48
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 164
-     }
-    },
-    {
-     "name": "renderOverlay",
-     "loc": {
-      "file": "app/castle/CastleScene.h",
-      "line": 49
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 281
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 157
      }
     }
    ],
    "brief": "",
    "kind": "class"
   },
-  "app::castle::CastleScene::Hit": {
-   "name": "app::castle::CastleScene::Hit",
+  "app::srpg::BattleScene::Button": {
+   "name": "app::srpg::BattleScene::Button",
    "loc": {
-    "file": "app/castle/CastleScene.h",
+    "file": "app/srpg/BattleScene.h",
     "line": 22
    },
    "package": "app",
@@ -2536,11 +2320,11 @@
    "brief": "",
    "kind": "class"
   },
-  "app::castle::Action": {
-   "name": "app::castle::Action",
+  "app::srpg::BattleScene::Hit": {
+   "name": "app::srpg::BattleScene::Hit",
    "loc": {
-    "file": "app/castle/CastleScene.cpp",
-    "line": 25
+    "file": "app/srpg/BattleScene.h",
+    "line": 23
    },
    "package": "app",
    "bases": [],
@@ -3009,30 +2793,66 @@
    },
    "brief": "Column-major orthographic matrix mapping (0,0)-(w,h) to clip space with y down, translated by `offset` world units."
   },
-  "app::castle::roomColumn": {
-   "name": "app::castle::roomColumn",
+  "app::srpg::inside": {
+   "name": "app::srpg::inside",
    "loc": null,
    "def_loc": {
-    "file": "app/castle/CastleModel.h",
-    "line": 30
+    "file": "app/srpg/BattleData.h",
+    "line": 32
    },
    "brief": ""
   },
-  "app::castle::art::frame": {
-   "name": "app::castle::art::frame",
+  "app::srpg::index": {
+   "name": "app::srpg::index",
    "loc": null,
    "def_loc": {
-    "file": "app/castle/MonsterArt.h",
+    "file": "app/srpg/BattleData.h",
+    "line": 35
+   },
+   "brief": ""
+  },
+  "app::srpg::cellAt": {
+   "name": "app::srpg::cellAt",
+   "loc": null,
+   "def_loc": {
+    "file": "app/srpg/BattleData.h",
+    "line": 36
+   },
+   "brief": ""
+  },
+  "app::srpg::distance": {
+   "name": "app::srpg::distance",
+   "loc": null,
+   "def_loc": {
+    "file": "app/srpg/BattleModel.cpp",
     "line": 12
    },
-   "brief": "Original nonhuman monsters, ordered by the stable Species save IDs. Every cell includes transparent gutters to prevent filtering into neighbours."
+   "brief": ""
   },
-  "app::castle::discoveredCount": {
-   "name": "app::castle::discoveredCount",
+  "app::srpg::plus": {
+   "name": "app::srpg::plus",
    "loc": null,
    "def_loc": {
-    "file": "app/castle/CastleScene.cpp",
-    "line": 27
+    "file": "app/srpg/BattleModel.cpp",
+    "line": 15
+   },
+   "brief": ""
+  },
+  "app::srpg::directionTo": {
+   "name": "app::srpg::directionTo",
+   "loc": null,
+   "def_loc": {
+    "file": "app/srpg/BattleModel.cpp",
+    "line": 16
+   },
+   "brief": ""
+  },
+  "app::srpg::tileRect": {
+   "name": "app::srpg::tileRect",
+   "loc": null,
+   "def_loc": {
+    "file": "app/srpg/BattleScene.cpp",
+    "line": 25
    },
    "brief": ""
   },
@@ -3107,7 +2927,7 @@
    "type": "inheritance"
   },
   {
-   "source": "app::castle::CastleScene",
+   "source": "app::srpg::BattleScene",
    "target": "engine::Scene",
    "type": "inheritance"
   },
@@ -3267,73 +3087,83 @@
    "type": "association"
   },
   {
-   "source": "app::castle::Room",
-   "target": "app::castle::Facility",
+   "source": "app::srpg::Lesson",
+   "target": "app::srpg::Cell",
    "type": "association"
   },
   {
-   "source": "app::castle::Monster",
-   "target": "app::castle::Species",
+   "source": "app::srpg::BattleState",
+   "target": "app::srpg::Cell",
    "type": "association"
   },
   {
-   "source": "app::castle::CastleModel",
-   "target": "app::castle::Room",
+   "source": "app::srpg::BattleState",
+   "target": "app::srpg::Phase",
    "type": "association"
   },
   {
-   "source": "app::castle::CastleModel",
-   "target": "app::castle::Monster",
+   "source": "app::srpg::Command",
+   "target": "app::srpg::Cell",
    "type": "association"
   },
   {
-   "source": "app::castle::CastleModel",
-   "target": "app::castle::Hero",
+   "source": "app::srpg::Command",
+   "target": "app::srpg::Action",
    "type": "association"
   },
   {
-   "source": "app::castle::CastleModel",
-   "target": "app::castle::Phase",
+   "source": "app::srpg::BattleModel",
+   "target": "app::srpg::BattleState",
    "type": "association"
   },
   {
-   "source": "app::castle::CastleModel",
-   "target": "app::castle::InvasionRoute",
-   "type": "association"
-  },
-  {
-   "source": "app::castle::CastleScene",
+   "source": "app::srpg::BattleScene",
    "target": "engine::Engine",
    "type": "association"
   },
   {
-   "source": "app::castle::CastleScene",
+   "source": "app::srpg::BattleScene",
    "target": "engine::Font",
    "type": "association"
   },
   {
-   "source": "app::castle::CastleScene",
-   "target": "engine::Sprite",
-   "type": "association"
-  },
-  {
-   "source": "app::castle::CastleScene",
+   "source": "app::srpg::BattleScene",
    "target": "app::Sfx",
    "type": "association"
   },
   {
-   "source": "app::castle::CastleScene",
-   "target": "app::castle::CastleModel",
+   "source": "app::srpg::BattleScene",
+   "target": "app::srpg::BattleModel",
    "type": "association"
   },
   {
-   "source": "app::castle::CastleScene",
-   "target": "app::castle::CastleScene::Hit",
+   "source": "app::srpg::BattleScene",
+   "target": "app::srpg::Cell",
    "type": "association"
   },
   {
-   "source": "app::castle::CastleScene::Hit",
+   "source": "app::srpg::BattleScene",
+   "target": "app::srpg::Action",
+   "type": "association"
+  },
+  {
+   "source": "app::srpg::BattleScene",
+   "target": "app::srpg::Outcome",
+   "type": "association"
+  },
+  {
+   "source": "app::srpg::BattleScene",
+   "target": "app::srpg::BattleScene::Hit",
+   "type": "association"
+  },
+  {
+   "source": "app::srpg::BattleScene::Hit",
    "target": "engine::Rect",
+   "type": "association"
+  },
+  {
+   "source": "app::srpg::BattleScene::Hit",
+   "target": "app::srpg::BattleScene::Button",
    "type": "association"
   },
   {
@@ -3413,18 +3243,18 @@
    "path": "app",
    "classes": [
     "app::Sfx",
-    "app::castle::Facility",
-    "app::castle::Species",
-    "app::castle::Phase",
-    "app::castle::FacilityInfo",
-    "app::castle::InvasionRoute",
-    "app::castle::Room",
-    "app::castle::Monster",
-    "app::castle::Hero",
-    "app::castle::CastleModel",
-    "app::castle::CastleScene",
-    "app::castle::CastleScene::Hit",
-    "app::castle::Action"
+    "app::srpg::Cell",
+    "app::srpg::Action",
+    "app::srpg::Phase",
+    "app::srpg::Insight",
+    "app::srpg::Lesson",
+    "app::srpg::BattleState",
+    "app::srpg::Command",
+    "app::srpg::Outcome",
+    "app::srpg::BattleModel",
+    "app::srpg::BattleScene",
+    "app::srpg::BattleScene::Button",
+    "app::srpg::BattleScene::Hit"
    ]
   },
   "platform": {
@@ -3440,8 +3270,8 @@
   }
  },
  "defines": {
-  "minigame_EXPORTS": {
-   "name": "minigame_EXPORTS",
+  "wuten_EXPORTS": {
+   "name": "wuten_EXPORTS",
    "value": "1",
    "usages": []
   },
@@ -3473,11 +3303,8 @@
     "TouchEvent",
     "Vec2",
     "Scene",
-    "CastleScene",
+    "BattleScene",
     "Timer",
-    "CastleModel",
-    "Mixer",
-    "Haptics",
     "SpriteBatch"
    ],
    "messages": [
@@ -3733,7 +3560,7 @@
     },
     {
      "src": "Engine",
-     "dst": "CastleScene",
+     "dst": "BattleScene",
      "name": "onBack",
      "loc": {
       "file": "engine/Engine.cpp",
@@ -3783,93 +3610,13 @@
     },
     {
      "src": "Engine",
-     "dst": "CastleScene",
+     "dst": "BattleScene",
      "name": "update",
      "loc": {
       "file": "engine/Engine.cpp",
       "line": 91
      },
      "note": "virtual, 현재 구현 하나"
-    },
-    {
-     "src": "CastleScene",
-     "dst": "CastleModel",
-     "name": "update",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 52
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "Mixer",
-     "name": "play",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 53
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "Engine",
-     "name": "mixer",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 53
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "CastleScene",
-     "name": "save",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 55
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "Mixer",
-     "name": "play",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 56
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "Engine",
-     "name": "mixer",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 56
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "Haptics",
-     "name": "light",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 57
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "Engine",
-     "name": "haptics",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 57
-     },
-     "note": ""
     },
     {
      "src": "Engine",
@@ -4002,24 +3749,17 @@
      "note": ""
     }
    ],
-   "mermaid": "sequenceDiagram\n    participant AndroidMain\n    participant AppState\n    participant AndroidAssetLoader\n    participant Engine\n    participant AndroidHaptics\n    participant AndroidAudio\n    participant GlContext\n    participant android_poll_source\n    participant TouchEvent\n    participant Vec2\n    participant Scene\n    participant CastleScene\n    participant Timer\n    participant CastleModel\n    participant Mixer\n    participant Haptics\n    participant SpriteBatch\n    AndroidMain->>AppState: AppState()\n    AppState->>AndroidAssetLoader: AndroidAssetLoader()\n    AppState->>Engine: Engine()\n    AppState->>AndroidHaptics: AndroidHaptics()\n    AppState->>AndroidAudio: AndroidAudio()\n    AppState->>Engine: mixer()\n    AppState->>Engine: setHaptics()\n    AppState->>Engine: setDataPath()\n    AndroidMain->>AppState: animating()\n    AppState->>GlContext: hasSurface()\n    AndroidMain-->>android_poll_source: process() [함수 포인터, 정적 추적 불가]\n    AndroidMain->>AndroidMain: processInput()\n    AndroidMain->>AndroidMain: phaseFor()\n    AndroidMain->>Engine: onTouch()\n    Engine->>TouchEvent: TouchEvent()\n    Engine->>Vec2: operator=()\n    Engine->>Vec2: Vec2()\n    Engine-->>Scene: onTouch() [virtual, 현재 구현 하나]\n    AndroidMain->>Engine: onTouch()\n    Engine->>TouchEvent: TouchEvent()\n    Engine->>Vec2: operator=()\n    Engine->>Vec2: Vec2()\n    Engine-->>Scene: onTouch() [virtual, 현재 구현 하나]\n    AndroidMain->>Engine: onBack()\n    Engine-->>Scene: onBack() [virtual 후보]\n    Engine-->>CastleScene: onBack() [virtual 후보]\n    AndroidMain->>AppState: animating()\n    AppState->>GlContext: hasSurface()\n    AndroidMain->>Engine: frame()\n    Engine->>Timer: tick()\n    Engine-->>CastleScene: update() [virtual, 현재 구현 하나]\n    CastleScene->>CastleModel: update()\n    CastleScene->>Mixer: play()\n    CastleScene->>Engine: mixer()\n    CastleScene->>CastleScene: save()\n    CastleScene->>Mixer: play()\n    CastleScene->>Engine: mixer()\n    CastleScene->>Haptics: light()\n    CastleScene->>Engine: haptics()\n    Engine->>Vec2: Vec2()\n    Engine->>Vec2: Vec2()\n    Engine->>Vec2: operator=()\n    Engine->>Vec2: Vec2()\n    Engine->>SpriteBatch: begin()\n    SpriteBatch->>Vec2: Vec2()\n    SpriteBatch->>SpriteBatch: makeOrtho()\n    SpriteBatch->>Vec2: Vec2()\n    Engine->>Vec2: Vec2()\n    Engine-->>Scene: render() [virtual, override 없음]\n    Engine->>SpriteBatch: end()\n    SpriteBatch->>SpriteBatch: flush()\n    AndroidMain->>GlContext: swapBuffers()",
+   "mermaid": "sequenceDiagram\n    participant AndroidMain\n    participant AppState\n    participant AndroidAssetLoader\n    participant Engine\n    participant AndroidHaptics\n    participant AndroidAudio\n    participant GlContext\n    participant android_poll_source\n    participant TouchEvent\n    participant Vec2\n    participant Scene\n    participant BattleScene\n    participant Timer\n    participant SpriteBatch\n    AndroidMain->>AppState: AppState()\n    AppState->>AndroidAssetLoader: AndroidAssetLoader()\n    AppState->>Engine: Engine()\n    AppState->>AndroidHaptics: AndroidHaptics()\n    AppState->>AndroidAudio: AndroidAudio()\n    AppState->>Engine: mixer()\n    AppState->>Engine: setHaptics()\n    AppState->>Engine: setDataPath()\n    AndroidMain->>AppState: animating()\n    AppState->>GlContext: hasSurface()\n    AndroidMain-->>android_poll_source: process() [함수 포인터, 정적 추적 불가]\n    AndroidMain->>AndroidMain: processInput()\n    AndroidMain->>AndroidMain: phaseFor()\n    AndroidMain->>Engine: onTouch()\n    Engine->>TouchEvent: TouchEvent()\n    Engine->>Vec2: operator=()\n    Engine->>Vec2: Vec2()\n    Engine-->>Scene: onTouch() [virtual, 현재 구현 하나]\n    AndroidMain->>Engine: onTouch()\n    Engine->>TouchEvent: TouchEvent()\n    Engine->>Vec2: operator=()\n    Engine->>Vec2: Vec2()\n    Engine-->>Scene: onTouch() [virtual, 현재 구현 하나]\n    AndroidMain->>Engine: onBack()\n    Engine-->>Scene: onBack() [virtual 후보]\n    Engine-->>BattleScene: onBack() [virtual 후보]\n    AndroidMain->>AppState: animating()\n    AppState->>GlContext: hasSurface()\n    AndroidMain->>Engine: frame()\n    Engine->>Timer: tick()\n    Engine-->>BattleScene: update() [virtual, 현재 구현 하나]\n    Engine->>Vec2: Vec2()\n    Engine->>Vec2: Vec2()\n    Engine->>Vec2: operator=()\n    Engine->>Vec2: Vec2()\n    Engine->>SpriteBatch: begin()\n    SpriteBatch->>Vec2: Vec2()\n    SpriteBatch->>SpriteBatch: makeOrtho()\n    SpriteBatch->>Vec2: Vec2()\n    Engine->>Vec2: Vec2()\n    Engine-->>Scene: render() [virtual, override 없음]\n    Engine->>SpriteBatch: end()\n    SpriteBatch->>SpriteBatch: flush()\n    AndroidMain->>GlContext: swapBuffers()",
    "unresolved": 2
   },
   "frame": {
    "id": "frame",
-   "title": "한 프레임과 자동 방어",
+   "title": "한 프레임과 전투 화면",
    "entry": "engine::Engine::frame()",
    "participants": [
     "Engine",
     "Timer",
-    "CastleScene",
-    "CastleModel",
-    "Hero",
-    "Mixer",
-    "Sound",
-    "Haptics",
-    "NullHaptics",
-    "AndroidHaptics",
+    "BattleScene",
     "Vec2",
     "SpriteBatch",
     "Scene",
@@ -4039,383 +3779,13 @@
     },
     {
      "src": "Engine",
-     "dst": "CastleScene",
+     "dst": "BattleScene",
      "name": "update",
      "loc": {
       "file": "engine/Engine.cpp",
       "line": 91
      },
      "note": "virtual, 현재 구현 하나"
-    },
-    {
-     "src": "CastleScene",
-     "dst": "CastleModel",
-     "name": "update",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 52
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "Hero",
-     "name": "operator=",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 205
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "nextHeroHp",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 206
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "maxHp",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 212
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "heroRoom",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 215
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "attack",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 217
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "adjacentFacilities",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 108
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "adjacentRooms",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 98
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "heroRoom",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 219
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "attack",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 224
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "adjacentFacilities",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 108
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "adjacentRooms",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 98
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "heroRoom",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 232
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "trapDamage",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 237
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "adjacentFacilities",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 110
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "adjacentRooms",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 98
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "resident",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 241
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "finishRaid",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 248
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "Mixer",
-     "name": "play",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 53
-     },
-     "note": ""
-    },
-    {
-     "src": "Mixer",
-     "dst": "Sound",
-     "name": "empty",
-     "loc": {
-      "file": "engine/audio/Mixer.cpp",
-      "line": 9
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "Engine",
-     "name": "mixer",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 53
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "CastleScene",
-     "name": "save",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 55
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "CastleModel",
-     "name": "save",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 46
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "Mixer",
-     "name": "play",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 56
-     },
-     "note": ""
-    },
-    {
-     "src": "Mixer",
-     "dst": "Sound",
-     "name": "empty",
-     "loc": {
-      "file": "engine/audio/Mixer.cpp",
-      "line": 9
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "Engine",
-     "name": "mixer",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 56
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "Haptics",
-     "name": "light",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 57
-     },
-     "note": ""
-    },
-    {
-     "src": "Haptics",
-     "dst": "NullHaptics",
-     "name": "vibrate",
-     "loc": {
-      "file": "engine/platform/Haptics.h",
-      "line": 14
-     },
-     "note": "virtual 후보"
-    },
-    {
-     "src": "Haptics",
-     "dst": "AndroidHaptics",
-     "name": "vibrate",
-     "loc": {
-      "file": "engine/platform/Haptics.h",
-      "line": 14
-     },
-     "note": "virtual 후보"
-    },
-    {
-     "src": "AndroidHaptics",
-     "dst": "AndroidHaptics",
-     "name": "attach",
-     "loc": {
-      "file": "platform/android/AndroidHaptics.cpp",
-      "line": 103
-     },
-     "note": ""
-    },
-    {
-     "src": "AndroidHaptics",
-     "dst": "AndroidHaptics",
-     "name": "resolve",
-     "loc": {
-      "file": "platform/android/AndroidHaptics.cpp",
-      "line": 108
-     },
-     "note": ""
-    },
-    {
-     "src": "AndroidHaptics",
-     "dst": "AndroidHaptics",
-     "name": "clearException",
-     "loc": {
-      "file": "platform/android/AndroidHaptics.cpp",
-      "line": 70
-     },
-     "note": ""
-    },
-    {
-     "src": "AndroidHaptics",
-     "dst": "AndroidHaptics",
-     "name": "clearException",
-     "loc": {
-      "file": "platform/android/AndroidHaptics.cpp",
-      "line": 80
-     },
-     "note": ""
-    },
-    {
-     "src": "AndroidHaptics",
-     "dst": "AndroidHaptics",
-     "name": "clearException",
-     "loc": {
-      "file": "platform/android/AndroidHaptics.cpp",
-      "line": 88
-     },
-     "note": ""
-    },
-    {
-     "src": "AndroidHaptics",
-     "dst": "AndroidHaptics",
-     "name": "clearException",
-     "loc": {
-      "file": "platform/android/AndroidHaptics.cpp",
-      "line": 133
-     },
-     "note": ""
-    },
-    {
-     "src": "AndroidHaptics",
-     "dst": "AndroidHaptics",
-     "name": "clearException",
-     "loc": {
-      "file": "platform/android/AndroidHaptics.cpp",
-      "line": 135
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "Engine",
-     "name": "haptics",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 57
-     },
-     "note": ""
     },
     {
      "src": "Engine",
@@ -4568,7 +3938,7 @@
      "note": ""
     }
    ],
-   "mermaid": "sequenceDiagram\n    participant Engine\n    participant Timer\n    participant CastleScene\n    participant CastleModel\n    participant Hero\n    participant Mixer\n    participant Sound\n    participant Haptics\n    participant NullHaptics\n    participant AndroidHaptics\n    participant Vec2\n    participant SpriteBatch\n    participant Scene\n    participant Shader\n    participant Texture\n    Engine->>Timer: tick()\n    Engine-->>CastleScene: update() [virtual, 현재 구현 하나]\n    CastleScene->>CastleModel: update()\n    CastleModel->>Hero: operator=()\n    CastleModel->>CastleModel: nextHeroHp()\n    CastleModel->>CastleModel: maxHp()\n    CastleModel->>CastleModel: heroRoom()\n    CastleModel->>CastleModel: attack()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: heroRoom()\n    CastleModel->>CastleModel: attack()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: heroRoom()\n    CastleModel->>CastleModel: trapDamage()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: resident()\n    CastleModel->>CastleModel: finishRaid()\n    CastleScene->>Mixer: play()\n    Mixer->>Sound: empty()\n    CastleScene->>Engine: mixer()\n    CastleScene->>CastleScene: save()\n    CastleScene->>CastleModel: save()\n    CastleScene->>Mixer: play()\n    Mixer->>Sound: empty()\n    CastleScene->>Engine: mixer()\n    CastleScene->>Haptics: light()\n    Haptics-->>NullHaptics: vibrate() [virtual 후보]\n    Haptics-->>AndroidHaptics: vibrate() [virtual 후보]\n    AndroidHaptics->>AndroidHaptics: attach()\n    AndroidHaptics->>AndroidHaptics: resolve()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    CastleScene->>Engine: haptics()\n    Engine->>Vec2: Vec2()\n    Engine->>Vec2: Vec2()\n    Engine->>Vec2: operator=()\n    Engine->>Vec2: Vec2()\n    Engine->>SpriteBatch: begin()\n    SpriteBatch->>Vec2: Vec2()\n    SpriteBatch->>SpriteBatch: makeOrtho()\n    SpriteBatch->>Vec2: Vec2()\n    Engine->>Vec2: Vec2()\n    Engine-->>Scene: render() [virtual, override 없음]\n    Engine->>SpriteBatch: end()\n    SpriteBatch->>SpriteBatch: flush()\n    SpriteBatch->>Shader: use()\n    SpriteBatch->>Shader: uniform()\n    SpriteBatch->>Texture: bind()",
+   "mermaid": "sequenceDiagram\n    participant Engine\n    participant Timer\n    participant BattleScene\n    participant Vec2\n    participant SpriteBatch\n    participant Scene\n    participant Shader\n    participant Texture\n    Engine->>Timer: tick()\n    Engine-->>BattleScene: update() [virtual, 현재 구현 하나]\n    Engine->>Vec2: Vec2()\n    Engine->>Vec2: Vec2()\n    Engine->>Vec2: operator=()\n    Engine->>Vec2: Vec2()\n    Engine->>SpriteBatch: begin()\n    SpriteBatch->>Vec2: Vec2()\n    SpriteBatch->>SpriteBatch: makeOrtho()\n    SpriteBatch->>Vec2: Vec2()\n    Engine->>Vec2: Vec2()\n    Engine-->>Scene: render() [virtual, override 없음]\n    Engine->>SpriteBatch: end()\n    SpriteBatch->>SpriteBatch: flush()\n    SpriteBatch->>Shader: use()\n    SpriteBatch->>Shader: uniform()\n    SpriteBatch->>Texture: bind()",
    "unresolved": 1
   },
   "touch": {
@@ -4626,116 +3996,1742 @@
    "mermaid": "sequenceDiagram\n    participant Engine\n    participant TouchEvent\n    participant Vec2\n    participant Scene\n    Engine->>TouchEvent: TouchEvent()\n    Engine->>Vec2: operator=()\n    Engine->>Vec2: Vec2()\n    Engine-->>Scene: onTouch() [virtual, 현재 구현 하나]",
    "unresolved": 0
   },
-  "start_game": {
-   "id": "start_game",
-   "title": "방어전 시작",
-   "entry": "app::castle::CastleModel::startRaid()",
+  "command": {
+   "id": "command",
+   "title": "이동·행동과 상대 응답의 원자적 처리",
+   "entry": "app::srpg::BattleModel::execute(app::srpg::Command)",
    "participants": [
-    "CastleModel",
-    "InvasionRoute"
+    "BattleModel",
+    "Outcome",
+    "BattleData",
+    "Cell",
+    "BattleState"
    ],
    "messages": [
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "rebuildRoute",
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 188
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 75
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "InvasionRoute",
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 78
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 78
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 78
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "movement",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 79
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
      "name": "operator=",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 32
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 40
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "connected",
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 41
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 41
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 43
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 44
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 44
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
       "line": 45
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "adjacentRooms",
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 46
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 46
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 46
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
       "line": 24
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "roomColumn",
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 21
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "roomColumn",
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 21
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "nextHeroCount",
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 48
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 48
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 48
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 48
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 49
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 79
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 79
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 79
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "distance",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 80
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 80
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 80
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 85
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 88
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 91
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleState",
+     "name": "BattleState",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 93
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "threatened",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 94
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 27
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 30
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 30
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 31
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 31
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 31
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 94
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "threatened",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 95
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 27
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 30
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 30
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 31
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 31
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 31
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 95
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "visible",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 99
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 62
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 62
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 66
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 66
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 99
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 99
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 100
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 113
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 113
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 113
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 114
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 114
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 118
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 123
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 123
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 123
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 136
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 161
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "prepareEnemy",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 162
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "distance",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 167
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 167
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 167
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "visible",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 167
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 62
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 62
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 66
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 66
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 167
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 167
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 172
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 172
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 172
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 174
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 175
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 176
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 176
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 176
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 177
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 177
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 177
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 177
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 178
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 178
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 178
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 178
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 178
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 181
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 182
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 182
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 182
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 182
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 183
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 184
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 184
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 184
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 185
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 185
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 185
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 185
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 185
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 186
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 186
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 187
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 189
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "directionTo",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
       "line": 191
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "maxHp",
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 193
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 191
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 191
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 163
      },
      "note": ""
     }
    ],
-   "mermaid": "sequenceDiagram\n    participant CastleModel\n    participant InvasionRoute\n    CastleModel->>CastleModel: rebuildRoute()\n    CastleModel->>InvasionRoute: operator=()\n    CastleModel->>CastleModel: connected()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: roomColumn()\n    CastleModel->>CastleModel: roomColumn()\n    CastleModel->>CastleModel: nextHeroCount()\n    CastleModel->>CastleModel: maxHp()",
+   "mermaid": "sequenceDiagram\n    participant BattleModel\n    participant Outcome\n    participant BattleData\n    participant Cell\n    participant BattleState\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>BattleModel: movement()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>BattleModel: distance()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>BattleState: BattleState()\n    BattleModel->>BattleModel: threatened()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: threatened()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: visible()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>BattleModel: prepareEnemy()\n    BattleModel->>BattleModel: distance()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: visible()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleModel: directionTo()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Outcome: Outcome()",
    "unresolved": 0
   },
-  "show_result": {
-   "id": "show_result",
-   "title": "방어 결과와 보상",
-   "entry": "app::castle::CastleModel::finishRaid()",
+  "progression": {
+   "id": "progression",
+   "title": "배움을 유지하며 다음 수련 시작",
+   "entry": "app::srpg::BattleModel::nextLesson()",
    "participants": [
-    "CastleModel"
+    "BattleModel",
+    "BattleState",
+    "Cell"
    ],
-   "messages": [],
-   "mermaid": "sequenceDiagram\n    participant CastleModel",
+   "messages": [
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "resetLesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 205
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleState",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 194
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 196
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 196
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 197
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 197
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 198
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "directionTo",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 201
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 201
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 201
+     },
+     "note": ""
+    }
+   ],
+   "mermaid": "sequenceDiagram\n    participant BattleModel\n    participant BattleState\n    participant Cell\n    BattleModel->>BattleModel: resetLesson()\n    BattleModel->>BattleState: operator=()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>BattleModel: directionTo()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()",
    "unresolved": 0
   },
   "load_assets": {
    "id": "load_assets",
-   "title": "한국어 글꼴과 저장된 성 불러오기",
-   "entry": "app::castle::CastleScene::onEnter(engine::Engine &)",
+   "title": "한국어 글꼴과 수련 상태 불러오기",
+   "entry": "app::srpg::BattleScene::onEnter(engine::Engine &)",
    "participants": [
-    "CastleScene",
+    "BattleScene",
     "AndroidAssetLoader",
     "Engine",
     "Font",
@@ -4744,40 +5740,44 @@
     "Texture",
     "Sprite",
     "Glyph",
-    "MonsterArt",
     "Sfx",
     "Sound",
     "Synth",
-    "CastleModel"
+    "BattleModel",
+    "BattleState",
+    "BattleData",
+    "Cell",
+    "Outcome",
+    "Command"
    ],
    "messages": [
     {
-     "src": "CastleScene",
+     "src": "BattleScene",
      "dst": "AndroidAssetLoader",
      "name": "readFile",
      "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 31
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 29
      },
      "note": "virtual, 현재 구현 하나"
     },
     {
-     "src": "CastleScene",
+     "src": "BattleScene",
      "dst": "Engine",
      "name": "assets",
      "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 31
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 29
      },
      "note": ""
     },
     {
-     "src": "CastleScene",
+     "src": "BattleScene",
      "dst": "Font",
      "name": "load",
      "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 32
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 30
      },
      "note": ""
     },
@@ -4892,1423 +5892,2548 @@
      "note": ""
     },
     {
-     "src": "CastleScene",
+     "src": "BattleScene",
      "dst": "Engine",
      "name": "assets",
      "loc": {
-      "file": "app/castle/CastleScene.cpp",
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 30
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleScene",
+     "dst": "Engine",
+     "name": "atlas",
+     "loc": {
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 30
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleScene",
+     "dst": "Sfx",
+     "name": "build",
+     "loc": {
+      "file": "app/srpg/BattleScene.cpp",
       "line": 32
      },
      "note": ""
     },
     {
-     "src": "CastleScene",
-     "dst": "Engine",
-     "name": "atlas",
+     "src": "Sfx",
+     "dst": "Sound",
+     "name": "operator=",
      "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 32
+      "file": "app/Sfx.cpp",
+      "line": 10
      },
      "note": ""
     },
     {
-     "src": "CastleScene",
-     "dst": "Engine",
-     "name": "atlas",
+     "src": "Sfx",
+     "dst": "Synth",
+     "name": "tone",
      "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 34
+      "file": "app/Sfx.cpp",
+      "line": 10
      },
      "note": ""
     },
     {
-     "src": "CastleScene",
-     "dst": "TextureAtlas",
-     "name": "has",
+     "src": "Synth",
+     "dst": "Sound",
+     "name": "Sound",
      "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 35
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "TextureAtlas",
-     "name": "add",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 35
-     },
-     "note": ""
-    },
-    {
-     "src": "TextureAtlas",
-     "dst": "Image",
-     "name": "load",
-     "loc": {
-      "file": "engine/graphics/TextureAtlas.cpp",
-      "line": 23
-     },
-     "note": ""
-    },
-    {
-     "src": "Image",
-     "dst": "Image",
-     "name": "Image",
-     "loc": {
-      "file": "engine/asset/Image.cpp",
-      "line": 15
-     },
-     "note": ""
-    },
-    {
-     "src": "Image",
-     "dst": "AndroidAssetLoader",
-     "name": "readFile",
-     "loc": {
-      "file": "engine/asset/Image.cpp",
-      "line": 17
-     },
-     "note": "virtual, 현재 구현 하나"
-    },
-    {
-     "src": "Image",
-     "dst": "Image",
-     "name": "Image",
-     "loc": {
-      "file": "engine/asset/Image.cpp",
-      "line": 20
-     },
-     "note": ""
-    },
-    {
-     "src": "Image",
-     "dst": "Image",
-     "name": "Image",
-     "loc": {
-      "file": "engine/asset/Image.cpp",
+      "file": "engine/audio/Synth.cpp",
       "line": 29
      },
      "note": ""
     },
     {
-     "src": "Image",
-     "dst": "Image",
-     "name": "Image",
+     "src": "Synth",
+     "dst": "Synth",
+     "name": "declick",
      "loc": {
-      "file": "engine/asset/Image.cpp",
-      "line": 35
+      "file": "engine/audio/Synth.cpp",
+      "line": 42
      },
      "note": ""
     },
     {
-     "src": "TextureAtlas",
-     "dst": "Image",
-     "name": "isValid",
+     "src": "Synth",
+     "dst": "Sound",
+     "name": "Sound",
      "loc": {
-      "file": "engine/graphics/TextureAtlas.cpp",
-      "line": 24
+      "file": "engine/audio/Synth.cpp",
+      "line": 43
      },
      "note": ""
     },
     {
-     "src": "TextureAtlas",
-     "dst": "TextureAtlas",
-     "name": "add",
+     "src": "Sfx",
+     "dst": "Sound",
+     "name": "operator=",
      "loc": {
-      "file": "engine/graphics/TextureAtlas.cpp",
-      "line": 24
+      "file": "app/Sfx.cpp",
+      "line": 11
      },
      "note": ""
     },
     {
-     "src": "TextureAtlas",
-     "dst": "Texture",
-     "name": "upload",
+     "src": "Sfx",
+     "dst": "Synth",
+     "name": "mix",
      "loc": {
-      "file": "engine/graphics/TextureAtlas.cpp",
+      "file": "app/Sfx.cpp",
+      "line": 11
+     },
+     "note": ""
+    },
+    {
+     "src": "Synth",
+     "dst": "Sound",
+     "name": "Sound",
+     "loc": {
+      "file": "engine/audio/Synth.cpp",
+      "line": 96
+     },
+     "note": ""
+    },
+    {
+     "src": "Synth",
+     "dst": "Sound",
+     "name": "Sound",
+     "loc": {
+      "file": "engine/audio/Synth.cpp",
+      "line": 107
+     },
+     "note": ""
+    },
+    {
+     "src": "Sfx",
+     "dst": "Synth",
+     "name": "tone",
+     "loc": {
+      "file": "app/Sfx.cpp",
+      "line": 11
+     },
+     "note": ""
+    },
+    {
+     "src": "Synth",
+     "dst": "Sound",
+     "name": "Sound",
+     "loc": {
+      "file": "engine/audio/Synth.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "Synth",
+     "dst": "Synth",
+     "name": "declick",
+     "loc": {
+      "file": "engine/audio/Synth.cpp",
+      "line": 42
+     },
+     "note": ""
+    },
+    {
+     "src": "Synth",
+     "dst": "Sound",
+     "name": "Sound",
+     "loc": {
+      "file": "engine/audio/Synth.cpp",
+      "line": 43
+     },
+     "note": ""
+    },
+    {
+     "src": "Sfx",
+     "dst": "Synth",
+     "name": "noise",
+     "loc": {
+      "file": "app/Sfx.cpp",
+      "line": 11
+     },
+     "note": ""
+    },
+    {
+     "src": "Synth",
+     "dst": "Sound",
+     "name": "Sound",
+     "loc": {
+      "file": "engine/audio/Synth.cpp",
       "line": 47
      },
      "note": ""
     },
     {
-     "src": "TextureAtlas",
-     "dst": "Sprite",
-     "name": "Sprite",
+     "src": "Synth",
+     "dst": "Synth",
+     "name": "dist",
      "loc": {
-      "file": "engine/graphics/TextureAtlas.cpp",
-      "line": 52
+      "file": "engine/audio/Synth.cpp",
+      "line": 55
+     },
+     "note": "콜백 객체, 정적 추적 불가"
+    },
+    {
+     "src": "Synth",
+     "dst": "Synth",
+     "name": "declick",
+     "loc": {
+      "file": "engine/audio/Synth.cpp",
+      "line": 59
      },
      "note": ""
     },
     {
-     "src": "TextureAtlas",
-     "dst": "Sprite",
-     "name": "operator=",
+     "src": "Synth",
+     "dst": "Sound",
+     "name": "Sound",
      "loc": {
-      "file": "engine/graphics/TextureAtlas.cpp",
+      "file": "engine/audio/Synth.cpp",
       "line": 60
      },
      "note": ""
     },
     {
-     "src": "CastleScene",
-     "dst": "Engine",
-     "name": "assets",
+     "src": "Sfx",
+     "dst": "Sound",
+     "name": "operator=",
      "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 35
+      "file": "app/Sfx.cpp",
+      "line": 14
      },
      "note": ""
     },
     {
-     "src": "CastleScene",
-     "dst": "TextureAtlas",
-     "name": "get",
+     "src": "Sfx",
+     "dst": "Synth",
+     "name": "arpeggio",
      "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 38
+      "file": "app/Sfx.cpp",
+      "line": 14
      },
      "note": ""
     },
     {
-     "src": "TextureAtlas",
-     "dst": "Sprite",
-     "name": "Sprite",
+     "src": "Synth",
+     "dst": "Sound",
+     "name": "Sound",
      "loc": {
-      "file": "engine/graphics/TextureAtlas.cpp",
+      "file": "engine/audio/Synth.cpp",
+      "line": 79
+     },
+     "note": ""
+    },
+    {
+     "src": "Synth",
+     "dst": "Synth",
+     "name": "pluck",
+     "loc": {
+      "file": "engine/audio/Synth.cpp",
+      "line": 83
+     },
+     "note": ""
+    },
+    {
+     "src": "Synth",
+     "dst": "Sound",
+     "name": "Sound",
+     "loc": {
+      "file": "engine/audio/Synth.cpp",
+      "line": 64
+     },
+     "note": ""
+    },
+    {
+     "src": "Synth",
+     "dst": "Synth",
+     "name": "declick",
+     "loc": {
+      "file": "engine/audio/Synth.cpp",
+      "line": 74
+     },
+     "note": ""
+    },
+    {
+     "src": "Synth",
+     "dst": "Sound",
+     "name": "Sound",
+     "loc": {
+      "file": "engine/audio/Synth.cpp",
       "line": 75
      },
      "note": ""
     },
     {
-     "src": "CastleScene",
-     "dst": "Sprite",
-     "name": "operator=",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 40
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "MonsterArt",
-     "name": "frame",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 40
-     },
-     "note": ""
-    },
-    {
-     "src": "MonsterArt",
-     "dst": "Sprite",
-     "name": "isValid",
-     "loc": {
-      "file": "app/castle/MonsterArt.h",
-      "line": 13
-     },
-     "note": ""
-    },
-    {
-     "src": "MonsterArt",
-     "dst": "Sprite",
-     "name": "Sprite",
-     "loc": {
-      "file": "app/castle/MonsterArt.h",
-      "line": 14
-     },
-     "note": ""
-    },
-    {
-     "src": "MonsterArt",
-     "dst": "Sprite",
-     "name": "Sprite",
-     "loc": {
-      "file": "app/castle/MonsterArt.h",
-      "line": 23
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
-     "dst": "Sfx",
-     "name": "build",
-     "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 42
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Sound",
-     "name": "operator=",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 10
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "tone",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 10
-     },
-     "note": ""
-    },
-    {
      "src": "Synth",
      "dst": "Sound",
      "name": "Sound",
      "loc": {
       "file": "engine/audio/Synth.cpp",
-      "line": 29
+      "line": 92
      },
      "note": ""
     },
     {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 42
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 43
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Sound",
-     "name": "operator=",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 11
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "mix",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 11
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 96
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 107
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "tone",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 11
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 29
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 42
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 43
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "noise",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 11
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 47
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "dist",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 55
-     },
-     "note": "콜백 객체, 정적 추적 불가"
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 59
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 60
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Sound",
-     "name": "operator=",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 12
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "tone",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 12
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 29
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 42
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 43
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Sound",
-     "name": "operator=",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 13
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "tone",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 13
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 29
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 42
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 43
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Sound",
-     "name": "operator=",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 14
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "mix",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 14
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 96
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 107
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "noise",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 14
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 47
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "dist",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 55
-     },
-     "note": "콜백 객체, 정적 추적 불가"
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 59
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 60
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "tone",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 14
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 29
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 42
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 43
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Sound",
-     "name": "operator=",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 15
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "mix",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 15
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 96
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 107
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "noise",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 15
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 47
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "dist",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 55
-     },
-     "note": "콜백 객체, 정적 추적 불가"
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 59
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 60
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "tone",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 15
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 29
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 42
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 43
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Sound",
-     "name": "operator=",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 16
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "mix",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 16
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 96
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 107
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "noise",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 16
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 47
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "dist",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 55
-     },
-     "note": "콜백 객체, 정적 추적 불가"
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 59
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 60
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "tone",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 16
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 29
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 42
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 43
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Sound",
-     "name": "operator=",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 17
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "tone",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 17
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 29
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 42
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 43
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Sound",
-     "name": "operator=",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 18
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "mix",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 18
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 96
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 107
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "noise",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 18
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 47
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "dist",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 55
-     },
-     "note": "콜백 객체, 정적 추적 불가"
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 59
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 60
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "tone",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 18
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Sound",
-     "name": "operator=",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 19
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "mix",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 19
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "noise",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 19
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "tone",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 19
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Sound",
-     "name": "operator=",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 20
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "tone",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 20
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Sound",
-     "name": "operator=",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 23
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "arpeggio",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 23
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Sound",
-     "name": "operator=",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 25
-     },
-     "note": ""
-    },
-    {
-     "src": "Sfx",
-     "dst": "Synth",
-     "name": "arpeggio",
-     "loc": {
-      "file": "app/Sfx.cpp",
-      "line": 25
-     },
-     "note": ""
-    },
-    {
-     "src": "CastleScene",
+     "src": "BattleScene",
      "dst": "Engine",
      "name": "dataPath",
      "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 43
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 33
      },
      "note": ""
     },
     {
-     "src": "CastleScene",
-     "dst": "CastleModel",
+     "src": "BattleScene",
+     "dst": "BattleModel",
      "name": "load",
      "loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 44
-     },
-     "note": ""
-    }
-   ],
-   "mermaid": "sequenceDiagram\n    participant CastleScene\n    participant AndroidAssetLoader\n    participant Engine\n    participant Font\n    participant Image\n    participant TextureAtlas\n    participant Texture\n    participant Sprite\n    participant Glyph\n    participant MonsterArt\n    participant Sfx\n    participant Sound\n    participant Synth\n    participant CastleModel\n    CastleScene-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    CastleScene->>Engine: assets()\n    CastleScene->>Font: load()\n    Font-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    Font->>Font: nextCodepoint()\n    Font->>Image: Image()\n    Font->>TextureAtlas: add()\n    TextureAtlas->>Texture: upload()\n    TextureAtlas->>Sprite: Sprite()\n    TextureAtlas->>Sprite: operator=()\n    Font->>Sprite: operator=()\n    Font->>TextureAtlas: get()\n    TextureAtlas->>Sprite: Sprite()\n    Font->>Glyph: operator=()\n    CastleScene->>Engine: assets()\n    CastleScene->>Engine: atlas()\n    CastleScene->>Engine: atlas()\n    CastleScene->>TextureAtlas: has()\n    CastleScene->>TextureAtlas: add()\n    TextureAtlas->>Image: load()\n    Image->>Image: Image()\n    Image-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    Image->>Image: Image()\n    Image->>Image: Image()\n    Image->>Image: Image()\n    TextureAtlas->>Image: isValid()\n    TextureAtlas->>TextureAtlas: add()\n    TextureAtlas->>Texture: upload()\n    TextureAtlas->>Sprite: Sprite()\n    TextureAtlas->>Sprite: operator=()\n    CastleScene->>Engine: assets()\n    CastleScene->>TextureAtlas: get()\n    TextureAtlas->>Sprite: Sprite()\n    CastleScene->>Sprite: operator=()\n    CastleScene->>MonsterArt: frame()\n    MonsterArt->>Sprite: isValid()\n    MonsterArt->>Sprite: Sprite()\n    MonsterArt->>Sprite: Sprite()\n    CastleScene->>Sfx: build()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Sfx->>Synth: noise()\n    Sfx->>Synth: tone()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: arpeggio()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: arpeggio()\n    CastleScene->>Engine: dataPath()\n    CastleScene->>CastleModel: load()",
-   "unresolved": 5
-  },
-  "dodge_update": {
-   "id": "dodge_update",
-   "title": "마물과 용사의 자동 전투",
-   "entry": "app::castle::CastleModel::update(float)",
-   "participants": [
-    "CastleModel",
-    "Hero"
-   ],
-   "messages": [
-    {
-     "src": "CastleModel",
-     "dst": "Hero",
-     "name": "operator=",
-     "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 205
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 34
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "nextHeroHp",
+     "src": "BattleModel",
+     "dst": "BattleState",
+     "name": "BattleState",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 206
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 250
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "maxHp",
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "validState",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 259
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 210
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 210
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 210
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 210
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
       "line": 212
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "heroRoom",
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 215
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 212
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "attack",
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 217
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 212
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "adjacentFacilities",
+     "src": "BattleModel",
+     "dst": "BattleState",
+     "name": "operator=",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 108
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 260
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "adjacentRooms",
+     "src": "BattleScene",
+     "dst": "BattleScene",
+     "name": "refresh",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 98
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 35
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "heroRoom",
+     "src": "BattleScene",
+     "dst": "Cell",
+     "name": "operator=",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 219
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 40
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "attack",
+     "src": "BattleScene",
+     "dst": "BattleModel",
+     "name": "state",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 224
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 40
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "adjacentFacilities",
+     "src": "BattleScene",
+     "dst": "BattleModel",
+     "name": "movement",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 108
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 41
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "adjacentRooms",
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 98
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 40
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "heroRoom",
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 232
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 41
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "trapDamage",
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 237
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 41
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "adjacentFacilities",
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 110
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 43
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "adjacentRooms",
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 98
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 44
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "resident",
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 241
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 44
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "finishRaid",
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 248
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 45
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 46
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 46
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 46
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 48
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 48
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 48
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 48
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 49
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleScene",
+     "dst": "Outcome",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 42
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleScene",
+     "dst": "BattleModel",
+     "name": "preview",
+     "loc": {
+      "file": "app/srpg/BattleScene.cpp",
+      "line": 42
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "BattleModel",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 71
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "execute",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 72
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 75
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 78
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 78
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 78
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "movement",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 79
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 79
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 79
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 79
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "distance",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 80
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 80
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 80
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 85
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 88
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 91
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleState",
+     "name": "BattleState",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 93
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "threatened",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 94
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 94
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "threatened",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 95
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 95
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "visible",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 99
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 99
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 99
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 100
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 113
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 113
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 113
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 114
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 114
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 118
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 123
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 123
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 123
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 136
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 161
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "prepareEnemy",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 162
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 163
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Command",
+     "name": "Command",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 72
      },
      "note": ""
     }
    ],
-   "mermaid": "sequenceDiagram\n    participant CastleModel\n    participant Hero\n    CastleModel->>Hero: operator=()\n    CastleModel->>CastleModel: nextHeroHp()\n    CastleModel->>CastleModel: maxHp()\n    CastleModel->>CastleModel: heroRoom()\n    CastleModel->>CastleModel: attack()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: heroRoom()\n    CastleModel->>CastleModel: attack()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: heroRoom()\n    CastleModel->>CastleModel: trapDamage()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: resident()\n    CastleModel->>CastleModel: finishRaid()",
-   "unresolved": 0
+   "mermaid": "sequenceDiagram\n    participant BattleScene\n    participant AndroidAssetLoader\n    participant Engine\n    participant Font\n    participant Image\n    participant TextureAtlas\n    participant Texture\n    participant Sprite\n    participant Glyph\n    participant Sfx\n    participant Sound\n    participant Synth\n    participant BattleModel\n    participant BattleState\n    participant BattleData\n    participant Cell\n    participant Outcome\n    participant Command\n    BattleScene-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    BattleScene->>Engine: assets()\n    BattleScene->>Font: load()\n    Font-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    Font->>Font: nextCodepoint()\n    Font->>Image: Image()\n    Font->>TextureAtlas: add()\n    TextureAtlas->>Texture: upload()\n    TextureAtlas->>Sprite: Sprite()\n    TextureAtlas->>Sprite: operator=()\n    Font->>Sprite: operator=()\n    Font->>TextureAtlas: get()\n    TextureAtlas->>Sprite: Sprite()\n    Font->>Glyph: operator=()\n    BattleScene->>Engine: assets()\n    BattleScene->>Engine: atlas()\n    BattleScene->>Sfx: build()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: arpeggio()\n    Synth->>Sound: Sound()\n    Synth->>Synth: pluck()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    BattleScene->>Engine: dataPath()\n    BattleScene->>BattleModel: load()\n    BattleModel->>BattleState: BattleState()\n    BattleModel->>BattleModel: validState()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleState: operator=()\n    BattleScene->>BattleScene: refresh()\n    BattleScene->>Cell: operator=()\n    BattleScene->>BattleModel: state()\n    BattleScene->>BattleModel: movement()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleScene->>Outcome: operator=()\n    BattleScene->>BattleModel: preview()\n    BattleModel->>BattleModel: BattleModel()\n    BattleModel->>BattleModel: execute()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>BattleModel: movement()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>BattleModel: distance()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>BattleState: BattleState()\n    BattleModel->>BattleModel: threatened()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: threatened()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: visible()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>BattleModel: prepareEnemy()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>Command: Command()",
+   "unresolved": 1
   },
-  "fusion": {
-   "id": "fusion",
-   "title": "마물 합성과 도감 등록",
-   "entry": "app::castle::CastleModel::fuse(int, int)",
+  "preview": {
+   "id": "preview",
+   "title": "모델 복사본으로 명령 결과 예측",
+   "entry": "app::srpg::BattleModel::preview(app::srpg::Command)",
    "participants": [
-    "CastleModel",
-    "Monster"
+    "BattleModel",
+    "Outcome",
+    "BattleData",
+    "Cell",
+    "BattleState",
+    "Command"
    ],
    "messages": [
     {
-     "src": "CastleModel",
-     "dst": "CastleModel",
-     "name": "fusionResult",
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "BattleModel",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 173
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 71
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "Monster",
-     "name": "operator=",
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "execute",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 180
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 72
      },
      "note": ""
     },
     {
-     "src": "CastleModel",
-     "dst": "Monster",
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 75
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 78
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 78
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 78
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "movement",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 79
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
      "name": "operator=",
      "loc": {
-      "file": "app/castle/CastleModel.cpp",
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 40
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 41
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 41
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 43
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 44
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 44
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 45
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 46
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 46
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 46
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 48
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 48
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 48
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 48
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 49
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 79
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 79
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 79
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "distance",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 80
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 80
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 80
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 85
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 88
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 91
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleState",
+     "name": "BattleState",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 93
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "threatened",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 94
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 27
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 30
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 30
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 31
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 31
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 31
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 94
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "threatened",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 95
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 27
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 30
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 30
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 31
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 31
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 31
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 95
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "visible",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 99
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 62
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 62
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 66
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 66
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 99
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 99
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 100
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 113
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 113
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 113
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 114
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 114
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 118
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 123
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 123
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 123
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 136
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "lesson",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 161
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "prepareEnemy",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 162
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "distance",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 167
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 167
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 167
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "visible",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 167
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 167
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 167
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 172
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 172
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 172
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 174
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 175
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 176
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 176
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 176
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 177
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 177
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 177
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 177
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 178
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 178
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 178
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 178
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 178
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
       "line": 181
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 182
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 182
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 182
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 182
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 183
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "plus",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 184
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 184
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 184
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "blocked",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 185
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 185
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 185
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 185
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 185
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "index",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 186
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 186
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 187
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "operator=",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 189
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "directionTo",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 191
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 191
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 191
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Outcome",
+     "name": "Outcome",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 163
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Command",
+     "name": "Command",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 72
      },
      "note": ""
     }
    ],
-   "mermaid": "sequenceDiagram\n    participant CastleModel\n    participant Monster\n    CastleModel->>CastleModel: fusionResult()\n    CastleModel->>Monster: operator=()\n    CastleModel->>Monster: operator=()",
+   "mermaid": "sequenceDiagram\n    participant BattleModel\n    participant Outcome\n    participant BattleData\n    participant Cell\n    participant BattleState\n    participant Command\n    BattleModel->>BattleModel: BattleModel()\n    BattleModel->>BattleModel: execute()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>BattleModel: movement()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>BattleModel: distance()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>BattleState: BattleState()\n    BattleModel->>BattleModel: threatened()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: threatened()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: visible()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>BattleModel: lesson()\n    BattleModel->>BattleModel: prepareEnemy()\n    BattleModel->>BattleModel: distance()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: visible()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: plus()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleModel: blocked()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: index()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: operator=()\n    BattleModel->>Cell: operator=()\n    BattleModel->>BattleModel: directionTo()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Outcome: Outcome()\n    BattleModel->>Command: Command()",
+   "unresolved": 0
+  },
+  "save": {
+   "id": "save",
+   "title": "확정된 턴과 배움 저장",
+   "entry": "app::srpg::BattleModel::save(const std::string &)",
+   "participants": [
+    "BattleModel",
+    "BattleData",
+    "Cell"
+   ],
+   "messages": [
+    {
+     "src": "BattleModel",
+     "dst": "BattleModel",
+     "name": "validState",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 229
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 210
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 210
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "inside",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 210
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 210
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "BattleData",
+     "name": "operator==",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 212
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 212
+     },
+     "note": ""
+    },
+    {
+     "src": "BattleModel",
+     "dst": "Cell",
+     "name": "Cell",
+     "loc": {
+      "file": "app/srpg/BattleModel.cpp",
+      "line": 212
+     },
+     "note": ""
+    }
+   ],
+   "mermaid": "sequenceDiagram\n    participant BattleModel\n    participant BattleData\n    participant Cell\n    BattleModel->>BattleModel: validState()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: inside()\n    BattleModel->>Cell: Cell()\n    BattleModel->>BattleData: operator==()\n    BattleModel->>Cell: Cell()\n    BattleModel->>Cell: Cell()",
    "unresolved": 0
   }
  },

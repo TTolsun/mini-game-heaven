@@ -21,7 +21,7 @@ require(signingValues.all { it == null } || signingValues.all { it != null }) {
 }
 
 android {
-    namespace = "com.ttolsun.minigameheaven"
+    namespace = "com.ttolsun.wuten"
     compileSdk = 36
     ndkVersion = "29.0.14206865"
 
@@ -29,8 +29,8 @@ android {
         applicationId = "com.ttolsun.minigameheaven"
         minSdk = 28
         targetSdk = 36
-        versionCode = 4
-        versionName = "0.3.0"
+        versionCode = 5
+        versionName = "0.4.0"
 
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64")

@@ -9,7 +9,7 @@ FACTS_BUILD="$ROOT/build/sdd/facts/facts.json"
 FACTS_DOCS="$ROOT/docs/sdd/facts.json"
 SITE_BUILD="$ROOT/build/sdd/sdd.html"
 SITE_DOCS="$ROOT/docs/index.html"
-SITE_TITLE="monster-garden SDD"
+SITE_TITLE="무천 SRPG SDD"
 
 sdd() {
     uv run --frozen --project "$SDD_TOOL_DIR" sdd --config "$SDD_CONFIG" "$@"
@@ -17,7 +17,6 @@ sdd() {
 
 export_site() {
     sdd export-html --title "$SITE_TITLE" --out "$1"
-    node "$ROOT/tools/docs-mascot.mjs" "$1"
 }
 
 require_tool() {

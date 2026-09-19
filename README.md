@@ -1,80 +1,66 @@
-# 마물 정원 (monster-garden)
+# DRAGON BALL: 武天 (가제)
 
-카이로소프트 **「마왕성 스토리」를 기준으로 한 던전 경영 시뮬레이션**을 목표로 하는 Android 게임입니다. 성 건설·몬스터 육성·용사 방어·탐험이 연결되는 운영 경험을 지향합니다. 현재 0.3.0은 방 확장·통로 편집·왕좌 이동과 소환·먹이·합성·자동 방어를 구현한 시제품이며, 목표 콘셉트와 현재 구현의 차이는 [게임 방향 문서](docs/game-direction.md)에 기록합니다.
+C++20 기반 Android 무술 SRPG입니다. 무천도사의 어린 시절부터 손오공과의 만남까지를 그리며, 핵심은 **전투에서 상대를 간파하고 기술을 모방한 뒤 자기 무술로 체득하는 과정**입니다.
 
-## 플레이
+현재 0.4.0 개발 버전은 이 재미를 확인하는 **세 개의 단독 수련전**입니다. 전체 이야기, 다섯 맵의 1장, 동료 협공과 행동별 성장 계통은 후속 범위입니다.
 
-1. 처음 만나는 슬라임과 임프가 있는 방을 누르고 각각 먹이를 주어 Lv.2로 키웁니다.
-2. `합성하기`에서 상대를 고르면 결과 종과 이어받을 레벨을 먼저 볼 수 있습니다. 두 마물을 소모하고 마력 40을 써서 합성합니다.
-3. `방어 시작`을 누르면 마물과 함정이 자동으로 용사를 막습니다. 2배속과 일시정지를 지원합니다.
-4. 보상 금화는 먹이·시설·확장에, 마력은 소환·합성에 사용합니다. 마물 도감에 수집 기록이 남습니다.
-5. 10일 차 방어에 성공하면 첫 캠페인을 마칩니다. 이후에도 마물을 키우고 성을 꾸밀 수 있습니다.
+## 실행되는 플레이
 
-| 합성 조합 (둘 다 Lv.2 이상) | 결과 | 특징 |
-|---|---|---|
-| 슬라임 + 임프 | 달그림자 | 같은 방의 다른 용사에게 공격력 40%의 피해를 줍니다. |
-| 임프 + 골렘 | 새벽 드래곤 | 같은 방의 다른 용사에게 공격력 65%의 피해를 줍니다. |
-| 슬라임 + 슬라임 | 왕관 슬라임 | 살아 있는 동안 초당 체력 3을 회복합니다. |
+1. 파란 칸을 눌러 이동할 위치를 고르고 관찰·방어·타격·기 모으기·기술 중 하나를 선택합니다.
+2. 예상 피해와 기력 변화, 새 단서 여부를 확인한 뒤 `이동 + 행동 확정`을 누릅니다.
+3. 상대 3칸 안에서 공격을 관찰하고, 예고된 빨간 공격선을 벗어나고, 공격선 안에서 방어하면 서로 다른 단서를 얻습니다.
+4. 세 단서를 모두 얻으면 철산격 모방이 열립니다. 기 20을 쓰고, 상대 공격에 노출된 채 사용하면 추가 피해를 받습니다.
+5. 살아 있는 상대에게 모방을 두 번 성공시키면 로시류 붕권을 체득합니다. 기 비용이 15로 줄고 피해·밀쳐내기가 강화됩니다.
+6. 상대를 쓰러뜨리면 다음 수련으로 진행합니다. 단서와 체득은 이어지고 체력·기는 초기화됩니다.
 
-합성 결과는 두 마물의 평균 레벨(소수점 버림)을 이어받습니다. 도감은 재료로 사용한 종도 기억합니다. 기본 3종은 원하는 종을 선택해 소환하며 뽑기 확률은 없습니다. 마물은 최대 8마리, 레벨은 10까지입니다.
+기 모으기는 같은 자리에서 연속 사용하면 20 → 30 → 50을 얻습니다. 상한은 100입니다. 모으는 중 공격받으면 추가 피해와 기 손실이 있고 연속 축적이 끊깁니다. 같은 단서는 다시 얻지 못하며 재도전하면 해당 수련에 입장했던 배움으로 돌아갑니다.
 
-## 성과 방어
+첫 번째·두 번째·세 번째 수련은 각각 열린 도장, 기둥이 있는 도장, 벽 충돌을 활용하는 도장입니다. 상대는 다음 공격 방향을 보여 줍니다. 체득한 붕권으로 밀거나 벽에 부딪치게 하면 예고된 공격을 끊을 수 있습니다.
 
-0.3.0에서는 12칸 안에서 열린 방에 맞닿은 곳을 골라 확장합니다. `성 꾸미기 → 통로 편집`에서 방을 선택해 이웃 방과 통로를 열거나 닫고, 입구를 제외한 열린 방으로 왕좌를 옮길 수 있습니다. 금빛 통로는 용사가 왕좌까지 이동할 최단 경로입니다. 통로가 끊기면 방어를 시작할 수 없으며 편집과 왕좌 이동은 무료입니다. 확장한 방은 이웃 방 하나와 연결되고 왕좌 위치는 유지됩니다.
+현재 화면은 세로형이며 임시 도형 캐릭터를 사용합니다. 한국어 안내와 색·기호를 함께 표시합니다. `수련 안내`에서 단서 조건과 조작을 다시 볼 수 있습니다.
 
-숙소는 거주 마물의 체력을 높이고 인접 마물의 공격력을 보조합니다. 창고는 금화를, 서고는 마력을 생산합니다. 서고 옆의 함정은 피해량이 높아집니다. 인접 보너스는 통로 개폐와 관계없이 상하좌우 방에 적용됩니다. 생산은 방어가 끝날 때 지급됩니다. 패배해도 마물을 잃지 않고 보급품을 받아 같은 날에 다시 도전할 수 있습니다.
+## 문서
 
-플레이어의 행동과 방어 결과는 앱 내부 `castle-v1.txt`에 저장됩니다. 파일명은 유지하고 내용 형식은 `CASTLE 2`로 확장해 통로와 왕좌를 보관합니다. 기존 `CASTLE 1`은 재화·마물·도감을 유지하며 순차 통로와 마지막 열린 방의 왕좌로 이전합니다. 이전 앱으로의 저장 파일 역호환은 제공하지 않습니다. 임시 파일을 쓴 뒤 교체하고 불완전하거나 범위를 벗어난 저장 파일은 읽지 않습니다. 전투 도중 앱이 종료되면 해당 날의 준비 단계로 돌아갑니다. 결과 화면에서 종료해도 지급된 보상은 중복 수령되지 않습니다. 기존 `highscores.txt`와 분리됩니다.
+- [게임 방향](docs/game-direction.md): 주제, 전체 이야기와 재미의 네 축입니다.
+- [SRPG 설계](docs/srpg-design.md): 장 구성, 전투 중 성장, 첫 시제품과 후속 범위입니다.
+- [설정 근거](docs/srpg-lore.md): 원작·애니메이션·2차 자료·게임 창작을 구분합니다.
+- [시제품 밸런스 검토](design/balance/balance-check-srpg-prototype-2026-09-19.md): 수치, 검증 전략과 남은 문제입니다.
+- [검증 기록](docs/validation.md), [코드 구조](docs/sdd/index.md), [개발 정책](docs/development-policy.md)을 함께 관리합니다.
 
-## 구현 범위와 다음 단계
+## C++ 구조와 저장
 
-현재는 6종, 합성 3종, 시설 4종, 10일 캠페인입니다. 탐험·장비·분기 진화·온라인 기능·장기 밸런싱은 아직 구현하지 않았습니다. 몬스터 6종은 굵은 윤곽선, 각진 표정과 선명한 셀 채색을 사용한 오리지널 비인간형 일러스트입니다. 드래곤볼 Z풍의 작화 표현을 참고하며 사람 캐릭터나 원작 인물을 넣지 않습니다. 이미지 시트는 `app/src/main/assets/characters/monsters-anime.png`, 생성 프롬프트는 `docs/art/monster-atlas-prompt.txt`에 있습니다.
+- `native/app/srpg/BattleData.h`: 세 수련의 맵·수치·행동 정의입니다.
+- `BattleModel.*`: 격자 이동, 상대 응답, 단서·모방·체득, 승패와 저장을 처리합니다. Android·그래픽 의존성이 없습니다.
+- `BattleScene.*`: 지도, 예측, 행동 확인, 결과, 한국어 안내와 입력을 담당합니다.
+- `native/engine/`: OpenGL ES 3 렌더링·글꼴·입력·음향 기반입니다.
+- `native/platform/android/`: GameActivity·AAudio·햅틱·EGL 연결입니다.
 
-## 기술 구조
+`wuten-v1.txt`에 확정된 턴을 저장합니다. 이동 미리보기는 저장하지 않고, 임시 파일 교체로 완료한 상태만 반영합니다. 잘못된 위치·중복 점유·불완전한 저장을 거부합니다.
 
-- C++20, GameActivity, OpenGL ES 3, AAudio, 네이티브 터치·햅틱을 사용합니다.
-- `native/app/castle/CastleModel.*`: Android와 렌더러에 의존하지 않는 경제·합성·전투·저장 로직입니다.
-- `native/app/castle/CastleScene.*`: 지도, 마물 관리, 도감, 합성 확인, 방어 결과를 표시합니다.
-- `native/engine/graphics/Font.*`: UTF-8을 해석하고 필요한 글리프만 아틀라스에 올립니다.
-- 이전 미니게임 소스는 보존하지만 APK의 CMake 대상에는 포함하지 않습니다.
+Gradle 프로젝트와 네이티브 라이브러리는 `wuten`, Android namespace는 `com.ttolsun.wuten`입니다. 기존 설치에 업데이트할 수 있도록 배포 식별자 `com.ttolsun.minigameheaven`는 유지합니다. 저장소의 원격 주소는 이번 코드 개편에서 변경하지 않습니다.
 
-## 빌드와 검증
+## 빌드와 테스트
 
-JDK 17, Android SDK platform 36, NDK 29.0.14206865, CMake 3.31.6이 필요합니다.
+JDK 17, Android SDK platform 36, NDK 29.0.14206865, CMake 3.31.6을 사용합니다.
 
 ```powershell
-android sdk install ndk/29.0.14206865 cmake/3.31.6
-.\gradlew.bat assembleDebug
+.\gradlew.bat assembleDebug assembleRelease testDebugUnitTest lintDebug --no-daemon
+.\tools\test-srpg.ps1 -Device <serial> -Abi x86_64
 android run --apks=app/build/outputs/apk/debug/app-debug.apk --device=<serial>
 ```
 
-ARM64 기기와 x86_64 에뮬레이터를 지원합니다. 게임 로직 테스트는 다음 스크립트로 지정한 기기에서만 실행합니다.
-
-```powershell
-.\tools\test-castle.ps1 -Device <serial> -Abi arm64-v8a
-```
-
-한국어 문구를 추가했다면 Google Fonts의 Noto Sans KR 원본 가변 TTF를 준비하고 다음 명령으로 글리프 목록과 굵기 600의 경량 폰트를 재생성합니다. OFL 라이선스는 assets/fonts에 포함되어 있습니다.
-
-```powershell
-uv run --with fonttools python tools/prepare-castle-font.py <NotoSansKR-variable.ttf>
-```
-
-## 설계 문서와 릴리스
-
-게임 방향은 `docs/game-direction.md`, 코드 구조는 `docs/sdd/`, 실제 검증 결과는 `docs/validation.md`에 기록합니다. 문서 검토·머지·서명 APK 릴리스 절차는 [개발 정책](docs/development-policy.md)을 따릅니다.
-
-Node.js 24와 uv를 준비하고 다음 명령으로 고정된 SDD 엔진을 설치합니다. 문장 재생성에는 로컬 Ollama `qwen3.5:4b`를 사용합니다.
+순수 모델은 Linux에서도 실행할 수 있으며 CI의 필수 검사에 포함합니다.
 
 ```bash
-bash tools/setup-sdd.sh
-bash tools/docs-sync.sh --force
+mkdir -p build
+g++ -std=c++20 -Wall -Wextra -Wpedantic -O2 -I native native/tests/BattleModelTests.cpp native/app/srpg/BattleModel.cpp -o build/srpg-model-tests
+./build/srpg-model-tests build
 ```
 
-생성 문서를 코드와 대조한 뒤 검토자·검토 이유와 남은 한계를 기록하고 검사합니다. 상세 accept 명령은 개발 정책을 따릅니다. `status: ok`만으로 검토 승인을 대신하지 않습니다.
+한국어 문구를 변경하면 Noto Sans KR 원본 가변 TTF로 글꼴을 갱신합니다.
 
-```bash
-bash tools/docs-check.sh
+```powershell
+uv run --with fonttools python tools/prepare-srpg-font.py <NotoSansKR-variable.ttf>
 ```
 
-`--site`는 LLM 없이 사실과 HTML만 갱신합니다. `constraints.md`와 `decisions.md`는 수동 기록입니다. CI는 정책 테스트, Debug·Release 빌드, lint와 사실·검토 기록·HTML 일치를 검사합니다. 서명 APK 릴리스는 검증된 main 커밋에 버전 태그를 만들 때만 초안으로 생성되며, 실제 서명키와 인증서 지문 설정이 필요합니다.
+문서 동기화·검토와 릴리스 절차는 [개발 정책](docs/development-policy.md)을 따릅니다. 빌드 성공을 실제 재미·장시간 성능 검증으로 해석하지 않습니다.

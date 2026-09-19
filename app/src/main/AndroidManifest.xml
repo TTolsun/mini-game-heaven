@@ -11,12 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:enableOnBackInvokedCallback="false"
-        android:theme="@style/Theme.MiniGameHeaven">
+        android:theme="@style/Theme.Wuten">
 
         <!-- enableOnBackInvokedCallback=false: with predictive back on, BACK never reaches
-             onKeyUp, so the native side could not return to the menu. -->
+             onKeyUp, so the native side could not cancel battle selections. -->
         <!-- No Kotlin/Java in this project: GameActivity from the AAR is the entry point.
-             android.app.lib_name tells it which native library to load (libminigame.so). -->
+             android.app.lib_name tells it which native library to load (libwuten.so). -->
         <activity
             android:name="com.google.androidgamesdk.GameActivity"
             android:exported="true"
@@ -25,7 +25,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout|uiMode|density">
             <meta-data
                 android:name="android.app.lib_name"
-                android:value="minigame" />
+                android:value="wuten" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

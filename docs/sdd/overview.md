@@ -1,22 +1,24 @@
 ---
 status: ok
 section: overview
-reviewer: Codex
+reviewer: Codex (AI)
 reviewed: 2026-09-19
 ---
 
 # 시스템 개요
 
-마물 정원은 카이로소프트 「마왕성 스토리」의 성 운영 경험을 기준으로 개발하는 C++20 Android 던전 경영 게임입니다. 현재는 방 확장·통로 편집·왕좌 이동, 소환·먹이·합성과 자동 방어를 구현했습니다. 용사는 편집한 성의 최단 경로를 이동하며, 배치된 마물과 함정이 그 경로에서 교전합니다. 탐험·성 등급·진화는 후속 구현 범위입니다.
+무천은 C++20 Android 무술 SRPG입니다. 현재는 세 개의 수련전에서 간파·모방·체득, 기 축적과 위험, 방향 예고와 밀쳐내기를 검증합니다.
 
-| 영역 | 책임 | 근거 |
-|---|---|---|
-| app/castle | 게임 상태, 경제, 합성, 전투, 저장과 게임 화면 | `app/castle/CastleModel.cpp:9`, `app/castle/CastleScene.cpp:29` |
-| engine | Scene 구동, 좌표 변환, 그래픽, 글꼴, 오디오 믹서 | `engine/Engine.cpp:77` |
-| platform/android | GameActivity 이벤트, EGL, AAudio, 자산 접근, JNI 햅틱 | `platform/android/AndroidMain.cpp:54` |
+| 영역 | 역할 |
+|---|---|
+| app/srpg | 전투 상태·명령·규칙·저장과 전투 화면을 담당합니다. |
+| engine | 렌더링·글꼴·입력·시간·음향의 공용 기반입니다. |
+| platform/android | GameActivity·EGL·AAudio·JNI 햅틱을 연결합니다. |
 
-`android_main()`이 AppState와 이벤트 루프를 구성합니다. 최초 윈도우 생성 시 GL과 Engine을 초기화하고 CastleScene을 설치합니다. 입력은 Engine을 거쳐 CastleScene으로 전달되며, 포커스와 surface가 있을 때 프레임을 그립니다. `platform/android/AndroidMain.cpp:156`
+윈도우 생성 때 AndroidMain이 그래픽을 초기화하고 BattleScene을 설치합니다. 게임 루프는 입력을 전달하고 Engine::frame을 호출합니다. 근거: `platform/android/AndroidMain.cpp:54`, `platform/android/AndroidMain.cpp:156`.
 
-CastleModel은 표준 C++만 사용합니다. CastleScene은 Engine 서비스를 사용하고 Engine은 Scene 인터페이스를 통해 앱을 호출합니다. 이전 미니게임 소스는 보존하지만 현재 CMake 대상에서 제외했습니다. `CMakeLists.txt:11`
+전투 상태는 매 프레임 자동 진행하지 않습니다. BattleScene::act가 유효한 확정 명령을 BattleModel::execute에 전달할 때 아군 행동과 상대 응답이 함께 처리됩니다. preview는 동일 명령을 복사본에서 실행합니다. 근거: `app/srpg/BattleScene.cpp:195`, `app/srpg/BattleModel.cpp:70`, `app/srpg/BattleModel.cpp:74`.
 
-읽는 순서는 AndroidMain → Engine::frame → CastleScene → CastleModel입니다. [시나리오 목록](scenarios/index.md)에서 각 흐름을 확인할 수 있습니다.
+읽는 순서는 AndroidMain → Engine::onTouch → BattleScene::onTouch/act → BattleModel::preview/execute → BattleScene::render입니다. engine은 app과 platform을 참조하지 않지만 현재 그래픽 구현은 GLES에, 로그는 Android API에 의존합니다.
+
+검토자는 실제 코드와 위 흐름을 대조했습니다. 실행 검증은 [검증 기록](../validation.md), 책임 분리는 [컴포넌트](components.md)를 참조합니다.

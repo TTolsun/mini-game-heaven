@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(minigame LANGUAGES C CXX)
+project(wuten LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -22,10 +22,10 @@ add_library(${PROJECT_NAME} SHARED
     engine/graphics/Texture.cpp
     engine/graphics/TextureAtlas.cpp
 
-    # app: monster collection and castle simulation
+    # app: martial-arts SRPG learning prototype
     app/Sfx.cpp
-    app/castle/CastleModel.cpp
-    app/castle/CastleScene.cpp
+    app/srpg/BattleModel.cpp
+    app/srpg/BattleScene.cpp
 
     # platform/android: the only Android-aware code
     platform/android/AndroidAssetLoader.cpp
