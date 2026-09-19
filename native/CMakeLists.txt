@@ -26,6 +26,7 @@ add_library(${PROJECT_NAME} SHARED
     app/Sfx.cpp
     app/srpg/BattleModel.cpp
     app/srpg/BattleScene.cpp
+    app/srpg/BattleArt.cpp
 
     # platform/android: the only Android-aware code
     platform/android/AndroidAssetLoader.cpp

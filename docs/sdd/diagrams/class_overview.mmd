@@ -8,6 +8,14 @@ classDiagram
     }
     class Action {
     }
+    class BattleArt {
+        +load()
+        +portrait()
+        +unit()
+        +tile()
+        +dojo()
+        +makeUnits()
+    }
     class BattleEvent {
     }
     class BattleModel {
@@ -32,9 +40,19 @@ classDiagram
     }
     class BattleState {
     }
+    class Canvas {
+        +Canvas()
+        +pixel()
+        +rect()
+        +ellipse()
+        +line()
+        +triangle()
+    }
     class Cell {
     }
     class Command {
+    }
+    class Costume {
     }
     class EnemyData {
     }
@@ -51,11 +69,17 @@ classDiagram
     }
     class Phase {
     }
+    class Pose {
+    }
     class SkillData {
     }
     class SkillShape {
     }
+    class TimelineFrame {
+    }
     class Unit {
+    }
+    class VisualUnit {
     }
     class Animation {
         +Animation()
@@ -253,6 +277,8 @@ classDiagram
     Engine --> Mixer
     Engine --> NullHaptics
     Engine --> Haptics
+    Engine --> Texture
+    Engine --> Rect
     Animation --> Sprite
     Font --> Sprite
     Font --> Glyph
@@ -275,16 +301,25 @@ classDiagram
     BattleEvent --> Cell
     Outcome --> BattleEvent
     BattleModel --> BattleState
+    BattleArt --> Texture
+    VisualUnit --> Vec2
+    TimelineFrame --> VisualUnit
     BattleScene --> Engine
     BattleScene --> Font
     BattleScene --> Sfx
     BattleScene --> BattleModel
+    BattleScene --> BattleArt
+    BattleScene --> Unit
+    BattleScene --> Command
+    BattleScene --> TimelineFrame
     BattleScene --> Cell
     BattleScene --> Action
     BattleScene --> Outcome
     BattleScene --> Hit
     Hit --> Rect
     Hit --> Button
+    DrawUnit --> Vec2
+    Canvas --> Image
     AndroidAssetLoader --> AAssetManager
     AndroidAudio --> Mixer
     AppState --> AndroidAssetLoader

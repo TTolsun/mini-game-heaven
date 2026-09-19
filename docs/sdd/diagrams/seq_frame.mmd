@@ -2,13 +2,51 @@ sequenceDiagram
     participant Engine
     participant Timer
     participant BattleScene
+    participant TimelineFrame
+    participant BattleTimeline
+    participant VisualUnit
     participant Vec2
+    participant Haptics
+    participant NullHaptics
+    participant AndroidHaptics
+    participant Mixer
+    participant Sound
     participant SpriteBatch
     participant Scene
     participant Shader
     participant Texture
     Engine->>Timer: tick()
     Engine-->>BattleScene: update() [virtual, 현재 구현 하나]
+    BattleScene->>TimelineFrame: operator=()
+    BattleScene->>BattleTimeline: timelineFrame()
+    BattleTimeline->>TimelineFrame: TimelineFrame()
+    BattleTimeline->>VisualUnit: operator=()
+    BattleTimeline->>BattleTimeline: eventDuration()
+    BattleTimeline->>Vec2: operator=()
+    BattleTimeline->>Vec2: Vec2()
+    BattleTimeline->>BattleTimeline: facing()
+    BattleTimeline->>Vec2: Vec2()
+    BattleTimeline->>Vec2: Vec2()
+    BattleTimeline->>BattleTimeline: facing()
+    BattleTimeline->>Vec2: Vec2()
+    BattleTimeline->>Vec2: Vec2()
+    BattleTimeline->>TimelineFrame: TimelineFrame()
+    BattleScene->>Engine: hitStop()
+    BattleScene->>Engine: addTrauma()
+    BattleScene->>Haptics: light()
+    Haptics-->>NullHaptics: vibrate() [virtual 후보]
+    Haptics-->>AndroidHaptics: vibrate() [virtual 후보]
+    AndroidHaptics->>AndroidHaptics: attach()
+    AndroidHaptics->>AndroidHaptics: resolve()
+    AndroidHaptics->>AndroidHaptics: clearException()
+    AndroidHaptics->>AndroidHaptics: clearException()
+    AndroidHaptics->>AndroidHaptics: clearException()
+    AndroidHaptics->>AndroidHaptics: clearException()
+    AndroidHaptics->>AndroidHaptics: clearException()
+    BattleScene->>Engine: haptics()
+    BattleScene->>Mixer: play()
+    Mixer->>Sound: empty()
+    BattleScene->>Engine: mixer()
     Engine->>Vec2: Vec2()
     Engine->>Vec2: Vec2()
     Engine->>Vec2: operator=()

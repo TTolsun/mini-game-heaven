@@ -48,7 +48,8 @@ void applyInsets(android_app* app, AppState& state) {
     ARect bars{};
     GameActivity_getWindowInsets(app->activity, GAMECOMMON_INSETS_TYPE_DISPLAY_CUTOUT, &cutout);
     GameActivity_getWindowInsets(app->activity, GAMECOMMON_INSETS_TYPE_SYSTEM_BARS, &bars);
-    state.engine.setSafeInsets(std::max(cutout.top, bars.top), std::max(cutout.bottom, bars.bottom));
+    state.engine.setSafeInsets(std::max(cutout.top,bars.top),std::max(cutout.bottom,bars.bottom),
+                              std::max(cutout.left,bars.left),std::max(cutout.right,bars.right));
 }
 
 void handleAppCmd(android_app* app, int32_t cmd) {

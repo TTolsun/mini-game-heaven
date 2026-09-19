@@ -37,6 +37,8 @@ jobs:
           mkdir -p build
           g++ -std=c++20 -Wall -Wextra -Wpedantic -O2 -I native native/tests/BattleModelTests.cpp native/app/srpg/BattleModel.cpp -o build/srpg-model-tests
           ./build/srpg-model-tests build
+          g++ -std=c++20 -Wall -Wextra -Wpedantic -O2 -I native native/tests/PresentationTests.cpp -o build/srpg-presentation-tests
+          ./build/srpg-presentation-tests
       - name: Install pinned SDD engine
         run: bash tools/setup-sdd.sh
       - name: Build, unit tests, and lint

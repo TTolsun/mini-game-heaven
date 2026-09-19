@@ -190,7 +190,8 @@ Outcome BattleModel::execute(Command command) {
  Outcome out; out.message="이동·대상·기력을 확인하세요.";
  const int actor=command.actor,target=command.target,action=static_cast<int>(command.action);
  if(state_.phase!=Phase::Playing || actor<0 || actor>=3 || !alive(actor) || state_.units[actor].acted || action<0 || action>6 || !inside(command.destination)) return out;
- if(movement(actor)[index(command.destination)]<0) return out;
+ const auto moveCosts=movement(actor);
+ if(moveCosts[index(command.destination)]<0) return out;
  const SkillData* skill=nullptr;
  if(command.action==Action::Strike || command.action==Action::Skill) {
   if(command.action==Action::Skill) {
@@ -210,7 +211,18 @@ Outcome BattleModel::execute(Command command) {
  const bool evaded=threatened(previous) && !threatened(command.destination) && previous!=command.destination;
  out.valid=true; out.message="동료의 차례를 이어가세요.";
  u.cell=command.destination; u.acted=true; u.guard=false; u.effort=std::min(6,u.effort+1);
- if(previous!=u.cell) { out.add(EventKind::Move,actor,actor,0,previous,u.cell); u.chain=0; }
+ if(previous!=u.cell) {
+  std::array<Cell,kCells> path{}; int count=0; Cell at=u.cell;
+  while(at!=previous) {
+   path[count++]=at;
+   for(const auto direction:kDirections) {
+    const Cell next=plus(at,direction);
+    if(inside(next) && moveCosts[index(next)]==moveCosts[index(at)]-1) { at=next;break; }
+   }
+  }
+  for(int step=count-1;step>=0;--step) { out.add(EventKind::Move,actor,actor,0,at,path[step]);at=path[step]; }
+  u.chain=0;
+ }
  if(evaded) {
   u.ki=std::min(kMaxKi,u.ki+15); state_.heroes[actor].insights|=2;
   out.add(EventKind::Ki,actor,actor,15);
@@ -240,7 +252,9 @@ Outcome BattleModel::execute(Command command) {
   }
  } else if(command.action==Action::Charge) {
   constexpr std::array<int,3> gains{20,30,50};
+  const int previousKi=u.ki;
   u.ki=std::min(kMaxKi,u.ki+gains[u.chain]+(state_.heroes[actor].training==1?5:0));
+  out.add(EventKind::Ki,actor,actor,u.ki-previousKi);
   u.chain=std::min(2,u.chain+1); out.message="기 축적 중입니다. 적에게 맞으면 집중이 끊깁니다.";
  } else if(command.action==Action::Guard) u.guard=true;
  else if(command.action==Action::Observe) {
