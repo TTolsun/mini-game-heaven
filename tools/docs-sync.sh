@@ -54,7 +54,7 @@ fi
 
 mkdir -p "$(dirname "$FACTS_DOCS")" "$(dirname "$SITE_DOCS")"
 cp "$FACTS_BUILD" "$FACTS_DOCS"
-sdd export-html --out "$SITE_DOCS"
+sdd export-html --title "$SITE_TITLE" --out "$SITE_DOCS"
 
 echo
 echo "동기화 완료. 검토할 것:"
