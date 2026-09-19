@@ -21,7 +21,7 @@ fi
 if ! node tools/docs-review.mjs check; then
   problem 'Review missing or stale. Record the review after checking source and documentation.'
 fi
-sdd export-html --title "$SITE_TITLE" --out "$SITE_BUILD"
+export_site "$SITE_BUILD"
 if [[ ! -f "$SITE_DOCS" ]] || ! cmp -s "$SITE_BUILD" "$SITE_DOCS"; then
   problem 'docs/index.html differs from the Markdown. Run tools/docs-sync.sh --site.'
 fi

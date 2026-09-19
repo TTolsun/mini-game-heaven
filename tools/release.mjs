@@ -27,8 +27,10 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
     const apk = path.join(root, 'app/build/outputs/apk/release/app-release.apk');
     const buildTools = path.join(process.env.ANDROID_HOME ?? '', 'build-tools/36.0.0');
-    const certificates = execFileSync(path.join(buildTools, 'apksigner'), ['verify', '--verbose', '--print-certs', apk], {encoding: 'utf8'});
-    const badging = execFileSync(path.join(buildTools, 'aapt'), ['dump', 'badging', apk], {encoding: 'utf8'});
+    const certificates = execFileSync('java', ['-jar', path.join(buildTools, 'lib/apksigner.jar'),
+      'verify', '--verbose', '--print-certs', apk], {encoding: 'utf8'});
+    const badging = execFileSync(path.join(buildTools, process.platform === 'win32' ? 'aapt.exe' : 'aapt'),
+      ['dump', 'badging', apk], {encoding: 'utf8'});
     const gradle = fs.readFileSync(path.join(root, 'app/build.gradle.kts'), 'utf8');
     const expectedPackage = gradle.match(/^\s*applicationId\s*=\s*"([^"]+)"/m)?.[1];
     const metadata = validateRelease(tag, badging, certificates, process.env.RELEASE_CERT_SHA256, expectedPackage);

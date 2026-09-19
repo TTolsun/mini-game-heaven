@@ -5,6 +5,7 @@
 #include "app/Sfx.h"
 #include "engine/Scene.h"
 #include "engine/graphics/Font.h"
+#include "engine/graphics/Sprite.h"
 #include "engine/math/Rect.h"
 
 namespace app::castle {
@@ -21,6 +22,7 @@ private:
     struct Hit { engine::Rect rect; int action; int value; };
     engine::Engine* engine_ = nullptr;
     engine::Font font_;
+    std::array<engine::Sprite, 6> monsterSprites_{};
     Sfx sfx_;
     CastleModel model_;
     std::string savePath_;

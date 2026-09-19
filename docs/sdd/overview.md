@@ -11,7 +11,7 @@ reviewed: 2026-09-19
 
 | 영역 | 책임 | 근거 |
 |---|---|---|
-| app/castle | 게임 상태, 경제, 합성, 전투, 저장과 게임 화면 | `app/castle/CastleModel.cpp:9`, `app/castle/CastleScene.cpp:35` |
+| app/castle | 게임 상태, 경제, 합성, 전투, 저장과 게임 화면 | `app/castle/CastleModel.cpp:9`, `app/castle/CastleScene.cpp:29` |
 | engine | Scene 구동, 좌표 변환, 그래픽, 글꼴, 오디오 믹서 | `engine/Engine.cpp:77` |
 | platform/android | GameActivity 이벤트, EGL, AAudio, 자산 접근, JNI 햅틱 | `platform/android/AndroidMain.cpp:54` |
 

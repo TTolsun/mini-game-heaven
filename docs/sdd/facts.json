@@ -1,8 +1,8 @@
 {
  "meta": {
-  "generated_at": "2026-09-19T09:59:59+00:00",
+  "generated_at": "2026-09-19T11:51:47+00:00",
   "source_root": "C:/Users/baboe/git/mini-game-heaven/native",
-  "source_commit": "8d94967f39ee017c1703b31e507fc1fe9ff7f8aa",
+  "source_commit": "896ec84ed555493347485f2e180fd4cfd7d7f49d",
   "compile_commands": "C:/Users/baboe/git/mini-game-heaven/compile_commands.json",
   "translation_units": 19,
   "build_config": "simple_compdb",
@@ -12,15 +12,15 @@
    "errors": 0,
    "classes": 46,
    "methods": 321,
-   "functions": 24
+   "functions": 25
   },
   "callgraph": {
-   "functions": 220,
+   "functions": 221,
    "scenarios": 8,
    "missing_entries": 0
   },
   "classes": 46,
-  "functions": 19,
+  "functions": 20,
   "scenarios": 8,
   "defines": 3
  },
@@ -2195,7 +2195,7 @@
    "name": "app::castle::CastleScene",
    "loc": {
     "file": "app/castle/CastleScene.h",
-    "line": 11
+    "line": 12
    },
    "package": "app",
    "bases": [
@@ -2206,28 +2206,16 @@
      "name": "onEnter",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 13
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 35
-     }
-    },
-    {
-     "name": "onExit",
-     "loc": {
-      "file": "app/castle/CastleScene.h",
       "line": 14
      },
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 45
+      "line": 29
      }
     },
     {
-     "name": "update",
+     "name": "onExit",
      "loc": {
       "file": "app/castle/CastleScene.h",
       "line": 15
@@ -2235,14 +2223,26 @@
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 46
+      "line": 47
+     }
+    },
+    {
+     "name": "update",
+     "loc": {
+      "file": "app/castle/CastleScene.h",
+      "line": 16
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleScene.cpp",
+      "line": 48
      }
     },
     {
      "name": "render",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 16
+      "line": 17
      },
      "brief": "",
      "def_loc": {
@@ -2254,7 +2254,7 @@
      "name": "onTouch",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 17
+      "line": 18
      },
      "brief": "",
      "def_loc": {
@@ -2266,7 +2266,7 @@
      "name": "onBack",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 18
+      "line": 19
      },
      "brief": "",
      "def_loc": {
@@ -2278,19 +2278,19 @@
      "name": "save",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 35
+      "line": 37
      },
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 44
+      "line": 46
      }
     },
     {
      "name": "act",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 36
+      "line": 38
      },
      "brief": "",
      "def_loc": {
@@ -2302,28 +2302,16 @@
      "name": "label",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 37
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleScene.cpp",
-      "line": 58
-     }
-    },
-    {
-     "name": "button",
-     "loc": {
-      "file": "app/castle/CastleScene.h",
       "line": 39
      },
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 61
+      "line": 60
      }
     },
     {
-     "name": "monster",
+     "name": "button",
      "loc": {
       "file": "app/castle/CastleScene.h",
       "line": 41
@@ -2331,26 +2319,38 @@
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 72
+      "line": 63
+     }
+    },
+    {
+     "name": "monster",
+     "loc": {
+      "file": "app/castle/CastleScene.h",
+      "line": 43
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleScene.cpp",
+      "line": 74
      }
     },
     {
      "name": "roomRect",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 42
+      "line": 44
      },
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 68
+      "line": 70
      }
     },
     {
      "name": "renderMap",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 43
+      "line": 45
      },
      "brief": "",
      "def_loc": {
@@ -2362,7 +2362,7 @@
      "name": "renderPanel",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 44
+      "line": 46
      },
      "brief": "",
      "def_loc": {
@@ -2374,7 +2374,7 @@
      "name": "renderOverlay",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 45
+      "line": 47
      },
      "brief": "",
      "def_loc": {
@@ -2390,7 +2390,7 @@
    "name": "app::castle::CastleScene::Hit",
    "loc": {
     "file": "app/castle/CastleScene.h",
-    "line": 21
+    "line": 22
    },
    "package": "app",
    "bases": [],
@@ -2402,7 +2402,7 @@
    "name": "app::castle::Action",
    "loc": {
     "file": "app/castle/CastleScene.cpp",
-    "line": 23
+    "line": 25
    },
    "package": "app",
    "bases": [],
@@ -2871,12 +2871,21 @@
    },
    "brief": "Column-major orthographic matrix mapping (0,0)-(w,h) to clip space with y down, translated by `offset` world units."
   },
+  "app::castle::art::frame": {
+   "name": "app::castle::art::frame",
+   "loc": null,
+   "def_loc": {
+    "file": "app/castle/MonsterArt.h",
+    "line": 12
+   },
+   "brief": "Original nonhuman monsters, ordered by the stable Species save IDs. Every cell includes transparent gutters to prevent filtering into neighbours."
+  },
   "app::castle::discoveredCount": {
    "name": "app::castle::discoveredCount",
    "loc": null,
    "def_loc": {
     "file": "app/castle/CastleScene.cpp",
-    "line": 33
+    "line": 27
    },
    "brief": ""
   },
@@ -3148,6 +3157,11 @@
   {
    "source": "app::castle::CastleScene",
    "target": "engine::Font",
+   "type": "association"
+  },
+  {
+   "source": "app::castle::CastleScene",
+   "target": "engine::Sprite",
    "type": "association"
   },
   {
@@ -3630,7 +3644,7 @@
      "name": "update",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 50
+      "line": 52
      },
      "note": ""
     },
@@ -3640,7 +3654,7 @@
      "name": "play",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 51
+      "line": 53
      },
      "note": ""
     },
@@ -3650,7 +3664,7 @@
      "name": "mixer",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 51
+      "line": 53
      },
      "note": ""
     },
@@ -3660,7 +3674,7 @@
      "name": "save",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 53
+      "line": 55
      },
      "note": ""
     },
@@ -3670,7 +3684,7 @@
      "name": "play",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 54
+      "line": 56
      },
      "note": ""
     },
@@ -3680,7 +3694,7 @@
      "name": "mixer",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 54
+      "line": 56
      },
      "note": ""
     },
@@ -3690,7 +3704,7 @@
      "name": "light",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 55
+      "line": 57
      },
      "note": ""
     },
@@ -3700,7 +3714,7 @@
      "name": "haptics",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 55
+      "line": 57
      },
      "note": ""
     },
@@ -3886,7 +3900,7 @@
      "name": "update",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 50
+      "line": 52
      },
      "note": ""
     },
@@ -4016,7 +4030,7 @@
      "name": "play",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 51
+      "line": 53
      },
      "note": ""
     },
@@ -4036,7 +4050,7 @@
      "name": "mixer",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 51
+      "line": 53
      },
      "note": ""
     },
@@ -4046,7 +4060,7 @@
      "name": "save",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 53
+      "line": 55
      },
      "note": ""
     },
@@ -4056,7 +4070,7 @@
      "name": "save",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 44
+      "line": 46
      },
      "note": ""
     },
@@ -4066,7 +4080,7 @@
      "name": "play",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 54
+      "line": 56
      },
      "note": ""
     },
@@ -4086,7 +4100,7 @@
      "name": "mixer",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 54
+      "line": 56
      },
      "note": ""
     },
@@ -4096,7 +4110,7 @@
      "name": "light",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 55
+      "line": 57
      },
      "note": ""
     },
@@ -4196,7 +4210,7 @@
      "name": "haptics",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 55
+      "line": 57
      },
      "note": ""
     },
@@ -4466,6 +4480,7 @@
     "Texture",
     "Sprite",
     "Glyph",
+    "MonsterArt",
     "Sfx",
     "Sound",
     "Synth",
@@ -4478,7 +4493,7 @@
      "name": "readFile",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 37
+      "line": 31
      },
      "note": "virtual, 현재 구현 하나"
     },
@@ -4488,7 +4503,7 @@
      "name": "assets",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 37
+      "line": 31
      },
      "note": ""
     },
@@ -4498,7 +4513,7 @@
      "name": "load",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 38
+      "line": 32
      },
      "note": ""
     },
@@ -4618,7 +4633,7 @@
      "name": "assets",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 38
+      "line": 32
      },
      "note": ""
     },
@@ -4628,7 +4643,227 @@
      "name": "atlas",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
+      "line": 32
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleScene",
+     "dst": "Engine",
+     "name": "atlas",
+     "loc": {
+      "file": "app/castle/CastleScene.cpp",
+      "line": 34
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleScene",
+     "dst": "TextureAtlas",
+     "name": "has",
+     "loc": {
+      "file": "app/castle/CastleScene.cpp",
+      "line": 35
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleScene",
+     "dst": "TextureAtlas",
+     "name": "add",
+     "loc": {
+      "file": "app/castle/CastleScene.cpp",
+      "line": 35
+     },
+     "note": ""
+    },
+    {
+     "src": "TextureAtlas",
+     "dst": "Image",
+     "name": "load",
+     "loc": {
+      "file": "engine/graphics/TextureAtlas.cpp",
+      "line": 23
+     },
+     "note": ""
+    },
+    {
+     "src": "Image",
+     "dst": "Image",
+     "name": "Image",
+     "loc": {
+      "file": "engine/asset/Image.cpp",
+      "line": 15
+     },
+     "note": ""
+    },
+    {
+     "src": "Image",
+     "dst": "AndroidAssetLoader",
+     "name": "readFile",
+     "loc": {
+      "file": "engine/asset/Image.cpp",
+      "line": 17
+     },
+     "note": "virtual, 현재 구현 하나"
+    },
+    {
+     "src": "Image",
+     "dst": "Image",
+     "name": "Image",
+     "loc": {
+      "file": "engine/asset/Image.cpp",
+      "line": 20
+     },
+     "note": ""
+    },
+    {
+     "src": "Image",
+     "dst": "Image",
+     "name": "Image",
+     "loc": {
+      "file": "engine/asset/Image.cpp",
+      "line": 29
+     },
+     "note": ""
+    },
+    {
+     "src": "Image",
+     "dst": "Image",
+     "name": "Image",
+     "loc": {
+      "file": "engine/asset/Image.cpp",
+      "line": 35
+     },
+     "note": ""
+    },
+    {
+     "src": "TextureAtlas",
+     "dst": "Image",
+     "name": "isValid",
+     "loc": {
+      "file": "engine/graphics/TextureAtlas.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "TextureAtlas",
+     "dst": "TextureAtlas",
+     "name": "add",
+     "loc": {
+      "file": "engine/graphics/TextureAtlas.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "TextureAtlas",
+     "dst": "Texture",
+     "name": "upload",
+     "loc": {
+      "file": "engine/graphics/TextureAtlas.cpp",
+      "line": 47
+     },
+     "note": ""
+    },
+    {
+     "src": "TextureAtlas",
+     "dst": "Sprite",
+     "name": "Sprite",
+     "loc": {
+      "file": "engine/graphics/TextureAtlas.cpp",
+      "line": 52
+     },
+     "note": ""
+    },
+    {
+     "src": "TextureAtlas",
+     "dst": "Sprite",
+     "name": "operator=",
+     "loc": {
+      "file": "engine/graphics/TextureAtlas.cpp",
+      "line": 60
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleScene",
+     "dst": "Engine",
+     "name": "assets",
+     "loc": {
+      "file": "app/castle/CastleScene.cpp",
+      "line": 35
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleScene",
+     "dst": "TextureAtlas",
+     "name": "get",
+     "loc": {
+      "file": "app/castle/CastleScene.cpp",
       "line": 38
+     },
+     "note": ""
+    },
+    {
+     "src": "TextureAtlas",
+     "dst": "Sprite",
+     "name": "Sprite",
+     "loc": {
+      "file": "engine/graphics/TextureAtlas.cpp",
+      "line": 75
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleScene",
+     "dst": "Sprite",
+     "name": "operator=",
+     "loc": {
+      "file": "app/castle/CastleScene.cpp",
+      "line": 40
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleScene",
+     "dst": "MonsterArt",
+     "name": "frame",
+     "loc": {
+      "file": "app/castle/CastleScene.cpp",
+      "line": 40
+     },
+     "note": ""
+    },
+    {
+     "src": "MonsterArt",
+     "dst": "Sprite",
+     "name": "isValid",
+     "loc": {
+      "file": "app/castle/MonsterArt.h",
+      "line": 13
+     },
+     "note": ""
+    },
+    {
+     "src": "MonsterArt",
+     "dst": "Sprite",
+     "name": "Sprite",
+     "loc": {
+      "file": "app/castle/MonsterArt.h",
+      "line": 14
+     },
+     "note": ""
+    },
+    {
+     "src": "MonsterArt",
+     "dst": "Sprite",
+     "name": "Sprite",
+     "loc": {
+      "file": "app/castle/MonsterArt.h",
+      "line": 23
      },
      "note": ""
     },
@@ -4638,7 +4873,7 @@
      "name": "build",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 40
+      "line": 42
      },
      "note": ""
     },
@@ -5463,36 +5698,6 @@
      "note": ""
     },
     {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 29
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 42
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 43
-     },
-     "note": ""
-    },
-    {
      "src": "Sfx",
      "dst": "Sound",
      "name": "operator=",
@@ -5513,26 +5718,6 @@
      "note": ""
     },
     {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 96
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 107
-     },
-     "note": ""
-    },
-    {
      "src": "Sfx",
      "dst": "Synth",
      "name": "noise",
@@ -5543,82 +5728,12 @@
      "note": ""
     },
     {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 47
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "dist",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 55
-     },
-     "note": "콜백 객체, 정적 추적 불가"
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 59
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 60
-     },
-     "note": ""
-    },
-    {
      "src": "Sfx",
      "dst": "Synth",
      "name": "tone",
      "loc": {
       "file": "app/Sfx.cpp",
       "line": 19
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 29
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 42
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 43
      },
      "note": ""
     },
@@ -5639,36 +5754,6 @@
      "loc": {
       "file": "app/Sfx.cpp",
       "line": 20
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 29
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Synth",
-     "name": "declick",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 42
-     },
-     "note": ""
-    },
-    {
-     "src": "Synth",
-     "dst": "Sound",
-     "name": "Sound",
-     "loc": {
-      "file": "engine/audio/Synth.cpp",
-      "line": 43
      },
      "note": ""
     },
@@ -5718,7 +5803,7 @@
      "name": "dataPath",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 41
+      "line": 43
      },
      "note": ""
     },
@@ -5728,13 +5813,13 @@
      "name": "load",
      "loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 42
+      "line": 44
      },
      "note": ""
     }
    ],
-   "mermaid": "sequenceDiagram\n    participant CastleScene\n    participant AndroidAssetLoader\n    participant Engine\n    participant Font\n    participant Image\n    participant TextureAtlas\n    participant Texture\n    participant Sprite\n    participant Glyph\n    participant Sfx\n    participant Sound\n    participant Synth\n    participant CastleModel\n    CastleScene-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    CastleScene->>Engine: assets()\n    CastleScene->>Font: load()\n    Font-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    Font->>Font: nextCodepoint()\n    Font->>Image: Image()\n    Font->>TextureAtlas: add()\n    TextureAtlas->>Texture: upload()\n    TextureAtlas->>Sprite: Sprite()\n    TextureAtlas->>Sprite: operator=()\n    Font->>Sprite: operator=()\n    Font->>TextureAtlas: get()\n    TextureAtlas->>Sprite: Sprite()\n    Font->>Glyph: operator=()\n    CastleScene->>Engine: assets()\n    CastleScene->>Engine: atlas()\n    CastleScene->>Sfx: build()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: arpeggio()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: arpeggio()\n    CastleScene->>Engine: dataPath()\n    CastleScene->>CastleModel: load()",
-   "unresolved": 6
+   "mermaid": "sequenceDiagram\n    participant CastleScene\n    participant AndroidAssetLoader\n    participant Engine\n    participant Font\n    participant Image\n    participant TextureAtlas\n    participant Texture\n    participant Sprite\n    participant Glyph\n    participant MonsterArt\n    participant Sfx\n    participant Sound\n    participant Synth\n    participant CastleModel\n    CastleScene-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    CastleScene->>Engine: assets()\n    CastleScene->>Font: load()\n    Font-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    Font->>Font: nextCodepoint()\n    Font->>Image: Image()\n    Font->>TextureAtlas: add()\n    TextureAtlas->>Texture: upload()\n    TextureAtlas->>Sprite: Sprite()\n    TextureAtlas->>Sprite: operator=()\n    Font->>Sprite: operator=()\n    Font->>TextureAtlas: get()\n    TextureAtlas->>Sprite: Sprite()\n    Font->>Glyph: operator=()\n    CastleScene->>Engine: assets()\n    CastleScene->>Engine: atlas()\n    CastleScene->>Engine: atlas()\n    CastleScene->>TextureAtlas: has()\n    CastleScene->>TextureAtlas: add()\n    TextureAtlas->>Image: load()\n    Image->>Image: Image()\n    Image-->>AndroidAssetLoader: readFile() [virtual, 현재 구현 하나]\n    Image->>Image: Image()\n    Image->>Image: Image()\n    Image->>Image: Image()\n    TextureAtlas->>Image: isValid()\n    TextureAtlas->>TextureAtlas: add()\n    TextureAtlas->>Texture: upload()\n    TextureAtlas->>Sprite: Sprite()\n    TextureAtlas->>Sprite: operator=()\n    CastleScene->>Engine: assets()\n    CastleScene->>TextureAtlas: get()\n    TextureAtlas->>Sprite: Sprite()\n    CastleScene->>Sprite: operator=()\n    CastleScene->>MonsterArt: frame()\n    MonsterArt->>Sprite: isValid()\n    MonsterArt->>Sprite: Sprite()\n    MonsterArt->>Sprite: Sprite()\n    CastleScene->>Sfx: build()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Synth->>Sound: Sound()\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Synth->>Sound: Sound()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: noise()\n    Synth->>Sound: Sound()\n    Synth-->>Synth: dist() [콜백 객체, 정적 추적 불가]\n    Synth->>Synth: declick()\n    Synth->>Sound: Sound()\n    Sfx->>Synth: tone()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: mix()\n    Sfx->>Synth: noise()\n    Sfx->>Synth: tone()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: tone()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: arpeggio()\n    Sfx->>Sound: operator=()\n    Sfx->>Synth: arpeggio()\n    CastleScene->>Engine: dataPath()\n    CastleScene->>CastleModel: load()",
+   "unresolved": 5
   },
   "dodge_update": {
    "id": "dodge_update",

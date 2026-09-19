@@ -43,7 +43,7 @@ Engine은 가능한 기기에서 4096, 그 외에는 2048 크기의 아틀라스
 
 ## 자산 출처와 라이선스는 CREDITS.md에 기록한다
 
-캐릭터와 UI는 코드로 그린 독자적인 픽셀 패턴을 사용합니다. 한국어 글꼴은 OFL 1.1의 Noto Sans KR을 사용하며 라이선스 원문과 가공 방법을 함께 둡니다. 새 자산의 출처는 `app/src/main/assets/CREDITS.md`에 기록합니다. 근거: [D-007](decisions.md).
+몬스터는 독자적인 셀 채색 이미지 시트를 사용하고 UI는 코드로 그립니다. 한국어 글꼴은 OFL 1.1의 Noto Sans KR을 사용하며 라이선스 원문과 가공 방법을 함께 둡니다. 새 자산의 출처는 `app/src/main/assets/CREDITS.md`에 기록합니다. 근거: [D-010](decisions.md).
 
 ## 변경 후 검증
 
