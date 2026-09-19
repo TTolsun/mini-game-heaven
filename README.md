@@ -79,6 +79,8 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## 문서 (SDD)
 
+문서 검토 기록과 APK 릴리스 절차는 [개발 정책](docs/development-policy.md)을 따릅니다. 최초에는 `bash tools/setup-sdd.sh`로 커밋이 고정된 엔진을 설치합니다.
+
 `docs/sdd/`는 [camera-hal-sdd](https://github.com/TTolsun/camera-hal-sdd) 파이프라인이 `native/` C++ 소스에서 생성한 설계 문서입니다. 표와 시퀀스 다이어그램은 libclang이 읽은 사실에서 도구가 만들고, LLM(로컬 Ollama의 `qwen3.5:4b`)은 서술 문단만 씁니다. 문장마다 `파일:줄` 인용이 붙고, 인용이 사실에 없으면 `status: needs-review`로 남습니다. 단일 HTML은 `docs/index.html`입니다.
 
 정책은 hal-camera와 같습니다. 코드와 문서가 어긋난 채로 `main`에 들어가지 않습니다.
@@ -86,7 +88,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 | 언제 | 무엇을 | 어떻게 |
 |------|--------|--------|
 | PR마다 (CI `docs-check`) | 사실 최신성, 문서 최신성, 사이트 일치를 검사 | `tools/docs-check.sh --base <ref>` 와 같은 단계. LLM 없음 |
-| `main` push 후 (CI `docs-sync`, 로컬 러너) | 영향받은 절을 Qwen으로 다시 써서 PR 생성 | `tools/docs-sync.sh`. 러너 변수 `DOCGEN_LOCAL_RUNNER_ENABLED=true`, `SDD_TOOL_DIR` 필요 |
+| `main` push 후 (CI `docs-sync`, 로컬 러너) | 영향받은 절을 Qwen으로 다시 써서 PR 생성 | `tools/docs-sync.sh`. 러너 변수 `DOCGEN_LOCAL_RUNNER_ENABLED=true` 필요. 검토 기록은 자동 승인하지 않음 |
 | 로컬에서 코드를 바꾼 뒤 | 오래된 문서 확인 → 다시 생성 → 검토 → 커밋 | 아래 순서 |
 
 ```bash
@@ -95,4 +97,4 @@ bash tools/docs-sync.sh                  # 마지막 동기화 이후 영향 절
 bash tools/docs-sync.sh --site           # LLM 없이 facts.json 과 docs/index.html 만 재생성
 ```
 
-요구 사항: 이 저장소 옆에 `camera-hal-sdd` clone (`SDD_TOOL_DIR`로 위치 변경 가능), `uv`, `node`, 그리고 `./gradlew assembleDebug`가 만든 `compile_commands.json`(`tools/sync-compile-commands.sh`가 복사하고 libclang용 `-resource-dir`를 붙입니다). 섹션과 시나리오 정의는 `docs/sdd-config/`, 파이프라인 설정은 `sdd.yaml`입니다. `docs/sdd/constraints.md`와 `decisions.md`는 사람이 쓰는 문서라 파이프라인이 덮어쓰지 않습니다.
+요구 사항: `tools/setup-sdd.sh`로 설치한 엔진, `uv`, Node.js 24, 그리고 `./gradlew assembleDebug`가 만든 `compile_commands.json`입니다. `tools/sync-compile-commands.sh`가 compile DB를 갱신하고 libclang용 `-resource-dir`를 붙입니다. 섹션과 시나리오 정의는 `docs/sdd-config/`, 파이프라인 설정은 `sdd.yaml`입니다. 수동 문서 `constraints.md`와 `decisions.md`는 덮어쓰지 않습니다. 문서를 코드와 대조한 뒤 `node tools/docs-review.mjs accept --reviewer NAME --reason TEXT`로 검토를 기록하고 `tools/docs-check.sh`를 실행합니다.

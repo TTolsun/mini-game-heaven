@@ -2,16 +2,24 @@
 generated_at: 2026-09-17T14:52:32+00:00
 source_commit: aeac21306341033f510bb6317043cf9fe2d6723b
 agent: ollama/qwen3.5:4b
-status: ok
+status: needs-review
 section: scenarios
 entry: app::DodgeGame::update(float)
 ---
 
 # Dodge 게임 한 틱 (DodgeGame::update)
 
-**`app::DodgeGame::update(float)` 에서 시작하는 호출 순서를 아래 번호대로 따라가세요.**
+**아래 코드 대조 설명을 먼저 읽으세요. 다이어그램과 번호 목록은 정적 호출 후보이며, 실행 순서·분기·콜백 시점을 정확히 재현하지 않습니다.**
 
 
+
+## 이 흐름에서 확인할 것
+
+`DodgeGame::update`는 이미 종료되었으면 반환하고 파티클과 팝업을 순서대로 갱신합니다 (`app/games/DodgeGame.cpp:239`). 사망 상태에서는 사망 애니메이션·타이머·낙하물을 갱신하고 대기 시간이 지나면 종료 상태로 바꿉니다.
+
+생존 상태에서는 경과 시간과 생성 타이머를 갱신하고, 타이머가 끝나면 장애물을 생성합니다. 이어서 공룡과 낙하물을 갱신하고 생존 시간·회피·보너스로 점수를 계산합니다. `Animation::frame`은 현재 프레임의 스프라이트 참조를 반환하며 재귀적으로 텍스처를 초기화하지 않습니다 (`engine/graphics/Animation.cpp:38`). 충돌 등 하위 함수의 조건 분기는 정적 목록에 모두 펼쳐질 수 있습니다.
+
+정적 분석 한계: 가상 호출 대상, 콜백 실행 시점, 조건 분기는 코드와 함께 확인해야 합니다. 이번 검토는 기기 실행 검증을 포함하지 않습니다.
 
 ```mermaid
 sequenceDiagram
@@ -161,7 +169,7 @@ sequenceDiagram
     DodgeGame->>DodgeGame: updateFalling()
 ```
 
-## 호출 순서
+## 정적 호출 후보 (실행 추적 아님)
 
 1. `DodgeGame` 가 `Particles::update()` 를 호출합니다. `app/games/DodgeGame.cpp:243`
 2. `Particles` 가 `Vec2::operator*=()` 를 호출합니다. `engine/graphics/Particles.cpp:45`
@@ -196,16 +204,10 @@ sequenceDiagram
 
 (이후 단계는 생략했습니다. 전체 흐름은 위 다이어그램을 보세요.)
 
-## 이 흐름에서 확인할 것
-
-Dodge 게임 한 틱의 호출은 `app::DodgeGame::update(float)` 에서 시작해 `Particles`, `Popups`, `Animation` 등 여러 컴포넌트를 순차적으로 거쳐갑니다. 진입점인 `app::DodgeGame::update(float)` 는 먼저 `Particles::update()` 를 호출합니다 `app/games/DodgeGame.cpp:243`. 이어진 `Particles` 내부에서는 `Vec2::operator*=()` 와 `Vec2::operator+=()` 같은 연산자가 실행되며, 이는 다시 `Vec2::Vec2()` 를 생성하는 과정으로 이어집니다 `engine/graphics/Particles.cpp:45`, `engine/math/Vec2.h:16`. 이후 `DodgeGame` 는 `Popups::update()` 와 `Animation::update()` 를 차례로 호출합니다 `app/games/DodgeGame.cpp:244`, `app/games/DodgeGame.cpp:247`. `Animation::duration()` 을 통해 애니메이션 지속 시간을 확인한 뒤, `Animation::frame()` 와 `Sprite::Sprite()` 를 재귀적으로 호출하며 스프라이트 초기화 과정을 거칩니다 `engine/graphics/Animation.cpp:32`, `engine/graphics/Animation.cpp:39`. 이 과정에서 `Vec2::operator*()` 가 반복되어 벡터 곱셈이 수행되고, `Rect::fromCenter()` 를 통해 사각형 영역이 계산됩니다 `app/games/DodgeGame.cpp:205`, `app/games/DodgeGame.cpp:218`, `engine/math/Rect.h:19`. 최종적으로 `DodgeGame` 는 `Rect::overlaps()` 를 호출하여 충돌 감지를 시도합니다 `app/games/DodgeGame.cpp:220`.
-
-확인 필요: 가상 함수나 함수 포인터 때문에 정적으로 끊긴 호출이 10 개 있습니다. 끊긴 지점 이후는 코드를 직접 따라가야 합니다.
-
 ??? note "근거와 검토 정보"
     - 근거 파일: `app/games/DodgeGame.cpp`, `engine/graphics/Animation.cpp`, `engine/graphics/Particles.cpp`, `engine/graphics/Sprite.h`, `engine/math/Rect.h`, `engine/math/Vec2.h`
     - 근거 수준: 코드 확인 (정적 분석, simple_compdb 구성, commit `aeac213063`)
     - 인용 검증: 통과
-    - 검토: 2026-09-17 · ollama/qwen3.5:4b · 사람 검토 전
+    - 검토: 2026-09-17 · ollama/qwen3.5:4b · 생성 당시 기록 (후속 코드 대조: docs/sdd-review.json)
 
 다음 단계: [한 프레임 (Engine::frame)](frame.md)

@@ -1,6 +1,6 @@
 # camera-hal-sdd 파이프라인 설정 (mini-game-heaven 용).
-# 도구 저장소(C:\Users\baboe\git\camera-hal-sdd)가 이 저장소 옆에 clone 되어 있다고 가정한다.
-# 실행: uv run --project ../camera-hal-sdd sdd --config ./sdd.yaml <명령>
+# bash tools/setup-sdd.sh 로 고정된 엔진을 .tool/camera-hal-sdd 에 설치한다.
+# 실행: uv run --frozen --project .tool/camera-hal-sdd sdd --config ./sdd.yaml <명령>
 # 로컬에서만 다른 값을 쓰려면 sdd.local.yaml 에 같은 구조로 덮어쓴다 (git 제외).
 
 source:
@@ -22,13 +22,13 @@ paths:
   # 섹션과 시나리오는 이 프로젝트 것을 쓰고, 프롬프트·뼈대·집필 규칙은 도구 저장소 것을 그대로 쓴다.
   sections_file: ./docs/sdd-config/sections.yaml
   scenarios_file: ./docs/sdd-config/scenarios.yaml
-  clang_uml_file: ../camera-hal-sdd/config/clang-uml.yaml
-  prompts: ../camera-hal-sdd/prompts
-  templates: ../camera-hal-sdd/templates
-  style: ../camera-hal-sdd/style
+  clang_uml_file: .tool/camera-hal-sdd/config/clang-uml.yaml
+  prompts: .tool/camera-hal-sdd/prompts
+  templates: .tool/camera-hal-sdd/templates
+  style: .tool/camera-hal-sdd/style
 
 tools:
-  clang_uml: clang-uml      # PATH 에 없으면 libclang 대체 경로로 자동 전환된다.
+  clang_uml: none          # Use the same libclang backend locally and in CI.
 
 agent:
   kind: ollama

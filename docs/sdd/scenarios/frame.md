@@ -2,16 +2,24 @@
 generated_at: 2026-09-17T14:52:44+00:00
 source_commit: aeac21306341033f510bb6317043cf9fe2d6723b
 agent: ollama/qwen3.5:4b
-status: ok
+status: needs-review
 section: scenarios
 entry: engine::Engine::frame()
 ---
 
 # 한 프레임 (Engine::frame)
 
-**`engine::Engine::frame()` 에서 시작하는 호출 순서를 아래 번호대로 따라가세요.**
+**아래 코드 대조 설명을 먼저 읽으세요. 다이어그램과 번호 목록은 정적 호출 후보이며, 실행 순서·분기·콜백 시점을 정확히 재현하지 않습니다.**
 
 
+
+## 이 흐름에서 확인할 것
+
+`Engine::frame`은 그래픽 초기화 여부를 확인한 뒤 `Timer::tick`으로 프레임 시간을 구합니다 (`engine/Engine.cpp:77`). hit-stop 중에는 장면에 전달할 dt를 0으로 만들고, 활성 루트 장면의 `update`를 호출합니다. 이 앱의 루트는 `MiniGameApp`이며 내부의 현재 메뉴·게임·결과 장면에 업데이트를 전달합니다 (`app/MiniGameApp.cpp:65`). 매 프레임 모든 가상 함수 후보를 실행하지 않습니다.
+
+이후 실제 경과 시간으로 화면 흔들림을 계산하고 화면을 지운 뒤 `SpriteBatch::begin`, 장면의 `render`, `SpriteBatch::end`를 순서대로 실행합니다. 버퍼 교환은 호출자인 Android 메인 루프가 수행합니다. 게임 업데이트와 파티클 업데이트를 병렬로 실행하는 코드는 없습니다.
+
+정적 분석 한계: 가상 호출 대상, 콜백 실행 시점, 조건 분기는 코드와 함께 확인해야 합니다. 이번 검토는 기기 실행 검증을 포함하지 않습니다.
 
 ```mermaid
 sequenceDiagram
@@ -180,7 +188,7 @@ sequenceDiagram
     Engine->>SpriteBatch: end()
 ```
 
-## 호출 순서
+## 정적 호출 후보 (실행 추적 아님)
 
 1. `Engine` 가 `Timer::tick()` 를 호출합니다. `engine/Engine.cpp:81`
 2. `Engine` 가 `DodgeGame::update()` 를 호출합니다. (virtual 후보) `engine/Engine.cpp:91`
@@ -215,24 +223,10 @@ sequenceDiagram
 
 (이후 단계는 생략했습니다. 전체 흐름은 위 다이어그램을 보세요.)
 
-## 이 흐름에서 확인할 것
-
-한 프레임은 `Engine::frame()` 에서 시작하여 `Timer::tick()` 을 거쳐 게임 로직 업데이트로 이어집니다. `Engine` 는 타이머를 호출한 뒤 바로 `DodgeGame::update()` 를 실행합니다 `engine/Engine.cpp:81`, `engine/Engine.cpp:91`. `DodgeGame` 내부에서는 파티클 시스템과 애니메이션이 병렬로 업데이트되며, 각 컴포넌트는 구체적인 계산 함수를 직접 호출합니다.
-
-파티클 업데이트 단계에서 `Particles` 는 벡터 연산자 (`operator*`, `operator+=`) 를 순차적으로 호출하여 물리 계산을 수행합니다. 이 과정에서 `Vec2::Vec2()` 생성자가 반복되어 호출되며, 이는 수학 라이브러리의 기본 동작입니다 `engine/graphics/Particles.cpp:45`, `engine/graphics/Particles.cpp:46`, `engine/math/Vec2.h:16`. 애니메이션 시스템은 `Animation::duration()` 을 통해 시간 정보를 가져오고, `Sprite::Sprite()` 를 생성하여 그래픽 리소스를 초기화합니다.
-
-`DodgeGame` 는 `Popups::update()` 와 `Animation::frame()` 을 호출하며, 이 과정에서 스프라이트 크기와 화면 좌표를 계산합니다. `Sprite::size()` 와 `Rect::fromCenter()` 가 빈번하게 호출되어 UI 요소의 위치를 결정하고, `Vec2::operator*()` 를 통해 좌표 변환을 수행합니다 `app/games/DodgeGame.cpp:244`, `app/games/DodgeGame.cpp:247`, `engine/graphics/Sprite.h:21`, `engine/math/Rect.h:19`.
-
-이 흐름은 가상 함수 호출과 정적 타입 추적을 통해 이루어지며, 특정 단계에서 분기나 정적 분석의 단절이 발생할 수 있습니다. 현재 사실 목록에는 스레드 소유권이나 타이밍에 대한 명시적인 설계 의도가 포함되어 있지 않습니다. 확인 필요: `DodgeGame::update()` 의 가상 함수 구현 여부 및 정적 분석 시 끊기는 지점을 어떻게 처리하는지 확인해야 합니다.
-
-다음 절은 프레임 렌더링 단계와 입력 처리 흐름을 다룹니다.
-
-확인 필요: 가상 함수나 함수 포인터 때문에 정적으로 끊긴 호출이 15 개 있습니다. 끊긴 지점 이후는 코드를 직접 따라가야 합니다.
-
 ??? note "근거와 검토 정보"
     - 근거 파일: `app/games/DodgeGame.cpp`, `engine/Engine.cpp`, `engine/graphics/Animation.cpp`, `engine/graphics/Particles.cpp`, `engine/graphics/Sprite.h`, `engine/math/Rect.h`, `engine/math/Vec2.h`
     - 근거 수준: 코드 확인 (정적 분석, simple_compdb 구성, commit `aeac213063`)
     - 인용 검증: 통과
-    - 검토: 2026-09-17 · ollama/qwen3.5:4b · 사람 검토 전
+    - 검토: 2026-09-17 · ollama/qwen3.5:4b · 생성 당시 기록 (후속 코드 대조: docs/sdd-review.json)
 
 다음 단계: [공유 에셋 로딩 (GameAssets::load)](load_assets.md)

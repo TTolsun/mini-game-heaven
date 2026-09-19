@@ -1,9 +1,9 @@
 {
  "meta": {
-  "generated_at": "2026-09-17T14:53:36+00:00",
-  "source_root": "C:/Users/baboe/git/mini-game-heaven/native",
-  "source_commit": "aeac21306341033f510bb6317043cf9fe2d6723b",
-  "compile_commands": "C:/Users/baboe/git/mini-game-heaven/compile_commands.json",
+  "generated_at": "2026-09-19T09:48:32+00:00",
+  "source_root": "C:/Users/baboe/git/camera-hal-sdd/build/mini-game-policy/native",
+  "source_commit": "2bc1ecfa0230d7bed0cd5aede62c86a6e2050263",
+  "compile_commands": "C:/Users/baboe/git/camera-hal-sdd/build/mini-game-policy/compile_commands.json",
   "translation_units": 26,
   "build_config": "simple_compdb",
   "structure_backend": "libclang",

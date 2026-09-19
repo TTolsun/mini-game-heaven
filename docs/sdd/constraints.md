@@ -19,7 +19,7 @@ evidence_files:
 
 ## 의존 방향: engine 은 app 과 platform 을 모른다
 
-`native/engine/` 은 `app/` 이나 `platform/` 헤더를 include 하지 않습니다. Android 의존 코드는 `platform/android/` 에만 둡니다. 근거: [설계 결정 D-001](decisions.md), `native/CMakeLists.txt` 의 디렉터리 구성.
+`native/engine/` 은 `app/` 이나 `platform/` 헤더를 include 하지 않습니다. Activity·AAudio·JNI 연결은 `platform/android/`에 둡니다. 다만 현재 engine의 그래픽 구현은 GLES에, `engine/core/Log.h`는 Android 로그 API에 의존하므로 다른 플랫폼으로 옮길 때 교체가 필요합니다. 근거: [설계 결정 D-001](decisions.md), `native/CMakeLists.txt` 의 디렉터리 구성.
 
 ## Scene 은 콜백 안에서 자기 자신을 바꾸지 않는다
 
@@ -33,17 +33,17 @@ evidence_files:
 
 게임 스레드는 `native_app_glue` 가 JVM 에 attach 하지 않습니다. JNI 가 필요하면 `AndroidHaptics` 처럼 attach 여부를 기억했다가 스레드가 끝나기 전에 `DetachCurrentThread` 를 호출해야 합니다. 그러지 않으면 `android_main` 이 반환될 때 ART 가 프로세스를 abort 합니다. 근거: `native/platform/android/AndroidHaptics.cpp`, 기기 관찰 (Galaxy S25+, 2026-09-17).
 
-## 아틀라스에 넣는 스프라이트는 4096x4096 예산 안에서
+## 아틀라스 크기는 GPU 한도에 맞춘다
 
-`TextureAtlas` 는 로딩 시점에 shelf packing 을 하며, 가득 차면 `add` 가 false 를 돌려주고 로그만 남깁니다. 큰 배경은 아틀라스가 아니라 별도 `Texture` 로 둡니다. 새 스프라이트를 추가하면 logcat 에서 `atlas full` 이 없는지 확인합니다. 근거: `native/engine/graphics/TextureAtlas.cpp`, `native/app/GameAssets.cpp`.
+`Engine::initGraphics`는 GPU 한도가 허용하면 4096, 아니면 2048 크기의 아틀라스를 만듭니다. `TextureAtlas` 는 로딩 시점에 shelf packing 을 하며, 가득 차면 `add` 가 false 를 돌려주고 로그만 남깁니다. 큰 배경은 아틀라스가 아니라 별도 `Texture` 로 둡니다. 새 스프라이트를 추가하면 logcat 에서 `atlas full` 이 없는지 확인합니다. 근거: `native/engine/graphics/TextureAtlas.cpp`, `native/app/GameAssets.cpp`.
 
 ## HUD 는 safeTop 아래에 그린다
 
 카메라 홀과 상태바 inset 은 `Engine::safeTop()` 으로 제공됩니다. 화면 상단에 붙는 텍스트나 버튼은 `y = safeTop() + 여백` 으로 시작해야 합니다. 근거: `native/engine/Engine.h`, `native/platform/android/AndroidMain.cpp` 의 `applyInsets`.
 
-## 자산은 CC0 만, 출처는 CREDITS.md 에
+## 미술 자산과 폰트의 출처는 CREDITS.md 에
 
-새 이미지·폰트를 추가할 때는 `app/src/main/assets/CREDITS.md` 에 출처와 라이선스를 적습니다. 유료 자산과 AI 생성 이미지는 쓰지 않습니다. 근거: [D-006](decisions.md).
+미술 자산은 D-006의 CC0 정책을 따르며, 기존 Fredoka 폰트는 CREDITS.md에 SIL OFL 1.1로 기재되어 있습니다. 새 이미지·폰트를 추가할 때는 `app/src/main/assets/CREDITS.md` 에 출처와 라이선스를 적습니다. 유료 자산과 AI 생성 이미지는 쓰지 않습니다. 근거: [D-006](decisions.md).
 
 ## 변경 후 검증
 

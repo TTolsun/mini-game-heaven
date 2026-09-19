@@ -437,9 +437,9 @@ classDiagram
 
 `app::Sfx` 는 게임 시작 시 합성된 모든 사운드 효과를 책임지며, 이는 `build()` 메서드를 통해 초기화됩니다 `app/Sfx.cpp:9`. 반면 `app::GameAssets` 는 메뉴와 미니 게임이 공유하는 스프라이트 및 애니메이션을 한 번에 로드하며, 게임들은 필요할 때 상수 참조를 받아 복사합니다 `app/GameAssets.h:19`.
 
-미니 게임의 구체적인 로직은 `app::DodgeGame`, `app::JumpGame`, `app::TapGame` 이 각각 구현하고 있습니다. 이들은 모두 `app::IMiniGame` 을 상속받아 공통된 인터페이스를 따르며, 내부적으로는 `update()` 와 `render()` 를 호출하여 장면의 주기를 완성합니다 `app/games/DodgeGame.h:20`.
+미니 게임의 구체적인 로직은 `app::DodgeGame`, `app::JumpGame`, `app::TapGame` 이 각각 구현하고 있습니다. 이들은 모두 `app::IMiniGame` 을 상속받아 공통된 인터페이스를 따르며, `MiniGameApp`에서 `update()`와 `render()` 호출을 전달받습니다 `app/games/DodgeGame.h:20`.
 
-사용자 입력은 `app::ui::Button` 과 `app::ui::Popups` 을 통해 처리되며, 버튼은 터치 내림을 감지하고 팝업은 점프와 페이드 애니메이션을 실행합니다. 이 UI 요소들은 각 미니 게임의 `onTouch()` 메서드나 메인 앱의 이벤트 루프에 의해 직접 호출됩니다 `app/ui/Button.h:20`.
+사용자 입력은 각 장면의 `onTouch`에서 처리하며 `app::ui::Button::handleTouch`는 버튼 입력을 판정합니다. `app::ui::Popups`는 점수 텍스트를 갱신하고 그리는 표시 요소이며 입력 처리기는 아닙니다 (`app/ui/Button.h:20`, `app/ui/Popups.h:17`).
 
 데이터 영속성은 `app::HighScores` 가 담당하며, 이는 텍스트 파일로 점수를 저장하고 새로운 기록일 때 즉시 업데이트합니다. 이 정보는 각 미니 게임이 종료될 때 제출되며, 결과 장면에서 최고 점수로 표시됩니다 `app/HighScores.cpp:28`.
 
@@ -485,10 +485,10 @@ classDiagram
 | `engine::Particles::Burst` | `engine/graphics/Particles.h:18` | – | 확인 필요 |
 | `engine::Particles::Particle` | `engine/graphics/Particles.h:44` | – | 확인 필요 |
 
-`engine::Engine` 이 애플리케이션의 핵심으로 렌더너, 스프라이트 아틀라스, 오디오 믹서 및 활성 시나인을 소유하며 화면 픽셀을 고정 폭 세계로 매핑합니다 `engine/Engine.h:24`. 각 하위 컴포넌트는 특정 자원을 생성하고 해제하는 책임을 가지며, `engine::Engine` 이 전체 리소스 관리의 중심 역할을 수행합니다.
+`engine::Engine` 이 애플리케이션의 핵심으로 렌더러, 스프라이트 아틀라스, 오디오 믹서 및 활성 장면을 소유하며 화면 픽셀을 고정 폭 세계로 매핑합니다 `engine/Engine.h:24`. 각 하위 컴포넌트는 특정 자원을 생성하고 해제하는 책임을 가지며, `engine::Engine` 이 전체 리소스 관리의 중심 역할을 수행합니다.
 
 
-`engine::Scene` 은 앱의 한 화면을 담당하며 엔진이 동시에 하나의 시나인을만듭니다 `engine/Scene.h:12`. `onEnter`, `update`, `render` 메서드를 통해 프레임 루프에 참여하고, `onBack` 을 통해 시스템 백 버튼을 처리합니다 `engine/Scene.h:16~23`.
+`engine::Scene` 은 앱의 한 화면을 담당하며 엔진이 한 번에 하나의 루트 장면을 구동합니다 `engine/Scene.h:12`. `onEnter`, `update`, `render` 메서드를 통해 프레임 루프에 참여하고, `onBack` 을 통해 시스템 백 버튼을 처리합니다 `engine/Scene.h:16~23`.
 
 `engine::SpriteBatch` 는 텍스처화된 쿼드를 누적하여 최소한의 드로우 호출로 제출하며, 바인딩된 텍스처 변경 시 플러시를 수행합니다 `engine/graphics/SpriteBatch.h:21`. 내부적으로 `Vertex` 구조체를 사용하여 정렬된 데이터를 관리합니다 `engine/graphics/SpriteBatch.h:55`.
 
@@ -513,7 +513,7 @@ classDiagram
 
 `engine::SpriteBatch` 는 버퍼를 채우거나 바인딩된 텍스처가 변경될 때 플러시를 수행하며, `flush` 를 통해 드로우 호출을 제출합니다 `engine/graphics/SpriteBatch.h:21`.
 
-`engine::Engine` 은 렌더너, 스프라이트 아틀라스, 오디오 믹서 및 활성 시나인을 소유하며, `initGraphics` 는 현재 GL 컨텍스트가 있는 상태에서 호출되어야 합니다 `engine/Engine.cpp:21`. `setScene` 을 통해 활성 시나인을 설정하고, `frame` 은 한 번의 업데이트 및 렌더링 패스를 수행합니다 `engine/Engine.h:41~77`.
+`engine::Engine` 은 렌더러, 스프라이트 아틀라스, 오디오 믹서 및 활성 장면을 소유하며, `initGraphics` 는 현재 GL 컨텍스트가 있는 상태에서 호출되어야 합니다 `engine/Engine.cpp:21`. `setScene` 을 통해 활성 장면을 설정하고, `frame` 은 한 번의 업데이트 및 렌더링 패스를 수행합니다 `engine/Engine.h:41~77`.
 
 
 `engine::Vec2`, `engine::Color`, `engine::SpriteBatch::Vertex`, `engine::Haptics::Strength`, `engine::Font::Glyph`, `engine::Particles::Burst`, `engine::Particles::Particle` 의 구체적인 책임은 사실에 명시되지 않았습니다. 각 클래스의 내부 동작과 설계 의도를 확인해야 합니다.

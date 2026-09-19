@@ -1,11 +1,9 @@
 # Shared helpers for tools/docs-check.sh and tools/docs-sync.sh (sourced, not run).
 #
-# The SDD pipeline lives in a sibling checkout of camera-hal-sdd. Override with
-# SDD_TOOL_DIR. Everything runs through `uv run --project <tool>` so the tool's
-# own virtualenv is used and nothing needs to be installed into this repo.
+# The SDD pipeline is an immutable checkout selected by tools/sdd-tool.json.
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SDD_TOOL_DIR="${SDD_TOOL_DIR:-$ROOT/../camera-hal-sdd}"
+SDD_TOOL_DIR="$ROOT/.tool/camera-hal-sdd"
 SDD_CONFIG="$ROOT/sdd.yaml"
 FACTS_BUILD="$ROOT/build/sdd/facts/facts.json"
 FACTS_DOCS="$ROOT/docs/sdd/facts.json"
@@ -13,22 +11,24 @@ SITE_BUILD="$ROOT/build/sdd/sdd.html"
 SITE_DOCS="$ROOT/docs/index.html"
 
 sdd() {
-    uv run --project "$SDD_TOOL_DIR" sdd --config "$SDD_CONFIG" "$@"
+    uv run --frozen --project "$SDD_TOOL_DIR" sdd --config "$SDD_CONFIG" "$@"
 }
 
 require_tool() {
     if [[ ! -f "$SDD_TOOL_DIR/pyproject.toml" ]]; then
-        echo "camera-hal-sdd 를 찾지 못했습니다: $SDD_TOOL_DIR (SDD_TOOL_DIR 로 지정)" >&2
+        echo "Run bash tools/setup-sdd.sh first: $SDD_TOOL_DIR" >&2
         exit 2
     fi
     command -v uv >/dev/null || { echo "uv 가 필요합니다 (https://docs.astral.sh/uv/)" >&2; exit 2; }
     command -v node >/dev/null || { echo "node 가 필요합니다" >&2; exit 2; }
+    local pinned
+    pinned="$(node -p 'require(process.argv[1]).revision' "$ROOT/tools/sdd-tool.json")"
+    [[ "$(git -C "$SDD_TOOL_DIR" rev-parse HEAD)" == "$pinned" ]] || { echo 'SDD revision mismatch' >&2; exit 2; }
+    [[ -z "$(git -C "$SDD_TOOL_DIR" status --porcelain)" ]] || { echo 'SDD checkout is dirty' >&2; exit 2; }
 }
 
 ensure_compdb() {
-    if [[ ! -f "$ROOT/compile_commands.json" ]]; then
-        bash "$ROOT/tools/sync-compile-commands.sh"
-    fi
+    bash "$ROOT/tools/sync-compile-commands.sh"
 }
 
 # facts.json minus the fields that change on every run or machine.
