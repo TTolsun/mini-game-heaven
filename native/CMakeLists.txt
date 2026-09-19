@@ -22,17 +22,10 @@ add_library(${PROJECT_NAME} SHARED
     engine/graphics/Texture.cpp
     engine/graphics/TextureAtlas.cpp
 
-    # app: scenes, game registry and the mini games
-    app/GameAssets.cpp
-    app/GameRegistry.cpp
-    app/HighScores.cpp
+    # app: monster collection and castle simulation
     app/Sfx.cpp
-    app/MiniGameApp.cpp
-    app/scenes/MenuScene.cpp
-    app/scenes/ResultScene.cpp
-    app/games/DodgeGame.cpp
-    app/games/JumpGame.cpp
-    app/games/TapGame.cpp
+    app/castle/CastleModel.cpp
+    app/castle/CastleScene.cpp
 
     # platform/android: the only Android-aware code
     platform/android/AndroidAssetLoader.cpp

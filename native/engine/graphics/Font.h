@@ -23,9 +23,9 @@ class Font {
 public:
     static constexpr float kBakePixelHeight = 72.0f;
 
-    // Bakes ASCII 32..126 and packs the result into `atlas` under `name`.
+    // Bakes ASCII plus the UTF-8 extraGlyphs into the shared atlas.
     bool load(AssetLoader& assets, TextureAtlas& atlas, const std::string& name,
-              const std::string& ttfPath);
+              const std::string& ttfPath, std::string_view extraGlyphs = {});
 
     // `size` is the line height in world units.
     void draw(SpriteBatch& batch, std::string_view text, Vec2 position, float size,
@@ -43,10 +43,8 @@ private:
         float xadvance;
     };
 
-    static constexpr int kFirstChar = 32;
-    static constexpr int kCharCount = 95;
-
-    const Glyph* glyph(char c) const;
+    const Glyph* glyph(int codepoint) const;
+    std::vector<int> codepoints_;
 
     Sprite sprite_;  // the whole baked bitmap in the atlas
     int bitmapWidth_ = 0;

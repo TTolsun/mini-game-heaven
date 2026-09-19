@@ -1,6 +1,6 @@
-# mini-game-heaven SDD
+# monster-garden SDD
 
-**수정할 기능이 있으면 [시스템 개요](overview.md)의 패키지 표에서 시작하세요.** 이 사이트는 `camera-hal-sdd` 파이프라인이 `native/` C++ 소스에서 생성한 설계 문서와, 사람이 기록한 설계 결정을 나눠서 담습니다.
+**수정할 기능이 있으면 [시스템 개요](overview.md)의 패키지 표에서 시작하세요.** 이 사이트는 `camera-hal-sdd` 파이프라인이 `native/` C++ 소스에서 추출한 사실, 코드 리뷰로 보완한 설명과, 사람이 기록한 설계 결정을 나눠서 담습니다.
 
 | 지금 확인할 내용 | 이동할 문서 |
 |---|---|
@@ -20,7 +20,7 @@
 
 | frontmatter | 뜻 |
 |---|---|
-| `status: ok` | 본문의 모든 `파일:줄` 인용이 사실 모델에서 확인되었습니다. |
+| `status: ok` | 생성 또는 코드 대조 단계의 상태이며, 독립된 검토자 승인이나 기기 검증을 뜻하지 않습니다. |
 | `status: needs-review` | 인용 검증에 실패했거나, 정적 분석으로는 알 수 없는 절입니다. 내용을 그대로 믿지 마세요. |
 | `facts_omitted` | 모델 입력 예산 때문에 제외된 사실입니다. 그 부분은 문서에 없습니다. |
 
@@ -28,6 +28,6 @@
 
 현재 코드와 문서의 검토자는 `docs/sdd-review.json`에 기록합니다. 생성 당시의 인용 검사와 후속 검토는 별개이며, AI 검토는 실제 기기 검증을 대신하지 않습니다.
 
-코드가 바뀌면 `tools/docs-check.sh`가 어느 문서가 오래됐는지 알려 주고, `tools/docs-sync.sh`가 로컬 Qwen으로 영향받은 절만 다시 씁니다. 자세한 절차는 저장소 README의 "문서" 절에 있습니다.
+코드가 바뀌면 `tools/docs-check.sh`가 어느 문서가 오래됐는지 알려 주고, `tools/docs-sync.sh`가 로컬 Qwen으로 영향받은 절만 다시 씁니다. 검토 기록은 docs/sdd-review.json에 별도로 남깁니다. 자세한 절차는 저장소의 docs/development-policy.md를 따릅니다.
 
 다음 단계: [시스템 개요](overview.md)

@@ -1,49 +1,16 @@
 ---
-generated_at: 2026-09-17T14:53:28+00:00
-source_commit: aeac21306341033f510bb6317043cf9fe2d6723b
-agent: ollama/qwen3.5:4b
-status: needs-review
+status: ok
 section: scenarios
-entry: engine::Engine::onTouch(int32_t, engine::TouchEvent::Phase, float, float)
+reviewer: Codex
+reviewed: 2026-09-19
 ---
 
-# 터치 입력 전달 (Engine::onTouch)
+# 터치 입력 전달
 
-**아래 코드 대조 설명을 먼저 읽으세요. 다이어그램과 번호 목록은 정적 호출 후보이며, 실행 순서·분기·콜백 시점을 정확히 재현하지 않습니다.**
+Android 입력 버퍼의 포인터 좌표가 Engine::onTouch에서 월드 좌표로 변환되어 Scene에 전달됩니다. `platform/android/AndroidMain.cpp:113`, `engine/Engine.cpp:116`
 
+CastleScene은 렌더링할 때 활성 버튼의 사각형·행동·대상을 기록합니다. Down에서 한 포인터만 선택하고 Up이 같은 영역에 있으며 현재도 동일한 대상이 활성일 때 행동을 실행합니다. Cancel은 실행하지 않고 포인터를 해제합니다. `app/castle/CastleScene.cpp:338`
 
+합성·결과 오버레이는 뒤쪽 버튼 목록을 제거합니다. 행동을 실행하면 목록을 비워 같은 Android 입력 묶음의 후속 터치가 이전 화면의 대상을 사용하지 못하게 합니다. 다음 render에서 목록을 다시 만듭니다. BACK도 목록과 진행 중인 제스처를 취소합니다. `app/castle/CastleScene.cpp:305`, `app/castle/CastleScene.cpp:355`
 
-## 이 흐름에서 확인할 것
-
-`Engine::onTouch`는 활성 장면이 없으면 반환합니다. 포인터 ID와 phase를 `TouchEvent`에 복사하고 화면 좌표에 `screenToWorld_`를 곱한 뒤 장면에 전달합니다 (`engine/Engine.cpp:116`). 이 값 객체의 생성이 별도의 힙 메모리 할당을 의미하지 않습니다.
-
-루트 `MiniGameApp::onTouch`는 장면 전환 대기 중 입력을 무시하고, 종료 버튼의 입력을 먼저 처리한 다음 현재 장면에 전달합니다 (`app/MiniGameApp.cpp:96`). 정적 추출 결과의 가상 함수 후보 수는 런타임에 가능한 구현의 전체 개수를 보장하지 않습니다.
-
-정적 분석 한계: 가상 호출 대상, 콜백 실행 시점, 조건 분기는 코드와 함께 확인해야 합니다. 이번 검토는 기기 실행 검증을 포함하지 않습니다.
-
-```mermaid
-sequenceDiagram
-    participant Engine
-    participant TouchEvent
-    participant Vec2
-    participant Scene
-    Engine->>TouchEvent: TouchEvent()
-    Engine->>Vec2: operator=()
-    Engine->>Vec2: Vec2()
-    Engine-->>Scene: onTouch() [virtual, 현재 구현 하나]
-```
-
-## 정적 호출 후보 (실행 추적 아님)
-
-1. `Engine` 가 `TouchEvent::TouchEvent()` 를 호출합니다. `engine/Engine.cpp:120`
-2. `Engine` 가 `Vec2::operator=()` 를 호출합니다. `engine/Engine.cpp:123`
-3. `Engine` 가 `Vec2::Vec2()` 를 호출합니다. `engine/Engine.cpp:123`
-4. `Engine` 가 `Scene::onTouch()` 를 호출합니다. (virtual, 현재 구현 하나) `engine/Engine.cpp:124`
-
-??? note "근거와 검토 정보"
-    - 근거 파일: `engine/Engine.cpp`
-    - 근거 수준: 코드 확인 (정적 분석, simple_compdb 구성, commit `aeac213063`)
-    - 인용 검증: 통과
-    - 검토: 2026-09-17 · ollama/qwen3.5:4b · 생성 당시 기록 (후속 코드 대조: docs/sdd-review.json)
-
-다음 단계: [핵심 시나리오 목록](index.md)
+회귀 검증은 CastleSceneTests에서 실제 Scene의 hit 영역과 이벤트 전달을 사용합니다. 합성 확인 직후 연속 탭, BACK 직후 Up, 다음 프레임의 입력 복구를 검사합니다. 렌더러 출력·GPU 검증은 이 무화면 테스트에 포함하지 않습니다.

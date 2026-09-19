@@ -1,43 +1,4 @@
 sequenceDiagram
-    participant MiniGameApp
-    participant GameRegistry
-    participant Haptics
-    participant NullHaptics
-    participant AndroidHaptics
-    participant Engine
-    participant Mixer
-    participant Sound
-    participant GameAssets
-    participant Color
-    MiniGameApp->>GameRegistry: createGame()
-    MiniGameApp->>Haptics: light()
-    Haptics-->>NullHaptics: vibrate() [virtual 후보]
-    Haptics-->>AndroidHaptics: vibrate() [virtual 후보]
-    AndroidHaptics->>AndroidHaptics: attach()
-    AndroidHaptics->>AndroidHaptics: resolve()
-    AndroidHaptics->>AndroidHaptics: clearException()
-    AndroidHaptics->>AndroidHaptics: clearException()
-    AndroidHaptics->>AndroidHaptics: clearException()
-    AndroidHaptics->>AndroidHaptics: clearException()
-    AndroidHaptics->>AndroidHaptics: clearException()
-    MiniGameApp->>Engine: haptics()
-    MiniGameApp->>Mixer: play()
-    Mixer->>Sound: empty()
-    MiniGameApp->>Engine: mixer()
-    MiniGameApp->>GameAssets: sfx()
-    MiniGameApp->>MiniGameApp: switchTo()
-    MiniGameApp->>GameRegistry: gameInfo()
-    GameRegistry->>GameRegistry: allGames()
-    GameRegistry->>Color: rgb8()
-    Color->>Color: Color()
-    GameRegistry->>Color: rgb8()
-    Color->>Color: Color()
-    GameRegistry->>Color: rgb8()
-    Color->>Color: Color()
-    GameRegistry->>GameRegistry: allGames()
-    GameRegistry->>Color: rgb8()
-    Color->>Color: Color()
-    GameRegistry->>Color: rgb8()
-    Color->>Color: Color()
-    GameRegistry->>Color: rgb8()
-    Color->>Color: Color()
+    participant CastleModel
+    CastleModel->>CastleModel: nextHeroCount()
+    CastleModel->>CastleModel: maxHp()

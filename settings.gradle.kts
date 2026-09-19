@@ -30,5 +30,5 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-rootProject.name = "mini-game-heaven"
+rootProject.name = "monster-garden"
 include(":app")
