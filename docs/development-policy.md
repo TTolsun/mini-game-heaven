@@ -58,3 +58,9 @@ GitHub main 보호 규칙에 `check`를 필수 상태 검사로 지정하고, �
 | Variable | `RELEASE_CERT_SHA256` (예상 인증서 SHA-256) |
 
 환경에는 릴리스 태그 제한과 필요한 검토자를 설정할 수 있습니다. 필수 값이 없으면 서명 단계는 실패하며 debug 키로 대체하지 않습니다. 로컬 빌드는 루트의 `keystore.properties`에서 `storeFile`, `storePassword`, `keyAlias`, `keyPassword`를 읽거나 같은 역할의 `RELEASE_*` 환경 변수를 사용합니다. 아무 키도 없으면 미서명 Release 빌드는 허용하지만 배포 패키징은 실패합니다.
+
+### 서명키를 로컬에 유지하는 배포
+
+GitHub에 서명키를 등록하지 않는 경우에도 1~3단계의 버전·문서 검토와 필수 CI를 동일하게 수행합니다. 병합된 main 커밋을 체크아웃해 로컬에서 `assembleRelease`와 `node tools/release.mjs v<version>`을 실행합니다. 배포 도구는 패키지·버전·debuggable 비활성·예상 인증서를 검증하고 APK·SHA256SUMS.txt·verification.json을 만듭니다.
+
+그 main 커밋을 명시하여 GitHub Release 초안과 태그를 만들고 검증된 세 파일만 첨부합니다. 업로드된 APK의 해시가 로컬 파일과 일치하는지 확인하고, 동일한 파일의 휴대폰 업데이트·실행·진행 상태 보존을 확인한 후 공개합니다. 이 경로는 GitHub Actions의 서명 작업을 사용하지 않으며 키·비밀번호를 GitHub에 전송하지 않습니다. 자동 서명 환경의 비밀값 등록은 별도의 사용자 승인을 받아야 합니다.
