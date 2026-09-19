@@ -1,8 +1,8 @@
 {
   "version": 1,
   "reviewer": "Codex (AI)",
-  "reviewedAt": "2026-09-19T12:33:45.502Z",
-  "reason": "Reviewed editable passage graph, deterministic invasion route and combat mapping, spatial digging, CASTLE 1 migration and CASTLE 2 validation, Scene input handling, game concept scope, source citations and regenerated diagrams. Model/Scene tests and emulator UI checks are documented separately; device-wide performance remains unverified.",
+  "reviewedAt": "2026-09-19T13:00:22.880Z",
+  "reason": "Reviewed 0.3.0 release metadata, phone update evidence and local signing distribution policy. The alternative keeps required PR checks, verified main provenance, certificate/package/version validation, APK hash verification and device update checks while avoiding private-key transfer. Gameplay and SDD content remain unchanged from PR #15.",
   "acknowledgements": {
     "docs/sdd/threading.md": "Reviewed ownership, Mixer atomics and AndroidAudio shutdown against source. Callback timing, route changes and long-duration multi-device performance remain explicitly unverified; these are not claimed as passed runtime tests."
   },
@@ -11,7 +11,7 @@
     ".github/workflows/docs-check.yml": "93c380cdc4124527abda5569f3adc924a09af30ebebc614f78a48b22bc20cbb6",
     ".github/workflows/docs-sync.yml": "62dfdba457e3336350b95790443c976f71e86609f95c14bac95c5532feee283c",
     ".github/workflows/release.yml": "8c6aa12cb99bff6cf72cacaa1ede6d88735ca63b4a1df049553547ca94da4700",
-    "app/build.gradle.kts": "b1f465691dae96f66492c48a89464b8575a3b3c13c2f78ed6b42343dc7144eb8",
+    "app/build.gradle.kts": "351b77cfc9a27bcce70cb9ab7a3ddb0a03e54fa8cabd2dc6cbe4b60c8e7f7b16",
     "app/src/main/AndroidManifest.xml": "f969a3049cc78a925259f9b21248c3f24a4b536c82ffdb4274f421da5fb4a330",
     "app/src/main/assets/CREDITS.md": "1aa76ec1c3d93d58233bf8dcf407313be92941ae8f7f0e39630119e2f448e00c",
     "app/src/main/assets/bg/forest.png": "193bf28ea8344a533d5f9b4dd0b6e8eaf1964dd73bc5f1b3ecc4357b24100a0d",
@@ -116,8 +116,9 @@
     "app/src/main/res/values/strings.xml": "9d87519ea6e7e8502af73c5a16ac58221dcbebc0a7855ad4043fb1aa8053c075",
     "app/src/main/res/values/themes.xml": "c18ec4509c1f11327ba8f7b425bfba6c7156a7126e96fcc849fd48ffb2a7cf5e",
     "build.gradle.kts": "8ce5660d95ace9901683968718cecfed6e8165dbd853ee67961c00cbcbe2a972",
-    "docs/development-policy.md": "6979cfc42fd7dd1e237558bd170df7c6814d7a314d6744c4b74ac42f2b262397",
+    "docs/development-policy.md": "ec0ca8d10d3df6bb9b6ca6287b889878bd9672e3514d3a8afea3b8e216e8faee",
     "docs/releases/0.2.1.md": "ab44c23fcfc6ace9214efb7f32e432dd268d5b3615bbc8b5d0f64d38c82b0cd9",
+    "docs/releases/0.3.0.md": "f3ca14babcbbac5c96dd1c4ba9976a99498756e170f625fbc94bf21304073a14",
     "docs/sdd-config/scenarios.yaml": "ab1d18bed29e81a8bfa7094c44e129fd6a68337566bff912f71fdbf7cec3042d",
     "docs/sdd-config/sections.yaml": "6789c7478625b181137ea7242d922833c0201fdd400c3e208f5e63798abe9306",
     "gradle.properties": "5c859744576bf68bf6243acb328d9f7cad9af0347b9363b057e1de9a6c3e5552",
