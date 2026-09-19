@@ -1,45 +1,24 @@
-# 설계 문서(docs/sdd) 검사.
-#
-# 로컬 진입점 tools/docs-check.sh 와 같은 단계를 같은 순서로 실행합니다.
-#   사실 최신성: 코드에서 다시 뽑은 facts 가 커밋된 docs/sdd/facts.json 과 같은가   (sdd extract)
-#   문서 최신성: 변경이 영향을 주는 절의 문서가 함께 바뀌었는가                   (sdd impact)
-#   검토 상태:   status: needs-review 문서 목록 (경고)
-#   사이트 일치: docs/sdd 에서 만든 단일 HTML 이 커밋된 docs/index.html 과 같은가  (sdd export-html)
-#
-# 사실 추출에는 compile_commands.json 이 필요하므로 NDK 빌드를 먼저 합니다. 이 워크플로가 곧 빌드 검사이기도 합니다.
-# LLM 은 부르지 않습니다. 문서를 다시 쓰는 것은 docs-sync 워크플로(로컬 러너)나 tools/docs-sync.sh 가 합니다.
 name: docs-check
 
+# Required checks run on every PR, including policy-only changes.
 on:
   pull_request:
-    paths:
-      - "native/**"
-      - "app/build.gradle.kts"
-      - "docs/**"
-      - "sdd.yaml"
-      - "tools/**"
-      - ".github/workflows/docs-check.yml"
   push:
     branches: [main]
+  workflow_call:
+  workflow_dispatch:
 
-env:
-  # camera-hal-sdd 의 브랜치. source.exclude 와 --relative 는 main 에 들어 있습니다 (PR #1).
-  SDD_TOOL_REPO: TTolsun/camera-hal-sdd
-  SDD_TOOL_REF: main
+permissions:
+  contents: read
 
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/checkout@v4
-        with:
-          repository: ${{ env.SDD_TOOL_REPO }}
-          ref: ${{ env.SDD_TOOL_REF }}
-          path: .tool/camera-hal-sdd
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -50,12 +29,12 @@ jobs:
       - uses: astral-sh/setup-uv@v6
       - uses: android-actions/setup-android@v3
         with:
-          packages: "platforms;android-36 build-tools;36.0.0 ndk;29.0.14206865 cmake;3.31.6"
-      - name: 네이티브 빌드 (compile_commands.json 생성)
-        run: ./gradlew assembleDebug --no-daemon
-      - name: 문서 검사 (로컬 진입점과 동일)
-        env:
-          SDD_TOOL_DIR: ${{ github.workspace }}/.tool/camera-hal-sdd
-        run: |
-          base="${{ github.event.pull_request.base.sha || github.event.before }}"
-          bash tools/docs-check.sh --ci --base "$base"
+          packages: "platform-tools platforms;android-36 build-tools;36.0.0 ndk;29.0.14206865 cmake;3.31.6"
+      - name: Policy regression tests
+        run: node --test tools/policy.test.mjs
+      - name: Install pinned SDD engine
+        run: bash tools/setup-sdd.sh
+      - name: Build, unit tests, and lint
+        run: ./gradlew assembleDebug testDebugUnitTest lintDebug assembleRelease --no-daemon
+      - name: Documentation and review checks
+        run: bash tools/docs-check.sh --ci

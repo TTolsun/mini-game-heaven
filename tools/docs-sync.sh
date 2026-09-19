@@ -24,6 +24,14 @@ done
 
 require_tool
 cd "$ROOT"
+if [[ $SITE_ONLY == 0 && $FORCE == 0 ]] && ! git diff --quiet HEAD -- native app/src/main app/build.gradle.kts docs/sdd-config sdd.yaml; then
+    echo 'Uncommitted inputs: use --force to include working-tree changes.' >&2
+    exit 1
+fi
+if [[ $SITE_ONLY == 0 && $FORCE == 0 && -n "$(git ls-files --others --exclude-standard -- native app/src/main)" ]]; then
+    echo 'Untracked inputs: use --force to include new files.' >&2
+    exit 1
+fi
 bash tools/sync-compile-commands.sh
 
 if [[ $SITE_ONLY == 1 ]]; then
@@ -54,4 +62,5 @@ grep -l "^status: needs-review" docs/sdd/*.md docs/sdd/scenarios/*.md 2>/dev/nul
 if [[ -f "$ROOT/build/change_impact.md" ]]; then
     echo "  변경 요약: build/change_impact.md"
 fi
-echo "확인이 끝나면 docs/ 를 커밋하세요."
+echo "검토 후 node tools/docs-review.mjs accept --reviewer NAME --reason TEXT 로 기록하세요."
+echo "동기화는 검토 기록을 자동 승인하지 않습니다."

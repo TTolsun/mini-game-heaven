@@ -1,0 +1,74 @@
+name: release
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    uses: ./.github/workflows/docs-check.yml
+  package:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment: release
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Require a main-branch release tag
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          git merge-base --is-ancestor HEAD origin/main
+          test "$(git rev-list -n 1 "$TAG")" = "$(git rev-parse HEAD)"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: "platform-tools platforms;android-36 build-tools;36.0.0 ndk;29.0.14206865 cmake;3.31.6"
+      - name: Build and verify signed APK
+        env:
+          RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+          RELEASE_CERT_SHA256: ${{ vars.RELEASE_CERT_SHA256 }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          : "${RELEASE_KEYSTORE_BASE64:?Missing keystore}"
+          : "${RELEASE_STORE_PASSWORD:?Missing store password}"
+          : "${RELEASE_KEY_ALIAS:?Missing key alias}"
+          : "${RELEASE_KEY_PASSWORD:?Missing key password}"
+          : "${RELEASE_CERT_SHA256:?Missing expected certificate fingerprint}"
+          export RELEASE_STORE_FILE="$RUNNER_TEMP/release.jks"
+          trap 'rm -f -- "$RELEASE_STORE_FILE"' EXIT
+          umask 077
+          printf '%s' "$RELEASE_KEYSTORE_BASE64" | base64 --decode > "$RELEASE_STORE_FILE"
+          ./gradlew assembleRelease --no-daemon
+          node tools/release.mjs "$TAG"
+      - name: Create release draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+        run: |
+          gh release create "$TAG" --verify-tag --draft \
+            --title "$REPOSITORY_NAME ${TAG#v}" --notes-file "docs/releases/${TAG#v}.md" \
+            "build/release/android-app-${TAG#v}.apk" \
+            build/release/SHA256SUMS.txt build/release/verification.json
