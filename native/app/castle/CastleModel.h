@@ -25,6 +25,10 @@ inline constexpr int kRooms = 12;
 inline constexpr int kMaxMonsters = 8;
 inline constexpr int kMaxHeroes = 12;
 inline constexpr int kFinalDay = 10;
+inline constexpr int kRoomColumns = 3;
+inline constexpr int kEntranceRoom = 0;
+constexpr int roomColumn(int room) { return (room / kRoomColumns) % 2 ? 2 - room % kRoomColumns : room % kRoomColumns; }
+struct InvasionRoute { std::array<int, kRooms> rooms{}; int count = 0; };
 struct Room { bool open = false; Facility facility = Facility::Empty; };
 struct Monster { Species species = Species::Slime; int level = 1; int room = -1; float hp = 0; float cooldown = 0; };
 struct Hero { float position = -1; float hp = 0; float maxHp = 0; float cooldown = 0; int lastRoom = -1; bool alive = false; };
@@ -56,6 +60,14 @@ public:
     int trapDamage(int room) const;
     int nextHeroCount() const;
     int nextHeroHp() const;
+    static bool adjacentRooms(int first, int second);
+    bool canDig(int room) const;
+    bool connected(int first, int second) const;
+    bool togglePassage(int first, int second);
+    bool moveThrone(int room);
+    int throneRoom() const { return throneRoom_; }
+    const InvasionRoute& invasionRoute() const { return route_; }
+    int heroRoom(const Hero& hero) const;
     bool build(int room, Facility facility);
     bool dig(int room);
     bool summon(Species species);
@@ -70,7 +82,12 @@ public:
     bool load(const std::string& path);
 
 private:
+    std::array<unsigned, kRooms> passages_{};
+    int throneRoom_ = 5;
+    InvasionRoute route_{};
     float spawnClock_ = 0;
+    void rebuildRoute();
+    void connectRooms(int first, int second);
     int adjacentFacilities(int room, Facility facility) const;
     void finishRaid();
 };

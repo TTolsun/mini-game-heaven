@@ -32,6 +32,7 @@ private:
     int pressed_ = -1, pointer_ = -1;
     Hit pressedHit_{};
     bool paused_ = false, muted_ = false, saved_ = true;
+    bool routeEditing_ = false;
     float clock_ = 0, speed_ = 1, celebration_ = 0;
     float mapTop_ = 238, roomHeight_ = 116, panelTop_ = 760, bottom_ = 1300;
     void save();
@@ -44,6 +45,7 @@ private:
     engine::Rect roomRect(int index) const;
     void renderMap(engine::SpriteBatch& batch);
     void renderPanel(engine::SpriteBatch& batch);
+    void renderRouteEditor(engine::SpriteBatch& batch);
     void renderOverlay(engine::SpriteBatch& batch);
 };
 }  // namespace app::castle

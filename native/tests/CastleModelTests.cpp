@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <fstream>
 #include <limits>
+#include <sstream>
 using namespace app::castle;
 void finish(CastleModel& model, float dt=1.0f/60) {
     for(int i=0;i<60000 && model.phase==Phase::Raid;++i) model.update(dt);
@@ -14,7 +15,7 @@ int main(int argc,char** argv) {
     CastleModel m;
     assert(m.monsterCount==2 && m.roomCount()==6);
     const int gold=m.gold; assert(!m.build(-1,Facility::Den)); assert(!m.build(0,Facility::Den)); assert(m.gold==gold);
-    assert(!m.dig(8)); assert(m.dig(6)); assert(m.roomCount()==7);
+    assert(!m.dig(9)); assert(m.dig(6)); assert(m.roomCount()==7);
     assert(m.build(2,Facility::Library)); assert(m.build(3,Facility::Trap)); assert(m.trapDamage(3)==22);
     CastleModel growth;
     assert(!growth.fuse(0,1));
@@ -29,6 +30,66 @@ int main(int argc,char** argv) {
     assert(growth.save(file)); CastleModel loaded; assert(loaded.load(file));
     assert(loaded.gold==growth.gold && loaded.mana==growth.mana && loaded.discovered==growth.discovered);
     assert(loaded.monsters[0].room==growth.monsters[0].room);
+    // Existing CASTLE 1 saves migrate to the original full serpentine route.
+    {std::ofstream out(file); out<<"CASTLE 1\n100 97 2 2 0 3\n";
+     for(int i=0;i<12;++i) out<<(i<6?1:0)<<" 0\n";
+     out<<"0 5 1\n1 1 3\n";}
+    CastleModel legacy; assert(legacy.load(file));
+    assert(legacy.gold==100 && legacy.mana==97 && legacy.monsters[0].level==5);
+    assert(legacy.throneRoom()==5 && legacy.invasionRoute().count==6);
+    for(int i=0;i<6;++i) assert(legacy.invasionRoute().rooms[i]==i);
+    assert(legacy.save(file)); assert(loaded.load(file));
+    assert(loaded.invasionRoute().count==6 && loaded.monsters[0].level==5);
+    // A shortcut changes actual battle contacts: the same defenders are bypassed.
+    CastleModel defended;
+    defended.day=5; defended.monsterCount=1; defended.monsters[0]={Species::Dragon,10,1};
+    defended.rooms[0].facility=Facility::Empty;
+    CastleModel shortcut=defended;
+    assert(shortcut.togglePassage(0,5));
+    assert(shortcut.invasionRoute().count==2 && shortcut.invasionRoute().rooms[1]==5);
+    assert(defended.startRaid()); assert(shortcut.startRaid());
+    assert(!shortcut.togglePassage(0,5)); assert(!shortcut.moveThrone(1)); assert(!shortcut.dig(6));
+    finish(defended); finish(shortcut);
+    assert(defended.won && defended.defeated==defended.totalHeroes);
+    assert(!shortcut.won && shortcut.defeated==0);
+    std::printf("ROUTE BALANCE: protected path kills=%d heart=%d; shortcut kills=%d heart=%d\n",
+        defended.defeated,defended.heart,shortcut.defeated,shortcut.heart);
+    CastleModel paths;
+    assert(!paths.togglePassage(-1,0) && !paths.togglePassage(0,2) && !paths.togglePassage(0,0));
+    assert(!paths.moveThrone(0) && !paths.moveThrone(11));
+    assert(paths.togglePassage(0,1)); // Editing can temporarily disconnect the throne.
+    assert(paths.invasionRoute().count==0 && !paths.startRaid());
+    assert(paths.phase==Phase::Build && paths.rewardGold==0);
+    assert(paths.save(file)); assert(loaded.load(file)); assert(!loaded.startRaid());
+    assert(paths.togglePassage(0,5));
+    assert(paths.invasionRoute().count==2);
+    assert(paths.togglePassage(0,1)); // Cycle must not repeat rooms or farm traps.
+    assert(paths.invasionRoute().count==2);
+    assert(paths.dig(8)); // Non-consecutive expansion below room 3.
+    assert(paths.rooms[8].open && !paths.rooms[6].open);
+    assert(paths.moveThrone(8));
+    assert(paths.summon(Species::Slime)); assert(paths.assign(2,8));
+    assert(paths.save(file)); assert(loaded.load(file));
+    assert(loaded.throneRoom()==8 && loaded.monsters[2].room==8);
+    assert(loaded.invasionRoute().count==paths.invasionRoute().count);
+    for(int i=0;i<paths.invasionRoute().count;++i) {
+        assert(loaded.invasionRoute().rooms[i]==paths.invasionRoute().rooms[i]);
+        for(int j=0;j<i;++j) assert(paths.invasionRoute().rooms[i]!=paths.invasionRoute().rooms[j]);
+    }
+    // A tampered asymmetric graph must not partially replace the current model.
+    std::ifstream validSave(file); std::ostringstream savedText; savedText<<validSave.rdbuf(); validSave.close();
+    const auto valid=savedText.str();
+    const auto corrupt=[&](int row,const char* replacement) {
+        std::istringstream source(valid); std::ofstream out(file); std::string line; int index=0;
+        while(std::getline(source,line)) out<<(index++==row?replacement:line)<<'\n';
+    };
+    // Header + state + 12 rooms + 3 monsters + throne = row 18 is mask 0.
+    corrupt(18,"0"); const int savedGold=loaded.gold;
+    assert(!loaded.load(file) && loaded.gold==savedGold && loaded.throneRoom()==8);
+    corrupt(18,"4096"); assert(!loaded.load(file));
+    corrupt(17,"0"); assert(!loaded.load(file));
+    {std::ofstream out(file); out<<valid<<"unexpected\n";}
+    assert(!loaded.load(file));
     {std::ofstream out(file); out<<"CASTLE 1\n10 10 1 99 0 63\n";}
     const int before=loaded.gold; assert(!loaded.load(file)); assert(loaded.gold==before);
     assert(growth.save(file)); // atomic replacement of existing file
@@ -84,6 +145,6 @@ int main(int argc,char** argv) {
     auto start=std::chrono::steady_clock::now();
     for(int run=0;run<100;++run) {CastleModel battle; battle.day=10; battle.startRaid(); finish(battle);}
     auto duration=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
-    std::printf("PASS: economy, placement, 3 fusions, persistence, corruption, replay, defeat recovery, 10-day campaign (%d attempts). 100 raid simulations %.1f ms\n",attempts,duration);
+    std::printf("PASS: editable paths, shortest route combat, disconnected raid guard, v1/v2 saves, malformed graphs, economy, 3 fusions, replay and 10-day campaign (%d attempts). 100 raid simulations %.1f ms\n",attempts,duration);
     std::remove(file.c_str());
 }

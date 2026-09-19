@@ -23,7 +23,7 @@ constexpr Color purple = Color::rgb8(143, 111, 197);
 constexpr Color colors[] = {Color::rgb8(107, 194, 160), Color::rgb8(239, 133, 95), Color::rgb8(159, 179, 131),
     Color::rgb8(164, 136, 218), Color::rgb8(116, 183, 213), Color::rgb8(239, 189, 91)};
 enum Action { RoomSelect, Tab, Summon, Feed, Move, FuseOpen, FusePartner, FuseConfirm, Close,
-    Build, Dig, Raid, Continue, Speed, Pause, Sound };
+    Build, Dig, Raid, Continue, Speed, Pause, Sound, RouteEdit, Passage, Throne };
 int discoveredCount(unsigned mask) { int n = 0; while (mask) { n += mask & 1u; mask >>= 1; } return n; }
 }
 void CastleScene::onEnter(engine::Engine& engine) {
@@ -68,7 +68,7 @@ void CastleScene::button(engine::SpriteBatch& b, Rect r, std::string_view text, 
     if (enabled && hitCount_ < static_cast<int>(hits_.size())) hits_[hitCount_++] = {r, action, value};
 }
 Rect CastleScene::roomRect(int i) const {
-    const int col = (i / 3) % 2 ? 2 - i % 3 : i % 3;
+    const int col = roomColumn(i);
     return {40.0f + col * 218.0f, mapTop_ + (i / 3) * (roomHeight_ + 16), 204, roomHeight_};
 }
 void CastleScene::monster(engine::SpriteBatch& b, int species, float x, float y, float scale, bool dim) {
@@ -81,13 +81,20 @@ void CastleScene::monster(engine::SpriteBatch& b, int species, float x, float y,
     b.draw(sprite, {x, y + hop}, {scale * 18, scale * 18}, tint);
 }
 void CastleScene::renderMap(engine::SpriteBatch& b) {
-    b.drawRect({20, mapTop_ - 18, 680, 4 * (roomHeight_ + 16) + 12}, Color::rgb8(61, 54, 77));
+    const auto& route = model_.invasionRoute();
+    b.drawRect({20, mapTop_ - 8, 680, 4 * (roomHeight_ + 16) + 2}, Color::rgb8(61, 54, 77));
     for (int i = 0; i < kRooms; ++i) {
         const Rect r = roomRect(i);
-        if (i + 1 < kRooms) {
-            const Rect next = roomRect(i + 1);
-            b.drawRect({std::min(r.x, next.x) + 88, std::min(r.y,next.y) + roomHeight_ / 2 - 8,
-                std::abs(next.x - r.x) + 30, std::abs(next.y - r.y) + 16}, Color::rgb8(133, 120, 133));
+        for (int j = i + 1; j < kRooms; ++j) {
+            if (!model_.connected(i, j)) continue;
+            const Rect next = roomRect(j);
+            bool active = false;
+            for (int step = 1; step < route.count; ++step) {
+                const int from = route.rooms[step - 1], to = route.rooms[step];
+                active |= (from == i && to == j) || (from == j && to == i);
+            }
+            b.drawRect({std::min(r.x, next.x) + r.w / 2 - 8, std::min(r.y,next.y) + roomHeight_ * 0.62f - 8,
+                std::abs(next.x - r.x) + 16, std::abs(next.y - r.y) + 16}, active ? gold : Color::rgb8(133, 120, 133));
         }
     }
     for (int i = 0; i < kRooms; ++i) {
@@ -96,13 +103,23 @@ void CastleScene::renderMap(engine::SpriteBatch& b) {
         b.drawRect({r.x - 3, r.y - 3, r.w + 6, r.h + 6}, i == selectedRoom_ ? gold : Color::rgb8(89, 77, 96));
         b.drawRect(r, room.open ? Color::rgb8(224, 213, 194) : Color::rgb8(79, 69, 88));
         if (!room.open) {
-            label(b, i == model_.roomCount() ? "+ 확장" : "미개척", r.x + r.w / 2, r.y + r.h / 2 - 13, 24,
-                  i == model_.roomCount() ? gold : Color::rgb8(148, 133, 151), TextAlign::Center);
+            label(b, model_.canDig(i) ? "+ 확장" : "미개척", r.x + r.w / 2, r.y + r.h / 2 - 13, 24,
+                  model_.canDig(i) ? gold : Color::rgb8(148, 133, 151), TextAlign::Center);
         } else {
             for (int tile = 1; tile < 4; ++tile) b.drawRect({r.x + tile * 51, r.y + 28, 1, r.h - 31}, Color::rgb8(211, 200, 183));
             char title[100]; std::snprintf(title, sizeof(title), "%02d  %s", i + 1, kFacilities[static_cast<int>(room.facility)].name);
             label(b, title, r.x + 10, r.y + 3, 19, ink);
             b.drawRect({r.x + 8, r.y + 28, r.w - 16, 2}, Color::rgb8(199, 187, 170));
+            if (i == kEntranceRoom || i == model_.throneRoom())
+                label(b,i == kEntranceRoom ? "입구" : "왕좌",r.x+8,r.y+31,16,teal);
+            if (routeEditing_) {
+                int order = -1;
+                for (int step = 0; step < route.count; ++step) if (route.rooms[step] == i) order = step;
+                char mark[24];
+                if (order >= 0) std::snprintf(mark,sizeof(mark),"경로 %d",order+1);
+                else std::snprintf(mark,sizeof(mark),"우회");
+                label(b,mark,r.x+r.w-8,r.y+31,16,order>=0?teal:muted,TextAlign::Right);
+            }
             const int kind = static_cast<int>(room.facility);
             if (kind > 0) {
                 const Color decor = kind == 1 ? teal : kind == 2 ? gold : kind == 3 ? Color::rgb8(170,113,109) : purple;
@@ -126,15 +143,50 @@ void CastleScene::renderMap(engine::SpriteBatch& b) {
     }
     if (model_.phase == Phase::Raid) for (int i = 0; i < model_.spawned; ++i) {
         const Hero& h = model_.heroes[i]; if (!h.alive) continue;
-        const int idx = std::clamp(static_cast<int>(std::max(0.0f,h.position)),0,kRooms-1);
-        const Rect r = roomRect(idx);
-        const float x = r.x + 32 + (i % 3) * 24, y = r.y + r.h * 0.57f + (i % 2) * 6;
+        if (route.count == 0) continue;
+        const auto center = [this](int room) {
+            const Rect r = roomRect(room);
+            return engine::Vec2{r.x+r.w*0.42f,r.y+r.h*0.62f};
+        };
+        const int step = std::clamp(static_cast<int>(std::max(0.0f,h.position)),0,route.count-1);
+        const auto from = h.position < 0 ? center(kEntranceRoom)-engine::Vec2{60,0} : center(route.rooms[step]);
+        const auto to = h.position < 0 ? center(kEntranceRoom) : step+1<route.count ? center(route.rooms[step+1]) : from+engine::Vec2{60,0};
+        const float fraction = h.position < 0 ? h.position+1 : h.position-step;
+        const auto point = engine::lerp(from,to,std::clamp(fraction,0.0f,1.0f));
+        const float x = point.x + (i % 3) * 8, y = point.y + (i % 2) * 6;
         b.drawRect({x-9,y-15,18,13}, Color::rgb8(229,237,232));
         b.drawRect({x-7,y-2,14,20}, Color::rgb8(99,128,172));
         b.drawRect({x+9,y-9,4,27}, paper);
         b.drawRect({x-10,y-23,24,4}, ink);
         b.drawRect({x-10,y-23,24*std::max(0.0f,h.hp/h.maxHp),4}, Color::rgb8(219,102,94));
     }
+}
+void CastleScene::renderRouteEditor(engine::SpriteBatch& b) {
+    const float y = panelTop_;
+    const auto& route = model_.invasionRoute();
+    char text[160];
+    std::snprintf(text,sizeof(text),"통로 편집 · %02d번 방",selectedRoom_+1);
+    label(b,text,40,y,29,ink);
+    label(b,"지도에서 방을 고른 뒤 옆방과의 통로를 바꾸세요.",40,y+43,21,muted);
+    int count = 0;
+    for (int next = 0; next < kRooms; ++next) {
+        if (!model_.rooms[selectedRoom_].open || !model_.rooms[next].open || !CastleModel::adjacentRooms(selectedRoom_,next)) continue;
+        const bool open = model_.connected(selectedRoom_,next);
+        std::snprintf(text,sizeof(text),"%02d번 방 통로 · %s",next+1,open?"닫기":"열기");
+        button(b,{40+(count%2)*328.0f,y+83+(count/2)*65.0f,312,54},text,Passage,next,true,open);
+        ++count;
+    }
+    if (!model_.rooms[selectedRoom_].open) {
+        std::snprintf(text,sizeof(text),"방 확장 · 금화 %d",model_.digCost());
+        button(b,{40,y+83,640,62},text,Dig,selectedRoom_,model_.canDig(selectedRoom_) && model_.gold>=model_.digCost(),true);
+    }
+    if (route.count>0) std::snprintf(text,sizeof(text),"입구 01 > 왕좌 %02d · 최단 경로 %d칸",model_.throneRoom()+1,route.count);
+    else std::snprintf(text,sizeof(text),"경로 없음 · 왕좌까지 길을 이어 주세요");
+    label(b,text,40,y+226,23,route.count>0?teal:Color::rgb8(180,65,65));
+    label(b,"금빛 통로가 침입 경로예요. 통로 편집은 무료예요.",40,y+263,21,muted);
+    button(b,{40,y+302,312,58},"이 방으로 왕좌 옮기기",Throne,selectedRoom_,
+        model_.rooms[selectedRoom_].open && selectedRoom_!=kEntranceRoom && selectedRoom_!=model_.throneRoom());
+    button(b,{368,y+302,312,58},"편집 완료",RouteEdit,0,true,true);
 }
 void CastleScene::renderPanel(engine::SpriteBatch& b) {
     const float y = panelTop_;
@@ -150,6 +202,7 @@ void CastleScene::renderPanel(engine::SpriteBatch& b) {
         button(b,{365,y+190,315,62},paused_ ? "계속하기" : "잠시 쉬기",Pause);
         return;
     }
+    if (routeEditing_) { renderRouteEditor(b); return; }
     if (tab_ == 2) {
         std::snprintf(text,sizeof(text),"마물 도감   %d / 6종 발견",discoveredCount(model_.discovered)); label(b,text,40,y,29,ink);
         for (int i = 0; i < 6; ++i) {
@@ -166,11 +219,12 @@ void CastleScene::renderPanel(engine::SpriteBatch& b) {
     if (tab_ == 1) {
         const Room& room = model_.rooms[selectedRoom_];
         std::snprintf(text,sizeof(text),"%02d번 방  /  %s",selectedRoom_+1,room.open?kFacilities[static_cast<int>(room.facility)].name:"미개척 지역");
-        label(b,text,40,y,29,ink);
+        label(b,text,40,y,23,ink);
+        button(b,{470,y-4,210,43},"통로 편집",RouteEdit,0,true,true);
         if (!room.open) {
             label(b,"성을 넓히면 더 많은 마물이 함께 살 수 있어요.",40,y+55,23,muted);
             std::snprintf(text,sizeof(text),"방 확장  ·  금화 %d",model_.digCost());
-            button(b,{40,y+110,640,66},text,Dig,selectedRoom_,selectedRoom_==model_.roomCount() && model_.gold>=model_.digCost(),true);
+            button(b,{40,y+110,640,66},text,Dig,selectedRoom_,model_.canDig(selectedRoom_) && model_.gold>=model_.digCost(),true);
         } else if (room.facility != Facility::Empty) {
             label(b,kFacilities[static_cast<int>(room.facility)].detail,40,y+54,24,teal);
             label(b,"시설을 더 지으려면 위 지도에서 빈 방을 선택하세요.",40,y+108,22,muted);
@@ -277,7 +331,7 @@ void CastleScene::render(engine::SpriteBatch& b) {
     b.drawRect({0,0,720,engine_->worldHeight()},cream);
     b.drawRect({0,0,720,top+151},ink);
     label(b,"마물 정원",35,top+15,43,paper);
-    label(b,"꼬마 마왕의 수집 일기",38,top+70,21,Color::rgb8(189,175,203));
+    label(b,"나만의 마왕성을 설계하세요",38,top+70,21,Color::rgb8(189,175,203));
     char text[160]; std::snprintf(text,sizeof(text),"%d일 / 10일",model_.day); label(b,text,492,top+25,28,gold,TextAlign::Right);
     button(b,{536,top+21,149,53},muted_?"소리 꺼짐":"소리 켜짐",Sound);
     std::snprintf(text,sizeof(text),"금화 %d",model_.gold); label(b,text,38,top+111,24,gold);
@@ -286,8 +340,13 @@ void CastleScene::render(engine::SpriteBatch& b) {
     if (model_.phase == Phase::Build) {
         std::snprintf(text,sizeof(text),model_.completed?"10일 방어 완료!":model_.day%5==0?"정예 용사 %d명 · 체력 %d":"다음 습격 %d명 · 체력 %d",model_.nextHeroCount(),model_.nextHeroHp());
         label(b,text,36,top+175,21,ink);
-        button(b,{435,top+164,250,53},"방어 시작",Raid,0,!model_.completed,true);
+        const bool pathReady=model_.invasionRoute().count>0;
+        button(b,{435,top+164,250,53},pathReady?"방어 시작":"통로 연결 필요",Raid,0,!model_.completed && pathReady,true);
     } else label(b,paused_?"잠시 쉬고 있어요":model_.phase==Phase::Raid?"용사들의 습격! 우리 마물들을 응원해 주세요.":"방어가 끝났어요",36,top+173,25,ink);
+    const int steps=model_.invasionRoute().count;
+    if (steps>0) std::snprintf(text,sizeof(text),"입구 01 > 왕좌 %02d · 경로 %d칸 · 성 꾸미기에서 통로 편집",model_.throneRoom()+1,steps);
+    else std::snprintf(text,sizeof(text),"왕좌까지 경로가 없어요 · 성 꾸미기에서 통로를 연결하세요");
+    label(b,text,36,top+219,17,steps>0?teal:Color::rgb8(180,65,65));
     renderMap(b);
     renderPanel(b);
     const float tabsY=bottom_-67;
@@ -313,7 +372,7 @@ void CastleScene::act(int action,int value) {
         if(moving_>=0) { changed=model_.assign(moving_,value); if(changed) moving_=-1; }
         else if(!model_.rooms[value].open) tab_=1;
         break;
-    case Tab: tab_=value; moving_=-1; break;
+    case Tab: tab_=value; moving_=-1; routeEditing_=false; break;
     case Summon: changed=model_.summon(static_cast<Species>(value)); if(changed) selectedRoom_=model_.monsters[model_.monsterCount-1].room; break;
     case Feed: changed=model_.train(value); if(changed) celebration_=1.3f; break;
     case Move: moving_=value; model_.notice="지도에서 이사할 방을 선택하세요."; break;
@@ -326,11 +385,14 @@ void CastleScene::act(int action,int value) {
     case Close: fusionFirst_=fusionSecond_=-1; moving_=-1; break;
     case Build: changed=model_.build(selectedRoom_,static_cast<Facility>(value)); break;
     case Dig: changed=model_.dig(value); break;
-    case Raid: moving_=-1; changed=model_.startRaid(); paused_=false; break;
+    case Raid: moving_=-1; changed=model_.startRaid(); paused_=false; if(changed) routeEditing_=false; break;
     case Continue: model_.continueBuilding(); changed=true; tab_=0; break;
     case Speed: speed_=speed_==1?2:1; break;
     case Pause: paused_=!paused_; break;
     case Sound: muted_=!muted_; break;
+    case RouteEdit: routeEditing_=!routeEditing_; moving_=-1; break;
+    case Passage: changed=model_.togglePassage(selectedRoom_,value); break;
+    case Throne: changed=model_.moveThrone(value); break;
     }
     if(changed) { save(); engine_->haptics().light(); }
     if(!muted_) engine_->mixer().play(changed?sfx_.ding:sfx_.click);
@@ -354,6 +416,7 @@ void CastleScene::onTouch(const engine::TouchEvent& event) {
 }
 bool CastleScene::onBack() {
     hitCount_=0; pointer_=-1; pressed_=-1;
+    if(routeEditing_) { routeEditing_=false; return true; }
     if(fusionFirst_>=0 || moving_>=0) { fusionFirst_=fusionSecond_=-1; moving_=-1; return true; }
     if(model_.phase==Phase::Raid) { paused_=!paused_; save(); return true; }
     save(); return false;

@@ -101,7 +101,7 @@ p.lead { font-weight:600; font-size:16px; }
 <h2 id="page-index--문서를-갱신하는-방법">문서를 갱신하는 방법</h2>
 <p>현재 코드와 문서의 검토자는 <code>docs/sdd-review.json</code>에 기록합니다. 생성 당시의 인용 검사와 후속 검토는 별개이며, AI 검토는 실제 기기 검증을 대신하지 않습니다.</p>
 <p>코드가 바뀌면 <code>tools/docs-check.sh</code>가 어느 문서가 오래됐는지 알려 주고, <code>tools/docs-sync.sh</code>가 로컬 Qwen으로 영향받은 절만 다시 씁니다. 검토 기록은 docs/sdd-review.json에 별도로 남깁니다. 자세한 절차는 저장소의 docs/development-policy.md를 따릅니다.</p>
-<p>다음 단계: <a href="#page-overview">시스템 개요</a></p></section><section class="page" id="page-overview"><h1>시스템 개요</h1><div class="meta"><span class="badge ok">ok</span></div><p>마물 정원은 C++20으로 구현한 Android 몬스터 수집·성장·합성 게임입니다. 소환과 먹이, 합성으로 만든 마물이 자동 방어를 수행하고 보상으로 다음 성장을 준비합니다.</p>
+<p>다음 단계: <a href="#page-overview">시스템 개요</a></p></section><section class="page" id="page-overview"><h1>시스템 개요</h1><div class="meta"><span class="badge ok">ok</span></div><p>마물 정원은 카이로소프트 「마왕성 스토리」의 성 운영 경험을 기준으로 개발하는 C++20 Android 던전 경영 게임입니다. 현재는 방 확장·통로 편집·왕좌 이동, 소환·먹이·합성과 자동 방어를 구현했습니다. 용사는 편집한 성의 최단 경로를 이동하며, 배치된 마물과 함정이 그 경로에서 교전합니다. 탐험·성 등급·진화는 후속 구현 범위입니다.</p>
 <table>
 <thead>
 <tr>
@@ -156,13 +156,13 @@ p.lead { font-weight:600; font-size:16px; }
 </tr>
 <tr>
 <td>CastleModel</td>
-<td>방 12개, 마물 최대 8개, 용사 최대 12개와 재화·날짜·도감을 관리합니다.</td>
-<td><code>app/castle/CastleModel.h:35</code></td>
+<td>방 12개, 통로 그래프·왕좌·침공 경로, 마물 최대 8개, 용사 최대 12개와 재화·날짜·도감을 관리합니다.</td>
+<td><code>app/castle/CastleModel.h:39</code></td>
 </tr>
 <tr>
 <td>Room / Monster / Hero</td>
 <td>시설과 개체의 값 데이터를 보관하는 구조체입니다.</td>
-<td><code>app/castle/CastleModel.h:28</code></td>
+<td><code>app/castle/CastleModel.h:32</code></td>
 </tr>
 <tr>
 <td>Font / TextureAtlas</td>
@@ -192,7 +192,8 @@ p.lead { font-weight:600; font-size:16px; }
     AppState *-- AndroidAudio
     AppState *-- GlContext
     AndroidAudio --&gt; Mixer</pre>
-<p>Scene 교체는 Engine이 관리하지만 현재 게임은 CastleScene 하나 안에서 준비·방어·결과 상태를 전환합니다. 모델의 전투 업데이트는 고정 크기 배열을 사용하며 그래픽이나 Android 호출을 하지 않습니다. <code>app/castle/CastleModel.cpp:125</code></p>
+<p>Scene 교체는 Engine이 관리하지만 현재 게임은 CastleScene 하나 안에서 준비·방어·결과 상태를 전환합니다. 모델의 전투 업데이트는 고정 크기 배열을 사용하며 그래픽이나 Android 호출을 하지 않습니다. <code>app/castle/CastleModel.cpp:197</code></p>
+<p>통로는 방별 비트 마스크로 양방향 연결을 표현합니다. 편집하거나 침공을 시작할 때 고정 배열 BFS로 최단 경로를 구하며, Scene과 전투는 같은 InvasionRoute를 읽습니다. Hero.position은 방 번호가 아닌 경로상의 진행 위치이고 heroRoom이 실제 방으로 변환합니다. 시설 인접 보너스는 통로 개폐와 관계없는 공간 인접 규칙입니다. 근거: <code>app/castle/CastleModel.cpp</code>의 rebuildRoute, heroRoom, adjacentFacilities와 <a href="#page-decisions">D-011</a>.</p>
 <p>몬스터 외형은 RGBA 이미지 시트의 3×2 칸을 Species 순서로 나누어 사용합니다. CastleScene이 시작할 때 공용 TextureAtlas에 로드하고, 지도·도감·합성·결과에서 저장한 Sprite를 공유합니다. 희미한 표시와 상하 움직임은 렌더링에만 적용되며 게임 모델의 능력치와 저장 ID를 바꾸지 않습니다. <code>app/castle/MonsterArt.h:7</code>, <code>app/castle/CastleScene.cpp:29</code></p></section><section class="page" id="page-scenarios-index"><h1>핵심 시나리오</h1><div class="meta"><span class="badge ok">ok</span></div><table>
 <thead>
 <tr>
@@ -238,12 +239,12 @@ p.lead { font-weight:600; font-size:16px; }
 <p>호출 그래프는 정적 분석 결과이며 분기 조건과 소유권 설명은 해당 C++ 본문과 대조했습니다. 정적 호출 개수는 게임 로직의 검증 범위를 뜻하지 않습니다.</p></section><section class="page" id="page-scenarios-android-main"><h1>앱 시작과 메인 루프</h1><div class="meta"><span class="badge ok">ok</span></div><p>android_main은 AppState를 만들고 onAppCmd와 입력 필터를 등록합니다. AppState는 자산 로더, Engine, 햅틱, 오디오, GL을 소유합니다. <code>platform/android/AndroidMain.cpp:156</code>, <code>platform/android/AndroidMain.cpp:28</code></p>
 <p>이벤트 루프는 surface와 포커스가 없으면 대기합니다. APP_CMD_INIT_WINDOW에서 surface와 초기 그래픽·CastleScene을 준비하고, 복귀 시에는 크기와 타이머를 갱신합니다. 포커스를 잃으면 오디오를 중지하고 프레임 진행을 멈춥니다. 윈도우 종료 시 surface를 해제합니다. <code>platform/android/AndroidMain.cpp:54</code></p>
 <p>모든 대기 이벤트를 처리한 뒤 processInput을 호출하고, 활성 상태라면 Engine::frame과 swapBuffers를 수행합니다. BACK은 Scene이 처리하지 않으면 GameActivity_finish로 종료합니다. <code>platform/android/AndroidMain.cpp:113</code></p>
-<p>native_app_glue의 콜백 전달과 AAudio 콜백 타이밍은 외부 플랫폼 경계입니다. 이 설명은 코드의 호출 순서를 확인한 것이며 모든 기기에서 생명주기 스트레스 테스트를 했다는 의미는 아닙니다.</p></section><section class="page" id="page-scenarios-dodge-update"><h1>마물과 용사의 자동 전투</h1><div class="meta"><span class="badge ok">ok</span></div><p>CastleModel::update는 방어 상태에서만 양수의 유한한 dt를 받습니다. 한 호출의 dt를 최대 0.25초로 제한하고 1/60초 이하 단계로 나누어 진행합니다. <code>app/castle/CastleModel.cpp:125</code></p>
+<p>native_app_glue의 콜백 전달과 AAudio 콜백 타이밍은 외부 플랫폼 경계입니다. 이 설명은 코드의 호출 순서를 확인한 것이며 모든 기기에서 생명주기 스트레스 테스트를 했다는 의미는 아닙니다.</p></section><section class="page" id="page-scenarios-dodge-update"><h1>마물과 용사의 자동 전투</h1><div class="meta"><span class="badge ok">ok</span></div><p>CastleModel::update는 방어 상태에서만 양수의 유한한 dt를 받습니다. 한 호출의 dt를 최대 0.25초로 제한하고 1/60초 이하 단계로 나누어 진행합니다. <code>app/castle/CastleModel.cpp:197</code></p>
 <p>용사는 2.2초 간격으로 등장합니다. 살아 있는 마물은 같은 방의 용사를 공격하며 골렘은 1.2초, 나머지는 0.8초 공격 간격을 사용합니다. 달그림자는 공격력 40%, 드래곤은 65%를 같은 방의 다른 용사에게도 적용합니다. 왕관 슬라임은 살아 있는 동안 초당 체력 3을 회복하며 부활하지 않습니다.</p>
-<p>용사는 방에 진입할 때 함정 피해를 한 번 받고, 살아 있는 거주 마물이 있으면 교전하며 없으면 전진합니다. 끝에 도달한 용사는 성 체력을 25 감소시킵니다. 성 체력이 소진되거나 모든 용사가 처리되면 finishRaid로 정산합니다. 마물·용사는 고정 배열로 관리합니다. <code>app/castle/CastleModel.cpp:179</code></p>
+<p>용사는 입구부터 왕좌까지의 최단 경로를 이동합니다. heroRoom으로 실제 방을 찾고, 방에 진입할 때 함정 피해를 한 번 받으며 살아 있는 거주 마물이 있으면 교전하고 없으면 전진합니다. 경로를 벗어난 방의 마물은 공격하지 않습니다. 왕좌 방을 지나 끝에 도달한 용사는 성 체력을 25 감소시킵니다. 성 체력이 소진되거나 모든 용사가 처리되면 finishRaid로 정산합니다. 마물·용사는 고정 배열로 관리합니다. <code>app/castle/CastleModel.cpp:251</code></p>
 <p>파일명 dodge_update는 기존 문서 링크와 설정 호환을 위해 유지한 것이며 현재 내용은 CastleModel 전투입니다. 수치 밸런스의 재미는 별도 플레이테스트 대상입니다.</p></section><section class="page" id="page-scenarios-frame"><h1>한 프레임과 자동 방어</h1><div class="meta"><span class="badge ok">ok</span></div><p>Engine::frame은 그래픽 초기화 이후 타이머를 읽고 Scene::update, SpriteBatch::begin, Scene::render, SpriteBatch::end 순서로 실행합니다. <code>engine/Engine.cpp:77</code></p>
 <p>CastleScene은 일시정지가 아니면 속도 배율을 곱한 dt를 모델에 전달합니다. 방어 종료 프레임에서는 보상 상태를 저장하고 효과음·햅틱을 실행합니다. <code>app/castle/CastleScene.cpp:48</code></p>
-<p>render는 시스템 여백과 화면 높이를 반영해 지도·관리 영역을 배치하고 활성 hit 목록을 재생성합니다. 합성·결과 오버레이는 뒤 화면 입력을 차단합니다. <code>app/castle/CastleScene.cpp:270</code>, <code>app/castle/CastleScene.cpp:227</code></p>
+<p>render는 시스템 여백과 화면 높이를 반영해 지도·관리 영역을 배치하고 활성 hit 목록을 재생성합니다. 합성·결과 오버레이는 뒤 화면 입력을 차단합니다. <code>app/castle/CastleScene.cpp:324</code>, <code>app/castle/CastleScene.cpp:281</code></p>
 <pre class="mermaid">sequenceDiagram
     Engine-&gt;&gt;CastleScene: update(dt)
     CastleScene-&gt;&gt;CastleModel: update(dt * speed), 일시정지 제외
@@ -252,7 +253,7 @@ p.lead { font-weight:600; font-size:16px; }
     end
     Engine-&gt;&gt;SpriteBatch: begin()
     Engine-&gt;&gt;CastleScene: render(batch)
-    Engine-&gt;&gt;SpriteBatch: end()</pre></section><section class="page" id="page-scenarios-fusion"><h1>마물 합성과 도감 등록</h1><div class="meta"><span class="badge ok">ok</span></div><p>CastleScene은 합성 상대와 결과 종, 평균 레벨, 마력 비용을 미리 보여 줍니다. 확인 버튼을 누르면 CastleModel::fuse를 호출합니다. <code>app/castle/CastleScene.cpp:227</code>, <code>app/castle/CastleScene.cpp:305</code></p>
+    Engine-&gt;&gt;SpriteBatch: end()</pre></section><section class="page" id="page-scenarios-fusion"><h1>마물 합성과 도감 등록</h1><div class="meta"><span class="badge ok">ok</span></div><p>CastleScene은 합성 상대와 결과 종, 평균 레벨, 마력 비용을 미리 보여 줍니다. 확인 버튼을 누르면 CastleModel::fuse를 호출합니다. <code>app/castle/CastleScene.cpp:281</code>, <code>app/castle/CastleScene.cpp:364</code></p>
 <ol>
 <li>준비 상태인지 확인하고 서로 다른 유효한 인덱스의 조합을 검사합니다.</li>
 <li>슬라임+슬라임은 왕관 슬라임, 슬라임+임프는 달그림자, 임프+골렘은 새벽 드래곤이 됩니다.</li>
@@ -261,18 +262,19 @@ p.lead { font-weight:600; font-size:16px; }
 <li>낮은 인덱스에 결과를 기록하고 높은 인덱스의 재료를 제거해 배열을 당깁니다.</li>
 <li>개체 수를 하나 줄이고 마력 40을 차감하며 discovered 비트에 결과 종을 추가합니다. 이전 발견 기록은 지우지 않습니다.</li>
 </ol>
-<p>근거: <code>app/castle/CastleModel.cpp:92</code>, <code>app/castle/CastleModel.cpp:101</code>. Monster는 헤더에 정의된 값 구조체이며 별도 Monster.cpp는 없습니다.</p>
-<p>성공한 행동은 Scene에서 저장합니다. 합성 후 이전 버튼 입력 영역을 폐기하여 한 프레임 안의 다음 터치가 소모된 재료 인덱스를 재사용하지 않게 합니다. <code>app/castle/CastleScene.cpp:305</code></p></section><section class="page" id="page-scenarios-load-assets"><h1>한국어 글꼴과 저장된 성 불러오기</h1><div class="meta"><span class="badge ok">ok</span></div><p>onEnter는 글리프 목록, Noto Sans KR 폰트, 몬스터 이미지 시트, 합성 효과음, 저장 파일을 순서대로 준비합니다. 몬스터 시트는 아틀라스에 한 번 로드한 뒤 3×2 칸을 종별 Sprite로 나눕니다. 저장 경로는 Engine의 내부 데이터 경로 아래 castle-v1.txt입니다. <code>app/castle/CastleScene.cpp:29</code>, <code>app/castle/MonsterArt.h:12</code></p>
+<p>근거: <code>app/castle/CastleModel.cpp:162</code>, <code>app/castle/CastleModel.cpp:171</code>. Monster는 헤더에 정의된 값 구조체이며 별도 Monster.cpp는 없습니다.</p>
+<p>성공한 행동은 Scene에서 저장합니다. 합성 후 이전 버튼 입력 영역을 폐기하여 한 프레임 안의 다음 터치가 소모된 재료 인덱스를 재사용하지 않게 합니다. <code>app/castle/CastleScene.cpp:364</code></p></section><section class="page" id="page-scenarios-load-assets"><h1>한국어 글꼴과 저장된 성 불러오기</h1><div class="meta"><span class="badge ok">ok</span></div><p>onEnter는 글리프 목록, Noto Sans KR 폰트, 몬스터 이미지 시트, 합성 효과음, 저장 파일을 순서대로 준비합니다. 몬스터 시트는 아틀라스에 한 번 로드한 뒤 3×2 칸을 종별 Sprite로 나눕니다. 저장 경로는 Engine의 내부 데이터 경로 아래 castle-v1.txt입니다. <code>app/castle/CastleScene.cpp:29</code>, <code>app/castle/MonsterArt.h:12</code></p>
 <p>Font::load는 ASCII와 지정된 UTF-8 코드포인트를 정렬·중복 제거하고 stb_truetype으로 베이크합니다. 실제 사용한 행만 RGBA 이미지로 변환해 아틀라스에 추가합니다. 파일 읽기나 패킹이 실패하면 false를 반환하며 현재 Scene에는 별도 대체 글꼴이 없습니다. <code>engine/graphics/Font.cpp:37</code></p>
-<p>load는 임시 모델에 파일을 읽으며 버전·재화·날짜·종·레벨·방 범위와 중복 배치를 검증합니다. 방은 6개 이상 순서대로 열려 있어야 합니다. 검증 성공 시에만 현재 모델을 교체하고 준비 상태로 시작합니다. 저장이 없거나 잘못되었으면 초기 모델을 유지합니다. <code>app/castle/CastleModel.cpp:209</code></p>
-<p>save는 임시 파일을 flush·close한 뒤 Android/POSIX rename으로 기존 파일을 교체합니다. 파일 쓰기·교체 실패는 Scene 알림으로 표시합니다. 전원 장애에 대한 fsync 보장은 없으며 Windows 호스트의 기존 파일 교체 동작은 지원 대상으로 검증하지 않았습니다. <code>app/castle/CastleModel.cpp:197</code>, <code>app/castle/CastleScene.cpp:46</code></p></section><section class="page" id="page-scenarios-show-result"><h1>방어 결과와 보상</h1><div class="meta"><span class="badge ok">ok</span></div><p>finishRaid는 성 체력이 남았는지로 승패를 정하고 결과 상태로 바꿉니다. 승패·날짜·처치 수에 따른 기본 보상과 창고·서고 보상을 지급하며 재화는 99999로 제한합니다. 10일 차 승리면 캠페인 완료를 기록합니다. <code>app/castle/CastleModel.cpp:179</code></p>
-<p>CastleScene이 상태 전환을 감지해 저장하고 결과 화면을 표시합니다. 이미 지급된 재화와 다음 준비 날짜를 함께 저장하므로 결과 화면에서 앱이 종료되어도 보상을 다시 지급하지 않습니다. <code>app/castle/CastleScene.cpp:48</code>, <code>app/castle/CastleModel.cpp:197</code></p>
-<p>continueBuilding은 결과 상태에서만 작동합니다. 승리했고 캠페인 완료가 아니면 날짜를 증가시키고, 패배면 같은 날에 재도전합니다. 성 체력을 초기화하여 준비 상태로 돌아갑니다. 마물 체력은 다음 startRaid에서 회복합니다. <code>app/castle/CastleModel.cpp:191</code></p></section><section class="page" id="page-scenarios-start-game"><h1>방어전 시작</h1><div class="meta"><span class="badge ok">ok</span></div><p>startRaid는 준비 상태이고 캠페인이 완료되지 않았을 때만 성공합니다. 방어 상태로 바꾸고 성 체력, 처치·등장 수, 전투 시간과 생성 타이머를 초기화합니다. <code>app/castle/CastleModel.cpp:116</code></p>
-<p>용사 수는 min(12, 2+day)이며 용사 배열을 비웁니다. 모든 마물의 체력을 시설·레벨을 반영한 최대치로 회복하고 공격 대기 시간을 초기화합니다. Scene은 일시정지를 풀고 준비 상태로 복원할 수 있는 저장 파일을 기록합니다. <code>app/castle/CastleModel.cpp:45</code>, <code>app/castle/CastleScene.cpp:329</code></p>
+<p>load는 임시 모델에 파일을 읽으며 버전·재화·날짜·종·레벨·방 범위와 중복 배치를 검증합니다. 기존 CASTLE 1의 순차 방을 순차 통로와 마지막 열린 방의 왕좌로 이전합니다. CASTLE 2는 비순차 확장, 통로 비트 마스크와 왕좌를 저장합니다. 6개 이상의 열린 방이 공간상 입구에 연결돼 있어야 하며, 통로는 열린 상하좌우 방 사이의 대칭 연결이어야 합니다. 닫힌 방의 마물·왕좌, 비정상 마스크와 잔여 데이터는 거부합니다. 편집 중 끊어진 통로는 불러올 수 있지만 수리하기 전에는 방어할 수 없습니다. 검증 성공 시에만 현재 모델을 교체하고 준비 상태로 시작합니다. 저장이 없거나 잘못되었으면 초기 모델을 유지합니다. <code>app/castle/CastleModel.cpp:283</code></p>
+<p>save는 임시 파일을 flush·close한 뒤 Android/POSIX rename으로 기존 파일을 교체합니다. 파일 쓰기·교체 실패는 Scene 알림으로 표시합니다. 전원 장애에 대한 fsync 보장은 없으며 Windows 호스트의 기존 파일 교체 동작은 지원 대상으로 검증하지 않았습니다. <code>app/castle/CastleModel.cpp:269</code>, <code>app/castle/CastleScene.cpp:46</code></p></section><section class="page" id="page-scenarios-show-result"><h1>방어 결과와 보상</h1><div class="meta"><span class="badge ok">ok</span></div><p>finishRaid는 성 체력이 남았는지로 승패를 정하고 결과 상태로 바꿉니다. 승패·날짜·처치 수에 따른 기본 보상과 창고·서고 보상을 지급하며 재화는 99999로 제한합니다. 10일 차 승리면 캠페인 완료를 기록합니다. <code>app/castle/CastleModel.cpp:251</code></p>
+<p>CastleScene이 상태 전환을 감지해 저장하고 결과 화면을 표시합니다. 이미 지급된 재화와 다음 준비 날짜를 함께 저장하므로 결과 화면에서 앱이 종료되어도 보상을 다시 지급하지 않습니다. <code>app/castle/CastleScene.cpp:48</code>, <code>app/castle/CastleModel.cpp:269</code></p>
+<p>continueBuilding은 결과 상태에서만 작동합니다. 승리했고 캠페인 완료가 아니면 날짜를 증가시키고, 패배면 같은 날에 재도전합니다. 성 체력을 초기화하여 준비 상태로 돌아갑니다. 마물 체력은 다음 startRaid에서 회복합니다. <code>app/castle/CastleModel.cpp:263</code></p></section><section class="page" id="page-scenarios-start-game"><h1>방어전 시작</h1><div class="meta"><span class="badge ok">ok</span></div><p>startRaid는 준비 상태이고 캠페인이 완료되지 않았으며 입구부터 왕좌까지 통로가 이어질 때만 성공합니다. 경로를 재계산하고 끊긴 경우에는 상태와 보상을 바꾸지 않고 실패합니다. 성공하면 방어 상태로 바꾸고 성 체력, 처치·등장 수, 전투 시간과 생성 타이머를 초기화합니다. <code>app/castle/CastleModel.cpp:186</code></p>
+<p>용사 수는 min(12, 2+day)이며 용사 배열을 비웁니다. 모든 마물의 체력을 시설·레벨을 반영한 최대치로 회복하고 공격 대기 시간을 초기화합니다. Scene은 일시정지를 풀고 준비 상태로 복원할 수 있는 저장 파일을 기록합니다. <code>app/castle/CastleModel.cpp:111</code>, <code>app/castle/CastleScene.cpp:388</code></p>
 <p>10일 방어를 완료하면 새 방어는 시작할 수 없습니다. 준비 화면에서 남은 재화로 성장·합성·시설 관리는 가능하지만 추가 보상 획득은 현재 구현 범위에 없습니다.</p></section><section class="page" id="page-scenarios-touch"><h1>터치 입력 전달</h1><div class="meta"><span class="badge ok">ok</span></div><p>Android 입력 버퍼의 포인터 좌표가 Engine::onTouch에서 월드 좌표로 변환되어 Scene에 전달됩니다. <code>platform/android/AndroidMain.cpp:113</code>, <code>engine/Engine.cpp:116</code></p>
-<p>CastleScene은 렌더링할 때 활성 버튼의 사각형·행동·대상을 기록합니다. Down에서 한 포인터만 선택하고 Up이 같은 영역에 있으며 현재도 동일한 대상이 활성일 때 행동을 실행합니다. Cancel은 실행하지 않고 포인터를 해제합니다. <code>app/castle/CastleScene.cpp:338</code></p>
-<p>합성·결과 오버레이는 뒤쪽 버튼 목록을 제거합니다. 행동을 실행하면 목록을 비워 같은 Android 입력 묶음의 후속 터치가 이전 화면의 대상을 사용하지 못하게 합니다. 다음 render에서 목록을 다시 만듭니다. BACK도 목록과 진행 중인 제스처를 취소합니다. <code>app/castle/CastleScene.cpp:305</code>, <code>app/castle/CastleScene.cpp:355</code></p>
-<p>회귀 검증은 CastleSceneTests에서 실제 Scene의 hit 영역과 이벤트 전달을 사용합니다. 합성 확인 직후 연속 탭, BACK 직후 Up, 다음 프레임의 입력 복구를 검사합니다. 렌더러 출력·GPU 검증은 이 무화면 테스트에 포함하지 않습니다.</p></section><section class="page" id="page-feature-flags"><h1>컴파일 플래그 매트릭스</h1><div class="meta"><span class="badge ok">ok</span></div><p>현재 기준은 Gradle/CMake가 만든 ARM64 Debug compile_commands.json입니다. NDK-build 프로젝트가 아닙니다. CMake는 C++20과 경고 옵션을 지정하며 현재 게임 기능을 켜고 끄는 별도 컴파일 플래그는 없습니다. 근거: <code>CMakeLists.txt:4</code>, <code>CMakeLists.txt:42</code>.</p>
+<p>CastleScene은 렌더링할 때 활성 버튼의 사각형·행동·대상을 기록합니다. Down에서 한 포인터만 선택하고 Up이 같은 영역에 있으며 현재도 동일한 대상이 활성일 때 행동을 실행합니다. Cancel은 실행하지 않고 포인터를 해제합니다. <code>app/castle/CastleScene.cpp:400</code></p>
+<p>합성·결과 오버레이는 뒤쪽 버튼 목록을 제거합니다. 행동을 실행하면 목록을 비워 같은 Android 입력 묶음의 후속 터치가 이전 화면의 대상을 사용하지 못하게 합니다. 다음 render에서 목록을 다시 만듭니다. BACK도 목록과 진행 중인 제스처를 취소합니다. <code>app/castle/CastleScene.cpp:364</code>, <code>app/castle/CastleScene.cpp:417</code></p>
+<p>성 꾸미기의 통로 편집에서 방을 선택하면 이웃 방과의 연결을 열거나 닫을 수 있습니다. 왕좌 이동과 확장은 준비 단계에서만 허용하며 변경 직후 저장합니다. BACK은 편집기를 먼저 닫습니다. 경로가 끊기면 방어 시작 버튼을 비활성화하고 모델에서도 시작을 거부합니다.</p>
+<p>회귀 검증은 CastleSceneTests에서 실제 Scene의 hit 영역과 이벤트 전달을 사용합니다. 합성 확인 직후 연속 탭, 통로 변경 직후 연속 탭, 경로가 끊긴 상태의 방어 버튼, BACK 직후 Up, 다음 프레임의 입력 복구를 검사합니다. 렌더러 출력·GPU 검증은 이 무화면 테스트에 포함하지 않습니다.</p></section><section class="page" id="page-feature-flags"><h1>컴파일 플래그 매트릭스</h1><div class="meta"><span class="badge ok">ok</span></div><p>현재 기준은 Gradle/CMake가 만든 ARM64 Debug compile_commands.json입니다. NDK-build 프로젝트가 아닙니다. CMake는 C++20과 경고 옵션을 지정하며 현재 게임 기능을 켜고 끄는 별도 컴파일 플래그는 없습니다. 근거: <code>CMakeLists.txt:4</code>, <code>CMakeLists.txt:42</code>.</p>
 <table>
 <thead>
 <tr>
@@ -350,7 +352,7 @@ p.lead { font-weight:600; font-size:16px; }
 <li><code>./gradlew assembleDebug</code>로 ARM64와 x86_64를 빌드합니다.</li>
 <li><code>tools/test-castle.ps1</code>로 합성·경제·저장·10일 캠페인을 검증합니다.</li>
 <li>앱에서 먹이 → 합성 미리보기 → 합성 → 도감 → 방어 → 보상 → 재실행을 확인합니다.</li>
-<li>BACK은 합성창 닫기, 배치 취소, 방어 일시정지, 준비 화면에서 종료의 순서로 처리합니다.</li>
+<li>BACK은 통로 편집 닫기, 합성창 닫기·배치 취소, 방어 일시정지, 준비 화면에서 종료의 순서로 처리합니다.</li>
 <li>로그에서 GL·폰트·오디오 오류를 확인하고 <code>tools/docs-check.sh</code>로 문서를 검사합니다.</li>
 </ol>
 <details class="note">
@@ -361,7 +363,9 @@ p.lead { font-weight:600; font-size:16px; }
 <li>검토: 2026-09-17 작성자 검토</li>
 </ul>
 </details>
-<p>다음 단계: <a href="#page-decisions">설계 결정 기록</a></p></section><section class="page" id="page-decisions"><h1>설계 결정 기록</h1><div class="meta"><span class="badge ok">ok</span></div><p class="lead"><strong>이 문서는 사람이 씁니다. 코드로 확인할 수 있는 동작은 여기 적지 않고, 코드만 봐서는 알 수 없는 "왜" 를 적습니다.</strong></p>
+<p>다음 단계: <a href="#page-decisions">설계 결정 기록</a></p>
+<h2 id="page-constraints--통로와-저장-형식">통로와 저장 형식</h2>
+<p>준비 단계에서만 통로와 왕좌를 바꿉니다. 침공은 Scene의 표시와 Model의 공격 판정에서 동일한 최단 경로를 사용하며, 경로가 없으면 시작할 수 없습니다. 통로 편집은 무료이므로 저장된 단절 상태를 자원 없이 복구할 수 있어야 합니다. 저장 경로는 castle-v1.txt를 유지하고 CASTLE 1을 읽되 새 저장은 CASTLE 2로 기록합니다. 근거: <code>native/app/castle/CastleModel.cpp</code>, <code>native/tests/CastleModelTests.cpp</code>, <a href="#page-decisions">D-011</a>.</p></section><section class="page" id="page-decisions"><h1>설계 결정 기록</h1><div class="meta"><span class="badge ok">ok</span></div><p class="lead"><strong>이 문서는 사람이 씁니다. 코드로 확인할 수 있는 동작은 여기 적지 않고, 코드만 봐서는 알 수 없는 "왜" 를 적습니다.</strong></p>
 <p>항목 하나는 결정 한 가지입니다. 번호는 바꾸지 않고, 뒤집힌 결정은 지우지 않고 "대체됨" 으로 표시합니다.</p>
 <h2 id="page-decisions--d-001-kotlinjava-소스-없이-gameactivity-를-런처로-쓴다">D-001 Kotlin/Java 소스 없이 GameActivity 를 런처로 쓴다</h2>
 <table>
@@ -590,6 +594,10 @@ p.lead { font-weight:600; font-size:16px; }
 <h2 id="page-decisions--d-009-전투-중-종료는-준비-단계로-복원한다">D-009 전투 중 종료는 준비 단계로 복원한다</h2>
 <p>배치·성장·합성·결과 보상을 원자적 파일 교체로 저장합니다. 중간 전투는 저장하지 않아 재개 시 체력·타이머·피해가 어긋나지 않도록 하고, 결과 보상과 다음 날을 함께 기록하여 중복 보상을 막습니다. 기존 최고 점수 파일과는 저장 경로가 다릅니다.</p>
 <h2 id="page-decisions--d-010-몬스터-외형을-셀-채색-일러스트로-바꾼다">D-010 몬스터 외형을 셀 채색 일러스트로 바꾼다</h2>
-<p>2026-09-19 사용자는 드래곤볼 Z풍의 작화를 가진 비인간형 몬스터를 요청했습니다. 기존 6종의 이름과 게임 규칙은 유지하며 코드로 그리던 픽셀 패턴을 투명 이미지 시트로 대체합니다. 사람이나 원작 인물로 변경하지 않습니다. 굵은 선·각진 표정·괴수 실루엣·셀 채색으로 화면에서 종을 구별할 수 있도록 하고, 공용 아틀라스를 사용해 매 프레임 이미지 로드나 픽셀별 사각형 생성을 피합니다. D-007의 게임 방향은 유지하며 코드 픽셀 미술 부분만 이 결정으로 대체합니다.</p></section></main>
+<p>2026-09-19 사용자는 드래곤볼 Z풍의 작화를 가진 비인간형 몬스터를 요청했습니다. 기존 6종의 이름과 게임 규칙은 유지하며 코드로 그리던 픽셀 패턴을 투명 이미지 시트로 대체합니다. 사람이나 원작 인물로 변경하지 않습니다. 굵은 선·각진 표정·괴수 실루엣·셀 채색으로 화면에서 종을 구별할 수 있도록 하고, 공용 아틀라스를 사용해 매 프레임 이미지 로드나 픽셀별 사각형 생성을 피합니다. D-007의 게임 방향은 유지하며 코드 픽셀 미술 부분만 이 결정으로 대체합니다.</p>
+<h2 id="page-decisions--d-011-성-운영을-중심으로-확장하고-침공-동선을-편집한다">D-011 성 운영을 중심으로 확장하고 침공 동선을 편집한다</h2>
+<p>2026-09-19 사용자가 게임 콘셉트를 카이로소프트 「마왕성 스토리」로 명시했습니다. D-007의 수집·합성 중심 범위를 성 건설·모집·육성·침입 대응·탐험·성 등급 성장으로 확장합니다. 첫 단계에서는 기존 12칸의 안정적인 방 ID를 유지하고 상하좌우 통로와 왕좌 위치를 편집하도록 합니다. 몬스터는 배치된 방을 지키며 자유 이동·탐험·성 등급은 후속 구현입니다.</p>
+<p>용사는 균일 비용의 방 그래프에서 BFS로 찾은 최단 경로를 따릅니다. 같은 거리에서는 낮은 방 번호부터 탐색합니다. 경로는 방을 반복 방문하지 않아 순환 통로의 함정 반복 공격을 방지합니다. 지도와 전투가 같은 경로를 참조하며 단절된 경로는 침공 전에 차단합니다. 편집과 왕좌 이동은 무료이고, 열린 방과 인접한 칸을 확장하면 가장 낮은 번호의 열린 이웃 하나에 연결합니다. 확장만으로 왕좌는 옮기지 않습니다. 기존의 공간 인접 시설 보너스는 유지합니다.</p>
+<p>CASTLE 2는 통로와 왕좌를 추가하며 CASTLE 1은 순차 통로로 이전합니다. 통로가 끊긴 준비 상태도 저장하되 모든 열린 방은 공간상 연결돼 있어 무료 편집으로 복구할 수 있어야 합니다. 이전 앱에 새 저장 파일을 읽히는 역방향 이전은 지원하지 않습니다. 근거: CastleModel의 경로·저장 구현, CastleScene의 편집·경로 표시, CastleModelTests와 CastleSceneTests의 회귀 검증입니다.</p></section></main>
 <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true, securityLevel: "loose" });</script>
 </body></html>
