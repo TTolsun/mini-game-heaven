@@ -10,11 +10,8 @@ sequenceDiagram
     participant TouchEvent
     participant Vec2
     participant Scene
-    participant CastleScene
+    participant BattleScene
     participant Timer
-    participant CastleModel
-    participant Mixer
-    participant Haptics
     participant SpriteBatch
     AndroidMain->>AppState: AppState()
     AppState->>AndroidAssetLoader: AndroidAssetLoader()
@@ -41,20 +38,12 @@ sequenceDiagram
     Engine-->>Scene: onTouch() [virtual, 현재 구현 하나]
     AndroidMain->>Engine: onBack()
     Engine-->>Scene: onBack() [virtual 후보]
-    Engine-->>CastleScene: onBack() [virtual 후보]
+    Engine-->>BattleScene: onBack() [virtual 후보]
     AndroidMain->>AppState: animating()
     AppState->>GlContext: hasSurface()
     AndroidMain->>Engine: frame()
     Engine->>Timer: tick()
-    Engine-->>CastleScene: update() [virtual, 현재 구현 하나]
-    CastleScene->>CastleModel: update()
-    CastleScene->>Mixer: play()
-    CastleScene->>Engine: mixer()
-    CastleScene->>CastleScene: save()
-    CastleScene->>Mixer: play()
-    CastleScene->>Engine: mixer()
-    CastleScene->>Haptics: light()
-    CastleScene->>Engine: haptics()
+    Engine-->>BattleScene: update() [virtual, 현재 구현 하나]
     Engine->>Vec2: Vec2()
     Engine->>Vec2: Vec2()
     Engine->>Vec2: operator=()

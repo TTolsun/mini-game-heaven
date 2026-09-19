@@ -7,7 +7,7 @@ namespace engine {
 class Engine;
 class SpriteBatch;
 
-// One screen of the app (menu, a mini game, result). The engine drives
+// One screen of the app (battle, training, result). The engine drives
 // exactly one scene at a time.
 class Scene {
 public:

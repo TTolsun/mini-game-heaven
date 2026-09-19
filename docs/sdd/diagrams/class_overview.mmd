@@ -8,15 +8,15 @@ classDiagram
     }
     class Action {
     }
-    class CastleModel {
-        +CastleModel()
-        +resident()
-        +roomCount()
-        +digCost()
-        +trainingCost()
-        +maxHp()
+    class BattleModel {
+        +state()
+        +lesson()
+        +blocked()
+        +threatened()
+        +movement()
+        +preview()
     }
-    class CastleScene {
+    class BattleScene {
         +onEnter()
         +onExit()
         +update()
@@ -24,23 +24,23 @@ classDiagram
         +onTouch()
         +onBack()
     }
+    class Button {
+    }
     class Hit {
     }
-    class Facility {
+    class BattleState {
     }
-    class FacilityInfo {
+    class Cell {
     }
-    class Hero {
+    class Command {
     }
-    class InvasionRoute {
+    class Insight {
     }
-    class Monster {
+    class Lesson {
+    }
+    class Outcome {
     }
     class Phase {
-    }
-    class Room {
-    }
-    class Species {
     }
     class Animation {
         +Animation()
@@ -216,7 +216,7 @@ classDiagram
         +shutdown()
     }
     Haptics <|-- NullHaptics
-    Scene <|-- CastleScene
+    Scene <|-- BattleScene
     AssetLoader <|-- AndroidAssetLoader
     Haptics <|-- AndroidHaptics
     TouchEvent --> Phase
@@ -248,20 +248,22 @@ classDiagram
     Particle --> Color
     Particle --> Sprite
     Sfx --> Sound
-    Room --> Facility
-    Monster --> Species
-    CastleModel --> Room
-    CastleModel --> Monster
-    CastleModel --> Hero
-    CastleModel --> Phase
-    CastleModel --> InvasionRoute
-    CastleScene --> Engine
-    CastleScene --> Font
-    CastleScene --> Sprite
-    CastleScene --> Sfx
-    CastleScene --> CastleModel
-    CastleScene --> Hit
+    Lesson --> Cell
+    BattleState --> Cell
+    BattleState --> Phase
+    Command --> Cell
+    Command --> Action
+    BattleModel --> BattleState
+    BattleScene --> Engine
+    BattleScene --> Font
+    BattleScene --> Sfx
+    BattleScene --> BattleModel
+    BattleScene --> Cell
+    BattleScene --> Action
+    BattleScene --> Outcome
+    BattleScene --> Hit
     Hit --> Rect
+    Hit --> Button
     AndroidAssetLoader --> AAssetManager
     AndroidAudio --> Mixer
     AppState --> AndroidAssetLoader

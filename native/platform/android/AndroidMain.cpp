@@ -1,7 +1,7 @@
 // Android entry point. Bridges GameActivity's native_app_glue to the engine.
 // Everything Android-specific stays under platform/android/.
 
-#define LOG_TAG "AndroidMain"
+#define LOG_TAG "WutenAndroid"
 
 #include <android/keycodes.h>
 #include <game-activity/GameActivity.h>
@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <memory>
 
-#include "app/castle/CastleScene.h"
+#include "app/srpg/BattleScene.h"
 #include "engine/Engine.h"
 #include "engine/core/Log.h"
 #include "platform/android/AndroidAssetLoader.h"
@@ -60,7 +60,7 @@ void handleAppCmd(android_app* app, int32_t cmd) {
             if (!state->engine.graphicsReady()) {
                 state->engine.initGraphics(state->gl.width(), state->gl.height());
                 applyInsets(app, *state);
-                state->engine.setScene(std::make_unique<app::castle::CastleScene>());
+                state->engine.setScene(std::make_unique<app::srpg::BattleScene>());
             } else {
                 state->engine.resize(state->gl.width(), state->gl.height());
             }

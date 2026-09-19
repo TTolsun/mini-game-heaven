@@ -1,16 +1,14 @@
 ---
 status: ok
 section: scenarios
-reviewer: Codex
+reviewer: Codex (AI)
 reviewed: 2026-09-19
 ---
 
-# 한국어 글꼴과 저장된 성 불러오기
+# 글꼴과 수련 상태 불러오기
 
-onEnter는 글리프 목록, Noto Sans KR 폰트, 몬스터 이미지 시트, 합성 효과음, 저장 파일을 순서대로 준비합니다. 몬스터 시트는 아틀라스에 한 번 로드한 뒤 3×2 칸을 종별 Sprite로 나눕니다. 저장 경로는 Engine의 내부 데이터 경로 아래 castle-v1.txt입니다. `app/castle/CastleScene.cpp:29`, `app/castle/MonsterArt.h:12`
+BattleScene::onEnter는 srpg-glyphs.txt와 NotoSansKR.ttf로 글리프를 아틀라스에 굽고 Sfx를 합성합니다. 내부 파일 경로의 wuten-v1.txt를 읽은 뒤 이동 범위와 선택 행동 예측을 갱신합니다.
 
-Font::load는 ASCII와 지정된 UTF-8 코드포인트를 정렬·중복 제거하고 stb_truetype으로 베이크합니다. 실제 사용한 행만 RGBA 이미지로 변환해 아틀라스에 추가합니다. 파일 읽기나 패킹이 실패하면 false를 반환하며 현재 Scene에는 별도 대체 글꼴이 없습니다. `engine/graphics/Font.cpp:37`
+저장을 읽지 못하면 초기 모델을 유지합니다. load는 후보를 검증한 뒤 반영하므로 부분적으로 읽힌 상태가 게임에 들어오지 않습니다. 근거: `app/srpg/BattleScene.cpp:27`, `app/srpg/BattleModel.cpp:246`.
 
-load는 임시 모델에 파일을 읽으며 버전·재화·날짜·종·레벨·방 범위와 중복 배치를 검증합니다. 기존 CASTLE 1의 순차 방을 순차 통로와 마지막 열린 방의 왕좌로 이전합니다. CASTLE 2는 비순차 확장, 통로 비트 마스크와 왕좌를 저장합니다. 6개 이상의 열린 방이 공간상 입구에 연결돼 있어야 하며, 통로는 열린 상하좌우 방 사이의 대칭 연결이어야 합니다. 닫힌 방의 마물·왕좌, 비정상 마스크와 잔여 데이터는 거부합니다. 편집 중 끊어진 통로는 불러올 수 있지만 수리하기 전에는 방어할 수 없습니다. 검증 성공 시에만 현재 모델을 교체하고 준비 상태로 시작합니다. 저장이 없거나 잘못되었으면 초기 모델을 유지합니다. `app/castle/CastleModel.cpp:283`
-
-save는 임시 파일을 flush·close한 뒤 Android/POSIX rename으로 기존 파일을 교체합니다. 파일 쓰기·교체 실패는 Scene 알림으로 표시합니다. 전원 장애에 대한 fsync 보장은 없으며 Windows 호스트의 기존 파일 교체 동작은 지원 대상으로 검증하지 않았습니다. `app/castle/CastleModel.cpp:269`, `app/castle/CastleScene.cpp:46`
+[시나리오 목록](index.md)

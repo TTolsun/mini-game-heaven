@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant BattleModel
+    participant BattleData
+    participant Cell
+    BattleModel->>BattleModel: validState()
+    BattleModel->>BattleData: inside()
+    BattleModel->>Cell: Cell()
+    BattleModel->>BattleData: inside()
+    BattleModel->>Cell: Cell()
+    BattleModel->>BattleData: operator==()
+    BattleModel->>Cell: Cell()
+    BattleModel->>Cell: Cell()

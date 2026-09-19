@@ -1,4 +1,4 @@
-# monster-garden SDD 섹션 정의 (camera-hal-sdd 의 config/sections.yaml 을 이 프로젝트에 맞게 조정).
+# 무천 SRPG SDD 섹션 정의.
 # 각 섹션은 "어떤 사실(facts)에서 나오는가" 와 "어떤 소스 변경에 영향을 받는가(watch)" 를 고정한다.
 #
 # kind:
@@ -23,7 +23,7 @@ sections:
       - Android 가 네이티브 코드를 부르는 진입점은 어디인가?
     facts:
       packages: ["*"]
-      functions: ["android_main", "handleAppCmd", "processInput", "startRaid", "fuse"]
+      functions: ["android_main", "handleAppCmd", "processInput", "execute", "preview"]
       classes: ["*"]
       class_table: false
       impact_classes: []

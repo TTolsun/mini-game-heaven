@@ -1,4 +1,4 @@
-# camera-hal-sdd 파이프라인 설정 (monster-garden 용).
+# camera-hal-sdd 파이프라인 설정 (무천 SRPG 용).
 # bash tools/setup-sdd.sh 로 고정된 엔진을 .tool/camera-hal-sdd 에 설치한다.
 # 실행: uv run --frozen --project .tool/camera-hal-sdd sdd --config ./sdd.yaml <명령>
 # 로컬에서만 다른 값을 쓰려면 sdd.local.yaml 에 같은 구조로 덮어쓴다 (git 제외).
@@ -7,7 +7,7 @@ source:
   # C++ 소스 루트. 패키지 = 이 아래 첫 디렉터리 (engine / app / platform). facts 의 file:line 과 impact 의 diff 경로는 이 루트 기준이다.
   root: ./native
   # 사실에서 뺄 파일 (소스 루트 기준 glob).
-  exclude: ["third_party/**", "tests/**", "app/games/**", "app/scenes/**", "app/MiniGameApp.*", "app/GameRegistry.*", "app/GameAssets.*", "app/HighScores.*", "app/IMiniGame.h", "app/ui/**"]
+  exclude: ["third_party/**", "tests/**"]
   # tools/sync-compile-commands.sh 가 Gradle/CMake 빌드 결과에서 복사해 둔 파일.
   compile_commands: ./compile_commands.json
   ndk_build:

@@ -1,26 +1,14 @@
 ---
 status: ok
 section: scenarios
-reviewer: Codex
+reviewer: Codex (AI)
 reviewed: 2026-09-19
 ---
 
-# 한 프레임과 자동 방어
+# 한 프레임과 전투 화면
 
-Engine::frame은 그래픽 초기화 이후 타이머를 읽고 Scene::update, SpriteBatch::begin, Scene::render, SpriteBatch::end 순서로 실행합니다. `engine/Engine.cpp:77`
+Engine::frame은 경과 시간을 얻고 Scene::update를 호출한 뒤 배치를 시작해 Scene::render를 호출합니다. BattleScene::update는 짧은 입력 잠금 시간만 줄입니다. 전투 판정은 프레임마다 진행하지 않습니다.
 
-CastleScene은 일시정지가 아니면 속도 배율을 곱한 dt를 모델에 전달합니다. 방어 종료 프레임에서는 보상 상태를 저장하고 효과음·햅틱을 실행합니다. `app/castle/CastleScene.cpp:48`
+BattleScene::render는 안전 영역·화면 비율에 맞춰 좌표를 정하고 지도·범위·단서·행동·예측을 그립니다. 결과나 안내창이 열리면 기존 입력 대상을 버리고 해당 창의 버튼만 등록합니다. 근거: `engine/Engine.cpp:77`, `app/srpg/BattleScene.cpp:45`, `app/srpg/BattleScene.cpp:107`.
 
-render는 시스템 여백과 화면 높이를 반영해 지도·관리 영역을 배치하고 활성 hit 목록을 재생성합니다. 합성·결과 오버레이는 뒤 화면 입력을 차단합니다. `app/castle/CastleScene.cpp:324`, `app/castle/CastleScene.cpp:281`
-
-```mermaid
-sequenceDiagram
-    Engine->>CastleScene: update(dt)
-    CastleScene->>CastleModel: update(dt * speed), 일시정지 제외
-    opt 방어 종료
-        CastleScene->>CastleModel: save(path)
-    end
-    Engine->>SpriteBatch: begin()
-    Engine->>CastleScene: render(batch)
-    Engine->>SpriteBatch: end()
-```
+[시나리오 목록](index.md)

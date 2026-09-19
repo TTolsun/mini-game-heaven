@@ -14,18 +14,8 @@ public:
     void build();
 
     engine::Sound click;     // UI button
-    engine::Sound tap;       // Tap game hit
-    engine::Sound jump;
-    engine::Sound doubleJump;
-    engine::Sound land;
-    engine::Sound hit;       // player got hit
-    engine::Sound splash;
-    engine::Sound ding;      // near miss / bonus
-    engine::Sound crack;     // crate breaking
-    engine::Sound thud;      // stone landing
-    engine::Sound tick;      // countdown last seconds
-    engine::Sound fanfare;   // time up / result
-    engine::Sound newBest;
+    engine::Sound tap;       // Martial strike
+    engine::Sound fanfare;   // Insight or mastery
 };
 
 }  // namespace app

@@ -32,6 +32,11 @@ jobs:
           packages: "platform-tools platforms;android-36 build-tools;36.0.0 ndk;29.0.14206865 cmake;3.31.6"
       - name: Policy regression tests
         run: node --test tools/policy.test.mjs
+      - name: Native SRPG model tests
+        run: |
+          mkdir -p build
+          g++ -std=c++20 -Wall -Wextra -Wpedantic -O2 -I native native/tests/BattleModelTests.cpp native/app/srpg/BattleModel.cpp -o build/srpg-model-tests
+          ./build/srpg-model-tests build
       - name: Install pinned SDD engine
         run: bash tools/setup-sdd.sh
       - name: Build, unit tests, and lint

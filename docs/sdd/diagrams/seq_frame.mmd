@@ -1,58 +1,14 @@
 sequenceDiagram
     participant Engine
     participant Timer
-    participant CastleScene
-    participant CastleModel
-    participant Hero
-    participant Mixer
-    participant Sound
-    participant Haptics
-    participant NullHaptics
-    participant AndroidHaptics
+    participant BattleScene
     participant Vec2
     participant SpriteBatch
     participant Scene
     participant Shader
     participant Texture
     Engine->>Timer: tick()
-    Engine-->>CastleScene: update() [virtual, 현재 구현 하나]
-    CastleScene->>CastleModel: update()
-    CastleModel->>Hero: operator=()
-    CastleModel->>CastleModel: nextHeroHp()
-    CastleModel->>CastleModel: maxHp()
-    CastleModel->>CastleModel: heroRoom()
-    CastleModel->>CastleModel: attack()
-    CastleModel->>CastleModel: adjacentFacilities()
-    CastleModel->>CastleModel: adjacentRooms()
-    CastleModel->>CastleModel: heroRoom()
-    CastleModel->>CastleModel: attack()
-    CastleModel->>CastleModel: adjacentFacilities()
-    CastleModel->>CastleModel: adjacentRooms()
-    CastleModel->>CastleModel: heroRoom()
-    CastleModel->>CastleModel: trapDamage()
-    CastleModel->>CastleModel: adjacentFacilities()
-    CastleModel->>CastleModel: adjacentRooms()
-    CastleModel->>CastleModel: resident()
-    CastleModel->>CastleModel: finishRaid()
-    CastleScene->>Mixer: play()
-    Mixer->>Sound: empty()
-    CastleScene->>Engine: mixer()
-    CastleScene->>CastleScene: save()
-    CastleScene->>CastleModel: save()
-    CastleScene->>Mixer: play()
-    Mixer->>Sound: empty()
-    CastleScene->>Engine: mixer()
-    CastleScene->>Haptics: light()
-    Haptics-->>NullHaptics: vibrate() [virtual 후보]
-    Haptics-->>AndroidHaptics: vibrate() [virtual 후보]
-    AndroidHaptics->>AndroidHaptics: attach()
-    AndroidHaptics->>AndroidHaptics: resolve()
-    AndroidHaptics->>AndroidHaptics: clearException()
-    AndroidHaptics->>AndroidHaptics: clearException()
-    AndroidHaptics->>AndroidHaptics: clearException()
-    AndroidHaptics->>AndroidHaptics: clearException()
-    AndroidHaptics->>AndroidHaptics: clearException()
-    CastleScene->>Engine: haptics()
+    Engine-->>BattleScene: update() [virtual, 현재 구현 하나]
     Engine->>Vec2: Vec2()
     Engine->>Vec2: Vec2()
     Engine->>Vec2: operator=()
