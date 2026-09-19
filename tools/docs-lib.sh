@@ -9,6 +9,7 @@ FACTS_BUILD="$ROOT/build/sdd/facts/facts.json"
 FACTS_DOCS="$ROOT/docs/sdd/facts.json"
 SITE_BUILD="$ROOT/build/sdd/sdd.html"
 SITE_DOCS="$ROOT/docs/index.html"
+SITE_TITLE="monster-garden SDD"
 
 sdd() {
     uv run --frozen --project "$SDD_TOOL_DIR" sdd --config "$SDD_CONFIG" "$@"

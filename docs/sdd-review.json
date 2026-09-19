@@ -1,8 +1,8 @@
 {
   "version": 1,
   "reviewer": "Codex (AI)",
-  "reviewedAt": "2026-09-19T10:00:59.793Z",
-  "reason": "Reviewed the monster collection pivot, fusion resource and index handling, persistence validation, input lifecycle regression fix, C++/Android integration, and SDD against source. Preserved the merged release policy. ARM64 model and scene tests, Debug/Release builds, lint and 8 policy tests passed; JVM unit test task has no sources.",
+  "reviewedAt": "2026-09-19T11:35:33.133Z",
+  "reason": "Reviewed the SDD site-title fix against the previously current review: only the shared SITE_TITLE and sync/check export arguments changed in reviewed inputs. Regenerated HTML with the pinned exporter and verified that only the browser and navigation titles changed to monster-garden SDD. Markdown, source facts and game code remain unchanged. All 8 policy tests and syntax checks for the 3 Bash scripts passed. Existing threading limitations remain acknowledged. Full Android and extraction checks are delegated to the required PR CI.",
   "acknowledgements": {
     "docs/sdd/threading.md": "Reviewed ownership, Mixer atomics and AndroidAudio shutdown against source. Callback timing, route changes and long-duration multi-device performance remain explicitly unverified; these are not claimed as passed runtime tests."
   },
@@ -200,10 +200,10 @@
     "native/third_party/stb/stb_truetype.h": "ecd30b05e0dd4fea3a13c26810dd9e1992dc379049482c393d5a19e6b5090aab",
     "sdd.yaml": "590753e979b4af2492d7eb8295bc94751a7794cc1d60a561d783fc025a4c5905",
     "settings.gradle.kts": "db07a56b1f402d4fb8d25b92b4263730cef1bf0bab11534a4e51d788e97f40ce",
-    "tools/docs-check.sh": "3090fe791eff1602d3e96d74553b0656b03dc4d99b47f271dd11f5ba621d783a",
-    "tools/docs-lib.sh": "dfbac4f535fa2303c8c94079242b4c89df97d9daef0393fba7a6caf7badf2230",
+    "tools/docs-check.sh": "c444b7ad24db45e9805718073264efb93a168ca853fa74000bb2925c51add437",
+    "tools/docs-lib.sh": "dad96564ffd7318082636295e55cf628da64d0b2f50dfa5cf7782b8ade8bd292",
     "tools/docs-review.mjs": "4cfc272dc3df6e8d595a7bfebf9bcb9c1522f9a53cce30e1349b5dab28996046",
-    "tools/docs-sync.sh": "e695ee0540526cc16e643fbb8b84a35b61c5c0448748bba7dd1bf358984c1d25",
+    "tools/docs-sync.sh": "1a5b4f7b94c1ea1e2e6e5cd0d1202b04162a710f2e91da0894b61bd5b010d3e5",
     "tools/policy.test.mjs": "80fa6d91eb7c7371d5ae2c9951554ebd55683ada5627118ba5bce6326d1c2c74",
     "tools/prepare-castle-font.py": "39f7d32b17aae9bdebdeacae2ce487e8aa6eb5cc86090b59abdbcf89201a1d2e",
     "tools/release.mjs": "14a380af7a344488e1a027bddc0de95c746400082f169e37631598d230c9b614",
