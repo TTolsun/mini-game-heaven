@@ -14,6 +14,8 @@ struct CastleSceneTestAccess {
         scene.muted_ = true;
     }
     static int targets(const CastleScene& scene) { return scene.hitCount_; }
+    static const CastleModel& model(const CastleScene& scene) { return scene.model_; }
+    static bool editing(const CastleScene& scene) { return scene.routeEditing_; }
 };
 }
 class EmptyAssets final : public engine::AssetLoader {
@@ -64,6 +66,25 @@ int main(int argc, char** argv) {
     cancel.render(batch);
     tap(cancel, 150, 910);
     assert(saved.load(path) && saved.monsters[0].level == 2);
+    // Exercise the real facility-tab editor, including disabled raid input and
+    // two queued toggles before the next frame (must not silently reopen a wall).
+    CastleScene routes;
+    CastleSceneTestAccess::attach(routes, engine, path);
+    routes.render(batch); tap(routes,360,1220); // Facilities.
+    routes.render(batch); tap(routes,140,280); // Entrance room.
+    routes.render(batch); tap(routes,570,755); // Route editor.
+    assert(CastleSceneTestAccess::editing(routes));
+    routes.render(batch); tap(routes,150,840); // Close 01-02.
+    tap(routes,150,840); // Stale second tap must be ignored.
+    assert(CastleSceneTestAccess::model(routes).invasionRoute().count==0);
+    assert(saved.load(path) && saved.invasionRoute().count==0);
+    routes.render(batch); tap(routes,550,185); // Disabled raid.
+    assert(CastleSceneTestAccess::model(routes).phase==Phase::Build);
+    routes.render(batch); tap(routes,150,840); // Repair passage.
+    assert(CastleSceneTestAccess::model(routes).invasionRoute().count==6);
+    assert(routes.onBack() && !CastleSceneTestAccess::editing(routes));
+    routes.render(batch); tap(routes,550,185);
+    assert(CastleSceneTestAccess::model(routes).phase==Phase::Raid);
     std::remove(path.c_str());
-    std::puts("PASS: queued fusion taps, modal back cancellation, next-frame input recovery");
+    std::puts("PASS: queued fusion taps, route editor, disconnected raid button, queued passage edits, BACK and input recovery");
 }

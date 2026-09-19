@@ -1,8 +1,8 @@
 {
  "meta": {
-  "generated_at": "2026-09-19T11:51:47+00:00",
+  "generated_at": "2026-09-19T12:27:09+00:00",
   "source_root": "C:/Users/baboe/git/mini-game-heaven/native",
-  "source_commit": "896ec84ed555493347485f2e180fd4cfd7d7f49d",
+  "source_commit": "d1468df2a11c810a170e827c6712dfa46121d2c5",
   "compile_commands": "C:/Users/baboe/git/mini-game-heaven/compile_commands.json",
   "translation_units": 19,
   "build_config": "simple_compdb",
@@ -10,17 +10,17 @@
   "comments": {
    "tus": 19,
    "errors": 0,
-   "classes": 46,
-   "methods": 321,
-   "functions": 25
+   "classes": 47,
+   "methods": 341,
+   "functions": 26
   },
   "callgraph": {
-   "functions": 221,
+   "functions": 233,
    "scenarios": 8,
    "missing_entries": 0
   },
-  "classes": 46,
-  "functions": 20,
+  "classes": 47,
+  "functions": 21,
   "scenarios": 8,
   "defines": 3
  },
@@ -1854,11 +1854,23 @@
    "brief": "",
    "kind": "class"
   },
+  "app::castle::InvasionRoute": {
+   "name": "app::castle::InvasionRoute",
+   "loc": {
+    "file": "app/castle/CastleModel.h",
+    "line": 31
+   },
+   "package": "app",
+   "bases": [],
+   "methods": [],
+   "brief": "",
+   "kind": "class"
+  },
   "app::castle::Room": {
    "name": "app::castle::Room",
    "loc": {
     "file": "app/castle/CastleModel.h",
-    "line": 28
+    "line": 32
    },
    "package": "app",
    "bases": [],
@@ -1870,7 +1882,7 @@
    "name": "app::castle::Monster",
    "loc": {
     "file": "app/castle/CastleModel.h",
-    "line": 29
+    "line": 33
    },
    "package": "app",
    "bases": [],
@@ -1882,7 +1894,7 @@
    "name": "app::castle::Hero",
    "loc": {
     "file": "app/castle/CastleModel.h",
-    "line": 30
+    "line": 34
    },
    "package": "app",
    "bases": [],
@@ -1894,7 +1906,7 @@
    "name": "app::castle::CastleModel",
    "loc": {
     "file": "app/castle/CastleModel.h",
-    "line": 35
+    "line": 39
    },
    "package": "app",
    "bases": [],
@@ -1903,7 +1915,7 @@
      "name": "CastleModel",
      "loc": {
       "file": "app/castle/CastleModel.h",
-      "line": 37
+      "line": 41
      },
      "brief": "",
      "def_loc": {
@@ -1915,64 +1927,16 @@
      "name": "resident",
      "loc": {
       "file": "app/castle/CastleModel.h",
-      "line": 50
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 16
-     }
-    },
-    {
-     "name": "roomCount",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 51
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 20
-     }
-    },
-    {
-     "name": "digCost",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 52
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 23
-     }
-    },
-    {
-     "name": "trainingCost",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 53
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 24
-     }
-    },
-    {
-     "name": "maxHp",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
       "line": 54
      },
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 35
+      "line": 83
      }
     },
     {
-     "name": "attack",
+     "name": "roomCount",
      "loc": {
       "file": "app/castle/CastleModel.h",
       "line": 55
@@ -1980,11 +1944,11 @@
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 40
+      "line": 87
      }
     },
     {
-     "name": "trapDamage",
+     "name": "digCost",
      "loc": {
       "file": "app/castle/CastleModel.h",
       "line": 56
@@ -1992,11 +1956,11 @@
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 44
+      "line": 90
      }
     },
     {
-     "name": "nextHeroCount",
+     "name": "trainingCost",
      "loc": {
       "file": "app/castle/CastleModel.h",
       "line": 57
@@ -2004,98 +1968,14 @@
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 45
+      "line": 91
      }
     },
     {
-     "name": "nextHeroHp",
+     "name": "maxHp",
      "loc": {
       "file": "app/castle/CastleModel.h",
       "line": 58
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 46
-     }
-    },
-    {
-     "name": "build",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 59
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 47
-     }
-    },
-    {
-     "name": "dig",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 60
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 57
-     }
-    },
-    {
-     "name": "summon",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 61
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 65
-     }
-    },
-    {
-     "name": "assign",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 62
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 78
-     }
-    },
-    {
-     "name": "train",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 63
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 85
-     }
-    },
-    {
-     "name": "fusionResult",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 64
-     },
-     "brief": "",
-     "def_loc": {
-      "file": "app/castle/CastleModel.cpp",
-      "line": 92
-     }
-    },
-    {
-     "name": "fuse",
-     "loc": {
-      "file": "app/castle/CastleModel.h",
-      "line": 65
      },
      "brief": "",
      "def_loc": {
@@ -2104,7 +1984,91 @@
      }
     },
     {
-     "name": "startRaid",
+     "name": "attack",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 59
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 106
+     }
+    },
+    {
+     "name": "trapDamage",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 60
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 110
+     }
+    },
+    {
+     "name": "nextHeroCount",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 61
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 111
+     }
+    },
+    {
+     "name": "nextHeroHp",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 62
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 112
+     }
+    },
+    {
+     "name": "adjacentRooms",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 63
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 18
+     }
+    },
+    {
+     "name": "canDig",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 64
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 78
+     }
+    },
+    {
+     "name": "connected",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 65
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 23
+     }
+    },
+    {
+     "name": "togglePassage",
      "loc": {
       "file": "app/castle/CastleModel.h",
       "line": 66
@@ -2112,11 +2076,11 @@
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 116
+      "line": 59
      }
     },
     {
-     "name": "update",
+     "name": "moveThrone",
      "loc": {
       "file": "app/castle/CastleModel.h",
       "line": 67
@@ -2124,26 +2088,140 @@
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 125
+      "line": 67
      }
     },
     {
-     "name": "continueBuilding",
-     "loc": {
+     "name": "throneRoom",
+     "loc": null,
+     "brief": "",
+     "def_loc": {
       "file": "app/castle/CastleModel.h",
       "line": 68
+     }
+    },
+    {
+     "name": "invasionRoute",
+     "loc": null,
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 69
+     }
+    },
+    {
+     "name": "heroRoom",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 70
      },
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 191
+      "line": 74
      }
     },
     {
-     "name": "save",
+     "name": "build",
      "loc": {
       "file": "app/castle/CastleModel.h",
-      "line": 69
+      "line": 71
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 113
+     }
+    },
+    {
+     "name": "dig",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 72
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 123
+     }
+    },
+    {
+     "name": "summon",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 73
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 135
+     }
+    },
+    {
+     "name": "assign",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 74
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 148
+     }
+    },
+    {
+     "name": "train",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 75
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 155
+     }
+    },
+    {
+     "name": "fusionResult",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 76
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 162
+     }
+    },
+    {
+     "name": "fuse",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 77
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 171
+     }
+    },
+    {
+     "name": "startRaid",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 78
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 186
+     }
+    },
+    {
+     "name": "update",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 79
      },
      "brief": "",
      "def_loc": {
@@ -2152,39 +2230,87 @@
      }
     },
     {
-     "name": "load",
+     "name": "continueBuilding",
      "loc": {
       "file": "app/castle/CastleModel.h",
-      "line": 70
+      "line": 80
      },
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 209
+      "line": 263
+     }
+    },
+    {
+     "name": "save",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 81
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 269
+     }
+    },
+    {
+     "name": "load",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 82
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 283
+     }
+    },
+    {
+     "name": "rebuildRoute",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 89
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 31
+     }
+    },
+    {
+     "name": "connectRooms",
+     "loc": {
+      "file": "app/castle/CastleModel.h",
+      "line": 90
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 27
      }
     },
     {
      "name": "adjacentFacilities",
      "loc": {
       "file": "app/castle/CastleModel.h",
-      "line": 74
+      "line": 91
      },
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 25
+      "line": 92
      }
     },
     {
      "name": "finishRaid",
      "loc": {
       "file": "app/castle/CastleModel.h",
-      "line": 75
+      "line": 92
      },
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 179
+      "line": 251
      }
     }
    ],
@@ -2247,7 +2373,7 @@
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 270
+      "line": 324
      }
     },
     {
@@ -2259,7 +2385,7 @@
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 338
+      "line": 400
      }
     },
     {
@@ -2271,14 +2397,14 @@
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 355
+      "line": 417
      }
     },
     {
      "name": "save",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 37
+      "line": 38
      },
      "brief": "",
      "def_loc": {
@@ -2290,19 +2416,19 @@
      "name": "act",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 38
+      "line": 39
      },
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 305
+      "line": 364
      }
     },
     {
      "name": "label",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 39
+      "line": 40
      },
      "brief": "",
      "def_loc": {
@@ -2314,7 +2440,7 @@
      "name": "button",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 41
+      "line": 42
      },
      "brief": "",
      "def_loc": {
@@ -2326,7 +2452,7 @@
      "name": "monster",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 43
+      "line": 44
      },
      "brief": "",
      "def_loc": {
@@ -2338,7 +2464,7 @@
      "name": "roomRect",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 44
+      "line": 45
      },
      "brief": "",
      "def_loc": {
@@ -2350,7 +2476,7 @@
      "name": "renderMap",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 45
+      "line": 46
      },
      "brief": "",
      "def_loc": {
@@ -2362,24 +2488,36 @@
      "name": "renderPanel",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 46
+      "line": 47
      },
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 139
+      "line": 191
+     }
+    },
+    {
+     "name": "renderRouteEditor",
+     "loc": {
+      "file": "app/castle/CastleScene.h",
+      "line": 48
+     },
+     "brief": "",
+     "def_loc": {
+      "file": "app/castle/CastleScene.cpp",
+      "line": 164
      }
     },
     {
      "name": "renderOverlay",
      "loc": {
       "file": "app/castle/CastleScene.h",
-      "line": 47
+      "line": 49
      },
      "brief": "",
      "def_loc": {
       "file": "app/castle/CastleScene.cpp",
-      "line": 227
+      "line": 281
      }
     }
    ],
@@ -2871,6 +3009,15 @@
    },
    "brief": "Column-major orthographic matrix mapping (0,0)-(w,h) to clip space with y down, translated by `offset` world units."
   },
+  "app::castle::roomColumn": {
+   "name": "app::castle::roomColumn",
+   "loc": null,
+   "def_loc": {
+    "file": "app/castle/CastleModel.h",
+    "line": 30
+   },
+   "brief": ""
+  },
   "app::castle::art::frame": {
    "name": "app::castle::art::frame",
    "loc": null,
@@ -3150,6 +3297,11 @@
    "type": "association"
   },
   {
+   "source": "app::castle::CastleModel",
+   "target": "app::castle::InvasionRoute",
+   "type": "association"
+  },
+  {
    "source": "app::castle::CastleScene",
    "target": "engine::Engine",
    "type": "association"
@@ -3265,6 +3417,7 @@
     "app::castle::Species",
     "app::castle::Phase",
     "app::castle::FacilityInfo",
+    "app::castle::InvasionRoute",
     "app::castle::Room",
     "app::castle::Monster",
     "app::castle::Hero",
@@ -3910,7 +4063,7 @@
      "name": "operator=",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 133
+      "line": 205
      },
      "note": ""
     },
@@ -3920,7 +4073,7 @@
      "name": "nextHeroHp",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 134
+      "line": 206
      },
      "note": ""
     },
@@ -3930,7 +4083,17 @@
      "name": "maxHp",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 140
+      "line": 212
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "heroRoom",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 215
      },
      "note": ""
     },
@@ -3940,7 +4103,7 @@
      "name": "attack",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 145
+      "line": 217
      },
      "note": ""
     },
@@ -3950,7 +4113,27 @@
      "name": "adjacentFacilities",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 42
+      "line": 108
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "adjacentRooms",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 98
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "heroRoom",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 219
      },
      "note": ""
     },
@@ -3960,7 +4143,7 @@
      "name": "attack",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 152
+      "line": 224
      },
      "note": ""
     },
@@ -3970,17 +4153,27 @@
      "name": "adjacentFacilities",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 42
+      "line": 108
      },
      "note": ""
     },
     {
      "src": "CastleModel",
      "dst": "CastleModel",
-     "name": "roomCount",
+     "name": "adjacentRooms",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 161
+      "line": 98
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "heroRoom",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 232
      },
      "note": ""
     },
@@ -3990,7 +4183,7 @@
      "name": "trapDamage",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 165
+      "line": 237
      },
      "note": ""
     },
@@ -4000,7 +4193,17 @@
      "name": "adjacentFacilities",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 44
+      "line": 110
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "adjacentRooms",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 98
      },
      "note": ""
     },
@@ -4010,7 +4213,7 @@
      "name": "resident",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 169
+      "line": 241
      },
      "note": ""
     },
@@ -4020,7 +4223,7 @@
      "name": "finishRaid",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 176
+      "line": 248
      },
      "note": ""
     },
@@ -4365,7 +4568,7 @@
      "note": ""
     }
    ],
-   "mermaid": "sequenceDiagram\n    participant Engine\n    participant Timer\n    participant CastleScene\n    participant CastleModel\n    participant Hero\n    participant Mixer\n    participant Sound\n    participant Haptics\n    participant NullHaptics\n    participant AndroidHaptics\n    participant Vec2\n    participant SpriteBatch\n    participant Scene\n    participant Shader\n    participant Texture\n    Engine->>Timer: tick()\n    Engine-->>CastleScene: update() [virtual, 현재 구현 하나]\n    CastleScene->>CastleModel: update()\n    CastleModel->>Hero: operator=()\n    CastleModel->>CastleModel: nextHeroHp()\n    CastleModel->>CastleModel: maxHp()\n    CastleModel->>CastleModel: attack()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: attack()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: roomCount()\n    CastleModel->>CastleModel: trapDamage()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: resident()\n    CastleModel->>CastleModel: finishRaid()\n    CastleScene->>Mixer: play()\n    Mixer->>Sound: empty()\n    CastleScene->>Engine: mixer()\n    CastleScene->>CastleScene: save()\n    CastleScene->>CastleModel: save()\n    CastleScene->>Mixer: play()\n    Mixer->>Sound: empty()\n    CastleScene->>Engine: mixer()\n    CastleScene->>Haptics: light()\n    Haptics-->>NullHaptics: vibrate() [virtual 후보]\n    Haptics-->>AndroidHaptics: vibrate() [virtual 후보]\n    AndroidHaptics->>AndroidHaptics: attach()\n    AndroidHaptics->>AndroidHaptics: resolve()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    CastleScene->>Engine: haptics()\n    Engine->>Vec2: Vec2()\n    Engine->>Vec2: Vec2()\n    Engine->>Vec2: operator=()\n    Engine->>Vec2: Vec2()\n    Engine->>SpriteBatch: begin()\n    SpriteBatch->>Vec2: Vec2()\n    SpriteBatch->>SpriteBatch: makeOrtho()\n    SpriteBatch->>Vec2: Vec2()\n    Engine->>Vec2: Vec2()\n    Engine-->>Scene: render() [virtual, override 없음]\n    Engine->>SpriteBatch: end()\n    SpriteBatch->>SpriteBatch: flush()\n    SpriteBatch->>Shader: use()\n    SpriteBatch->>Shader: uniform()\n    SpriteBatch->>Texture: bind()",
+   "mermaid": "sequenceDiagram\n    participant Engine\n    participant Timer\n    participant CastleScene\n    participant CastleModel\n    participant Hero\n    participant Mixer\n    participant Sound\n    participant Haptics\n    participant NullHaptics\n    participant AndroidHaptics\n    participant Vec2\n    participant SpriteBatch\n    participant Scene\n    participant Shader\n    participant Texture\n    Engine->>Timer: tick()\n    Engine-->>CastleScene: update() [virtual, 현재 구현 하나]\n    CastleScene->>CastleModel: update()\n    CastleModel->>Hero: operator=()\n    CastleModel->>CastleModel: nextHeroHp()\n    CastleModel->>CastleModel: maxHp()\n    CastleModel->>CastleModel: heroRoom()\n    CastleModel->>CastleModel: attack()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: heroRoom()\n    CastleModel->>CastleModel: attack()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: heroRoom()\n    CastleModel->>CastleModel: trapDamage()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: resident()\n    CastleModel->>CastleModel: finishRaid()\n    CastleScene->>Mixer: play()\n    Mixer->>Sound: empty()\n    CastleScene->>Engine: mixer()\n    CastleScene->>CastleScene: save()\n    CastleScene->>CastleModel: save()\n    CastleScene->>Mixer: play()\n    Mixer->>Sound: empty()\n    CastleScene->>Engine: mixer()\n    CastleScene->>Haptics: light()\n    Haptics-->>NullHaptics: vibrate() [virtual 후보]\n    Haptics-->>AndroidHaptics: vibrate() [virtual 후보]\n    AndroidHaptics->>AndroidHaptics: attach()\n    AndroidHaptics->>AndroidHaptics: resolve()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    AndroidHaptics->>AndroidHaptics: clearException()\n    CastleScene->>Engine: haptics()\n    Engine->>Vec2: Vec2()\n    Engine->>Vec2: Vec2()\n    Engine->>Vec2: operator=()\n    Engine->>Vec2: Vec2()\n    Engine->>SpriteBatch: begin()\n    SpriteBatch->>Vec2: Vec2()\n    SpriteBatch->>SpriteBatch: makeOrtho()\n    SpriteBatch->>Vec2: Vec2()\n    Engine->>Vec2: Vec2()\n    Engine-->>Scene: render() [virtual, override 없음]\n    Engine->>SpriteBatch: end()\n    SpriteBatch->>SpriteBatch: flush()\n    SpriteBatch->>Shader: use()\n    SpriteBatch->>Shader: uniform()\n    SpriteBatch->>Texture: bind()",
    "unresolved": 1
   },
   "touch": {
@@ -4428,16 +4631,77 @@
    "title": "방어전 시작",
    "entry": "app::castle::CastleModel::startRaid()",
    "participants": [
-    "CastleModel"
+    "CastleModel",
+    "InvasionRoute"
    ],
    "messages": [
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "rebuildRoute",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 188
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "InvasionRoute",
+     "name": "operator=",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 32
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "connected",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 45
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "adjacentRooms",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 24
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "roomColumn",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 21
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "roomColumn",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 21
+     },
+     "note": ""
+    },
     {
      "src": "CastleModel",
      "dst": "CastleModel",
      "name": "nextHeroCount",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 119
+      "line": 191
      },
      "note": ""
     },
@@ -4447,12 +4711,12 @@
      "name": "maxHp",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 121
+      "line": 193
      },
      "note": ""
     }
    ],
-   "mermaid": "sequenceDiagram\n    participant CastleModel\n    CastleModel->>CastleModel: nextHeroCount()\n    CastleModel->>CastleModel: maxHp()",
+   "mermaid": "sequenceDiagram\n    participant CastleModel\n    participant InvasionRoute\n    CastleModel->>CastleModel: rebuildRoute()\n    CastleModel->>InvasionRoute: operator=()\n    CastleModel->>CastleModel: connected()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: roomColumn()\n    CastleModel->>CastleModel: roomColumn()\n    CastleModel->>CastleModel: nextHeroCount()\n    CastleModel->>CastleModel: maxHp()",
    "unresolved": 0
   },
   "show_result": {
@@ -5836,7 +6100,7 @@
      "name": "operator=",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 133
+      "line": 205
      },
      "note": ""
     },
@@ -5846,7 +6110,7 @@
      "name": "nextHeroHp",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 134
+      "line": 206
      },
      "note": ""
     },
@@ -5856,7 +6120,17 @@
      "name": "maxHp",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 140
+      "line": 212
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "heroRoom",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 215
      },
      "note": ""
     },
@@ -5866,7 +6140,7 @@
      "name": "attack",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 145
+      "line": 217
      },
      "note": ""
     },
@@ -5876,7 +6150,27 @@
      "name": "adjacentFacilities",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 42
+      "line": 108
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "adjacentRooms",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 98
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "heroRoom",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 219
      },
      "note": ""
     },
@@ -5886,7 +6180,7 @@
      "name": "attack",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 152
+      "line": 224
      },
      "note": ""
     },
@@ -5896,17 +6190,27 @@
      "name": "adjacentFacilities",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 42
+      "line": 108
      },
      "note": ""
     },
     {
      "src": "CastleModel",
      "dst": "CastleModel",
-     "name": "roomCount",
+     "name": "adjacentRooms",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 161
+      "line": 98
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "heroRoom",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 232
      },
      "note": ""
     },
@@ -5916,7 +6220,7 @@
      "name": "trapDamage",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 165
+      "line": 237
      },
      "note": ""
     },
@@ -5926,7 +6230,17 @@
      "name": "adjacentFacilities",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 44
+      "line": 110
+     },
+     "note": ""
+    },
+    {
+     "src": "CastleModel",
+     "dst": "CastleModel",
+     "name": "adjacentRooms",
+     "loc": {
+      "file": "app/castle/CastleModel.cpp",
+      "line": 98
      },
      "note": ""
     },
@@ -5936,7 +6250,7 @@
      "name": "resident",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 169
+      "line": 241
      },
      "note": ""
     },
@@ -5946,12 +6260,12 @@
      "name": "finishRaid",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 176
+      "line": 248
      },
      "note": ""
     }
    ],
-   "mermaid": "sequenceDiagram\n    participant CastleModel\n    participant Hero\n    CastleModel->>Hero: operator=()\n    CastleModel->>CastleModel: nextHeroHp()\n    CastleModel->>CastleModel: maxHp()\n    CastleModel->>CastleModel: attack()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: attack()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: roomCount()\n    CastleModel->>CastleModel: trapDamage()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: resident()\n    CastleModel->>CastleModel: finishRaid()",
+   "mermaid": "sequenceDiagram\n    participant CastleModel\n    participant Hero\n    CastleModel->>Hero: operator=()\n    CastleModel->>CastleModel: nextHeroHp()\n    CastleModel->>CastleModel: maxHp()\n    CastleModel->>CastleModel: heroRoom()\n    CastleModel->>CastleModel: attack()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: heroRoom()\n    CastleModel->>CastleModel: attack()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: heroRoom()\n    CastleModel->>CastleModel: trapDamage()\n    CastleModel->>CastleModel: adjacentFacilities()\n    CastleModel->>CastleModel: adjacentRooms()\n    CastleModel->>CastleModel: resident()\n    CastleModel->>CastleModel: finishRaid()",
    "unresolved": 0
   },
   "fusion": {
@@ -5969,7 +6283,7 @@
      "name": "fusionResult",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 103
+      "line": 173
      },
      "note": ""
     },
@@ -5979,7 +6293,7 @@
      "name": "operator=",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 110
+      "line": 180
      },
      "note": ""
     },
@@ -5989,7 +6303,7 @@
      "name": "operator=",
      "loc": {
       "file": "app/castle/CastleModel.cpp",
-      "line": 111
+      "line": 181
      },
      "note": ""
     }

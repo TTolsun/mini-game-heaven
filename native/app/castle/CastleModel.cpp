@@ -12,6 +12,73 @@ CastleModel::CastleModel() {
     rooms[1].facility = Facility::Den;
     monsters[0] = {Species::Slime, 1, 1};
     monsters[1] = {Species::Imp, 1, 3};
+    for (int i = 0; i < 5; ++i) connectRooms(i, i + 1);
+    rebuildRoute();
+}
+bool CastleModel::adjacentRooms(int first, int second) {
+    if (first < 0 || first >= kRooms || second < 0 || second >= kRooms) return false;
+    return std::abs(first / kRoomColumns - second / kRoomColumns) +
+        std::abs(roomColumn(first) - roomColumn(second)) == 1;
+}
+bool CastleModel::connected(int first, int second) const {
+    return adjacentRooms(first, second) && rooms[first].open && rooms[second].open &&
+        (passages_[first] & (1u << second)) != 0;
+}
+void CastleModel::connectRooms(int first, int second) {
+    passages_[first] |= 1u << second;
+    passages_[second] |= 1u << first;
+}
+void CastleModel::rebuildRoute() {
+    route_ = {};
+    if (!rooms[kEntranceRoom].open || throneRoom_ < 0 || throneRoom_ >= kRooms || !rooms[throneRoom_].open) return;
+    // Uniform-cost room graph: BFS chooses the shortest path. Ascending room
+    // IDs break ties consistently for the preview, battle and save reload.
+    std::array<int, kRooms> previous{};
+    previous.fill(-1);
+    std::array<int, kRooms> queue{};
+    int read = 0, count = 1;
+    queue[0] = kEntranceRoom;
+    previous[kEntranceRoom] = kEntranceRoom;
+    while (read < count && previous[throneRoom_] < 0) {
+        const int room = queue[read++];
+        for (int next = 0; next < kRooms; ++next) {
+            if (!connected(room, next) || previous[next] >= 0) continue;
+            previous[next] = room;
+            queue[count++] = next;
+        }
+    }
+    if (previous[throneRoom_] < 0) return;
+    int room = throneRoom_;
+    while (room != kEntranceRoom) {
+        route_.rooms[route_.count++] = room;
+        room = previous[room];
+    }
+    route_.rooms[route_.count++] = kEntranceRoom;
+    std::reverse(route_.rooms.begin(), route_.rooms.begin() + route_.count);
+}
+bool CastleModel::togglePassage(int first, int second) {
+    if (phase != Phase::Build || !adjacentRooms(first, second) || !rooms[first].open || !rooms[second].open) return false;
+    passages_[first] ^= 1u << second;
+    passages_[second] ^= 1u << first;
+    rebuildRoute();
+    notice = route_.count > 0 ? "통로를 바꿨어요. 용사는 가장 짧은 길로 왕좌를 향해요." : "왕좌로 가는 길이 끊겼어요. 통로를 이어야 방어를 시작할 수 있어요.";
+    return true;
+}
+bool CastleModel::moveThrone(int room) {
+    if (phase != Phase::Build || room <= kEntranceRoom || room >= kRooms || !rooms[room].open || room == throneRoom_) return false;
+    throneRoom_ = room;
+    rebuildRoute();
+    notice = route_.count > 0 ? "왕좌를 옮겼어요. 새 경로에 마물과 함정을 배치하세요." : "왕좌로 가는 길이 끊겼어요. 통로를 이어 주세요.";
+    return true;
+}
+int CastleModel::heroRoom(const Hero& hero) const {
+    if (!std::isfinite(hero.position) || hero.position < 0 || hero.position >= route_.count) return -1;
+    return route_.rooms[static_cast<int>(hero.position)];
+}
+bool CastleModel::canDig(int room) const {
+    if (phase != Phase::Build || room < 0 || room >= kRooms || rooms[room].open) return false;
+    for (int other = 0; other < kRooms; ++other) if (rooms[other].open && adjacentRooms(room, other)) return true;
+    return false;
 }
 int CastleModel::resident(int room) const {
     for (int i = 0; i < monsterCount; ++i) if (monsters[i].room == room) return i;
@@ -25,11 +92,10 @@ int CastleModel::trainingCost(int m) const { return m >= 0 && m < monsterCount ?
 int CastleModel::adjacentFacilities(int room, Facility facility) const {
     // Rooms follow a serpentine corridor. Visual neighbours are spatial, not
     // merely consecutive path indices.
-    constexpr std::array<int, kRooms> columns{0, 1, 2, 2, 1, 0, 0, 1, 2, 2, 1, 0};
     int count = 0;
     for (int i = 0; i < kRooms; ++i)
         if (rooms[i].open && rooms[i].facility == facility &&
-            std::abs(i / 3 - room / 3) + std::abs(columns[i] - columns[room]) == 1) ++count;
+            adjacentRooms(i, room)) ++count;
     return count;
 }
 int CastleModel::maxHp(const Monster& m) const {
@@ -56,10 +122,14 @@ bool CastleModel::build(int room, Facility facility) {
 }
 bool CastleModel::dig(int room) {
     if (phase != Phase::Build || room < 0 || room >= kRooms || rooms[room].open) return false;
-    if (room != roomCount()) { notice = "통로와 이어진 다음 방부터 확장해 주세요."; return false; }
+    if (!canDig(room)) { notice = "열린 방에 맞닿은 곳부터 확장해 주세요."; return false; }
     if (gold < digCost()) { notice = "확장할 금화가 부족해요."; return false; }
     gold -= digCost(); rooms[room].open = true;
-    notice = "새로운 방이 열렸어요! 방어할 통로도 길어졌어요.";
+    for (int other = 0; other < kRooms; ++other) {
+        if (rooms[other].open && adjacentRooms(room, other)) { connectRooms(room, other); break; }
+    }
+    rebuildRoute();
+    notice = "방을 확장했어요. 통로 편집에서 길과 왕좌를 바꿀 수 있어요.";
     return true;
 }
 bool CastleModel::summon(Species species) {
@@ -115,6 +185,8 @@ bool CastleModel::fuse(int first, int second) {
 }
 bool CastleModel::startRaid() {
     if (phase != Phase::Build || completed) return false;
+    rebuildRoute();
+    if (route_.count == 0) { notice = "왕좌까지 통로를 이어야 방어를 시작할 수 있어요."; return false; }
     phase = Phase::Raid; heart = 100; defeated = spawned = 0;
     totalHeroes = nextHeroCount(); battleTime = spawnClock_ = hitFlash = 0;
     heroes.fill({});
@@ -140,11 +212,11 @@ void CastleModel::update(float dt) {
                 monster.hp = std::min(static_cast<float>(maxHp(monster)), monster.hp + step * 3);
             if (monster.hp <= 0 || monster.cooldown > 0) continue;
             for (Hero& hero : heroes) {
-                if (!hero.alive || hero.position < 0 || static_cast<int>(hero.position) != monster.room) continue;
+                if (!hero.alive || heroRoom(hero) != monster.room) continue;
                 if (monster.species == Species::Shade || monster.species == Species::Dragon) {
                     const float splash = attack(monster) * (monster.species == Species::Dragon ? 0.65f : 0.4f);
                     for (Hero& other : heroes) {
-                        if (&other == &hero || !other.alive || other.position < 0 || static_cast<int>(other.position) != monster.room) continue;
+                        if (&other == &hero || !other.alive || heroRoom(other) != monster.room) continue;
                         other.hp -= splash;
                         if (other.hp <= 0) { other.alive = false; ++defeated; }
                     }
@@ -157,8 +229,8 @@ void CastleModel::update(float dt) {
         }
         for (Hero& hero : heroes) {
             if (!hero.alive) continue;
-            const int room = hero.position < 0 ? -1 : static_cast<int>(hero.position);
-            if (room >= roomCount()) { hero.alive = false; heart = std::max(0, heart - 25); hitFlash = 0.3f; continue; }
+            const int room = heroRoom(hero);
+            if (hero.position >= route_.count) { hero.alive = false; heart = std::max(0, heart - 25); hitFlash = 0.3f; continue; }
             if (room >= 0 && hero.lastRoom != room) {
                 hero.lastRoom = room;
                 if (rooms[room].facility == Facility::Trap) {
@@ -200,16 +272,18 @@ bool CastleModel::save(const std::string& path) const {
     std::ofstream out(path + ".tmp", std::ios::trunc);
     if (!out) return false;
     const int savedDay = day + (phase == Phase::Result && won && !completed ? 1 : 0);
-    out << "CASTLE 1\n" << gold << ' ' << mana << ' ' << savedDay << ' ' << monsterCount << ' ' << completed << ' ' << discovered << '\n';
+    out << "CASTLE 2\n" << gold << ' ' << mana << ' ' << savedDay << ' ' << monsterCount << ' ' << completed << ' ' << discovered << '\n';
     for (const Room& room : rooms) out << room.open << ' ' << static_cast<int>(room.facility) << '\n';
     for (int i = 0; i < monsterCount; ++i) out << static_cast<int>(monsters[i].species) << ' ' << monsters[i].level << ' ' << monsters[i].room << '\n';
+    out << throneRoom_ << '\n';
+    for (const unsigned passage : passages_) out << passage << '\n';
     out.flush(); if (!out) return false; out.close(); if (out.fail()) return false;
     return std::rename((path + ".tmp").c_str(), path.c_str()) == 0;
 }
 bool CastleModel::load(const std::string& path) {
     std::ifstream in(path); std::string magic; int version = 0;
     CastleModel candidate;
-    if (!(in >> magic >> version) || magic != "CASTLE" || version != 1) return false;
+    if (!(in >> magic >> version) || magic != "CASTLE" || (version != 1 && version != 2)) return false;
     int complete = 0;
     if (!(in >> candidate.gold >> candidate.mana >> candidate.day >> candidate.monsterCount >> complete >> candidate.discovered) || candidate.discovered > 63 ||
         candidate.gold < 0 || candidate.gold > 99999 || candidate.mana < 0 || candidate.mana > 99999 ||
@@ -219,18 +293,45 @@ bool CastleModel::load(const std::string& path) {
     bool closed = false;
     for (Room& room : candidate.rooms) {
         int open, facility;
-        if (!(in >> open >> facility) || open < 0 || open > 1 || facility < 0 || facility > 4 || (!open && facility != 0) || (closed && open)) return false;
+        if (!(in >> open >> facility) || open < 0 || open > 1 || facility < 0 || facility > 4 || (!open && facility != 0) || (version == 1 && closed && open)) return false;
         room = {open != 0, static_cast<Facility>(facility)}; closed |= !room.open;
     }
-    if (candidate.roomCount() < 6) return false;
+    if (candidate.roomCount() < 6 || !candidate.rooms[kEntranceRoom].open) return false;
+    // Passage edits may disconnect rooms, but every excavated room must remain
+    // spatially reachable so a free passage edit can always repair the layout.
+    std::array<bool, kRooms> reachable{};
+    reachable[kEntranceRoom] = true;
+    for (int pass = 0; pass < kRooms; ++pass) for (int room = 0; room < kRooms; ++room) {
+        if (!reachable[room]) continue;
+        for (int next = 0; next < kRooms; ++next)
+            if (candidate.rooms[next].open && adjacentRooms(room,next)) reachable[next] = true;
+    }
+    for (int room = 0; room < kRooms; ++room) if (candidate.rooms[room].open && !reachable[room]) return false;
     std::array<bool, kRooms> occupied{};
     for (int i = 0; i < candidate.monsterCount; ++i) {
         int species; Monster& m = candidate.monsters[i];
         if (!(in >> species >> m.level >> m.room) || species < 0 || species > 5 || m.level < 1 || m.level > 10 ||
-            m.room < 0 || m.room >= candidate.roomCount() || occupied[m.room]) return false;
+            m.room < 0 || m.room >= kRooms || !candidate.rooms[m.room].open || occupied[m.room]) return false;
         m.species = static_cast<Species>(species); occupied[m.room] = true;
         candidate.discovered |= 1u << species;
     }
+    candidate.passages_.fill(0);
+    if (version == 1) {
+        candidate.throneRoom_ = candidate.roomCount() - 1;
+        for (int room = 0; room < candidate.throneRoom_; ++room) candidate.connectRooms(room, room + 1);
+    } else {
+        if (!(in >> candidate.throneRoom_) || candidate.throneRoom_ <= kEntranceRoom || candidate.throneRoom_ >= kRooms ||
+            !candidate.rooms[candidate.throneRoom_].open) return false;
+        for (unsigned& passage : candidate.passages_) if (!(in >> passage) || passage >= (1u << kRooms)) return false;
+        for (int room = 0; room < kRooms; ++room) for (int next = 0; next < kRooms; ++next) {
+            const bool edge = (candidate.passages_[room] & (1u << next)) != 0;
+            const bool reverse = (candidate.passages_[next] & (1u << room)) != 0;
+            if (edge != reverse || (edge && (!adjacentRooms(room, next) || !candidate.rooms[room].open || !candidate.rooms[next].open))) return false;
+        }
+    }
+    in >> std::ws;
+    if (!in.eof()) return false;
+    candidate.rebuildRoute();
     candidate.notice = candidate.completed ? "10일 방어를 마친 성에 돌아오셨군요!" : "돌아오셨군요, 마왕님! 성이 기다리고 있었어요.";
     *this = candidate; return true;
 }
