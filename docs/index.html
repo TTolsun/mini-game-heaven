@@ -265,45 +265,34 @@ p.lead { font-weight:600; font-size:16px; }
 <p>10일 방어를 완료하면 새 방어는 시작할 수 없습니다. 준비 화면에서 남은 재화로 성장·합성·시설 관리는 가능하지만 추가 보상 획득은 현재 구현 범위에 없습니다.</p></section><section class="page" id="page-scenarios-touch"><h1>터치 입력 전달</h1><div class="meta"><span class="badge ok">ok</span></div><p>Android 입력 버퍼의 포인터 좌표가 Engine::onTouch에서 월드 좌표로 변환되어 Scene에 전달됩니다. <code>platform/android/AndroidMain.cpp:113</code>, <code>engine/Engine.cpp:116</code></p>
 <p>CastleScene은 렌더링할 때 활성 버튼의 사각형·행동·대상을 기록합니다. Down에서 한 포인터만 선택하고 Up이 같은 영역에 있으며 현재도 동일한 대상이 활성일 때 행동을 실행합니다. Cancel은 실행하지 않고 포인터를 해제합니다. <code>app/castle/CastleScene.cpp:338</code></p>
 <p>합성·결과 오버레이는 뒤쪽 버튼 목록을 제거합니다. 행동을 실행하면 목록을 비워 같은 Android 입력 묶음의 후속 터치가 이전 화면의 대상을 사용하지 못하게 합니다. 다음 render에서 목록을 다시 만듭니다. BACK도 목록과 진행 중인 제스처를 취소합니다. <code>app/castle/CastleScene.cpp:305</code>, <code>app/castle/CastleScene.cpp:355</code></p>
-<p>회귀 검증은 CastleSceneTests에서 실제 Scene의 hit 영역과 이벤트 전달을 사용합니다. 합성 확인 직후 연속 탭, BACK 직후 Up, 다음 프레임의 입력 복구를 검사합니다. 렌더러 출력·GPU 검증은 이 무화면 테스트에 포함하지 않습니다.</p></section><section class="page" id="page-feature-flags"><h1>컴파일 플래그 매트릭스</h1><div class="meta"><span class="badge ok">ok</span>generated_at: 2026-09-19 09:29:30+00:00 · source_commit: 7c54837987d5595b750490d4778577778906d20b · agent: ollama/qwen3.5:4b</div><p class="lead"><strong>바꾸려는 동작이 어떤 -D 플래그나</strong></p>
-<h2 id="page-feature-flags--플래그-표">플래그 표</h2>
-<p>이 표는 compile DB(NDK-build 구성)의 <code>-D</code> 목록과 소스의 <code>#if</code> 분기 위치를 그대로 옮긴 것입니다. LLM 을 거치지 않았습니다.</p>
+<p>회귀 검증은 CastleSceneTests에서 실제 Scene의 hit 영역과 이벤트 전달을 사용합니다. 합성 확인 직후 연속 탭, BACK 직후 Up, 다음 프레임의 입력 복구를 검사합니다. 렌더러 출력·GPU 검증은 이 무화면 테스트에 포함하지 않습니다.</p></section><section class="page" id="page-feature-flags"><h1>컴파일 플래그 매트릭스</h1><div class="meta"><span class="badge ok">ok</span></div><p>현재 기준은 Gradle/CMake가 만든 ARM64 Debug compile_commands.json입니다. NDK-build 프로젝트가 아닙니다. CMake는 C++20과 경고 옵션을 지정하며 현재 게임 기능을 켜고 끄는 별도 컴파일 플래그는 없습니다. 근거: <code>CMakeLists.txt:4</code>, <code>CMakeLists.txt:42</code>.</p>
 <table>
 <thead>
 <tr>
-<th>플래그</th>
+<th>추출된 define</th>
 <th>값</th>
-<th>분기 위치 (최대 20)</th>
+<th>의미</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>ANDROID</code></td>
-<td><code>1</code></td>
-<td>(소스에서 분기 없음)</td>
+<td>ANDROID</td>
+<td>1</td>
+<td>Android 타깃 빌드입니다.</td>
 </tr>
 <tr>
-<td><code>_FORTIFY_SOURCE</code></td>
-<td><code>2</code></td>
-<td>(소스에서 분기 없음)</td>
+<td>_FORTIFY_SOURCE</td>
+<td>2</td>
+<td>툴체인이 지정한 강화 옵션입니다.</td>
 </tr>
 <tr>
-<td><code>minigame_EXPORTS</code></td>
-<td><code>1</code></td>
-<td>(소스에서 분기 없음)</td>
+<td>minigame_EXPORTS</td>
+<td>1</td>
+<td>minigame 공유 라이브러리 타깃의 export define입니다.</td>
 </tr>
 </tbody>
 </table>
-<details class="note">
-<summary>근거와 검토 정보</summary>
-<ul>
-<li>근거 파일: (없음)</li>
-<li>근거 수준: 코드 확인 (정적 분석, simple_compdb 구성, commit <code>7c54837987</code>)</li>
-<li>인용 검증: 통과</li>
-<li>검토: 2026-09-19 · ollama/qwen3.5:4b · 사람 검토 전</li>
-</ul>
-</details>
-<p>다음 단계: <a href="#page-threading">스레드와 콜백 모델</a></p></section><section class="page" id="page-threading"><h1>스레드와 콜백 모델</h1><div class="meta"><span class="badge needs-review">needs-review</span></div><table>
+<p>소환·합성·전투 수치는 CastleModel.h의 constexpr 자료와 CastleModel.cpp의 규칙으로 관리합니다. ABI는 app/build.gradle.kts의 arm64-v8a와 x86_64입니다. 이 표의 define은 추출 대상 코드에서 별도 기능 분기를 만들지 않습니다.</p></section><section class="page" id="page-threading"><h1>스레드와 콜백 모델</h1><div class="meta"><span class="badge needs-review">needs-review</span></div><table>
 <thead>
 <tr>
 <th>실행 흐름</th>
