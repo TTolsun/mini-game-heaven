@@ -2,15 +2,13 @@
 status: ok
 section: scenarios
 reviewer: Codex (AI)
-reviewed: 2026-09-19
+reviewed: 2026-09-20
 ---
 
-# 이동·행동과 상대 응답
+# 아군 명령과 진영 전환
 
-BattleModel::execute는 진영 상태·목적지·이동 가능 여부·사거리·단서·기력을 검증합니다. 실패하면 상태를 변경하지 않습니다. 유효하면 아군의 위치와 공격·기 축적을 반영합니다.
+execute는 단계·행동 여부·이동·사거리·시야·해금·기·대상 조건을 검증하고 실패 시 변경하지 않습니다. 이동과 사거리 이탈, 행동, 피해·밀기·충돌·추격을 처리합니다. 각 동료 추격은 한 번이며 재귀하지 않습니다. 마지막 살아 있는 아군이 행동하면 enemyTurn을 같은 명령 안에서 실행합니다. 적은 지형 BFS로 접근하고 사거리 안의 아군을 공격합니다. 로시 전투 불능, 적 전멸, 라운드 제한 순으로 상태를 정합니다.
 
-상대가 살아 있고 밀쳐내기나 벽 충돌로 공격이 끊기지 않았다면 예고된 공격을 해결합니다. 관찰·회피·방어의 서로 다른 단서를 등록하고 피해·축적 중단을 처리합니다. 체력이 소진되면 패배, 상대 체력이 소진되면 승리이며 마지막 허용 턴의 승리는 시간 초과보다 먼저 판정합니다.
-
-전투가 계속되면 턴을 늘리고 상대가 필요한 경우 한 칸 접근하여 다음 공격 방향을 준비합니다. 결과는 Outcome으로 반환합니다. 근거: `app/srpg/BattleModel.cpp:74`, `app/srpg/BattleModel.cpp:165`.
+근거: app/srpg/BattleModel.cpp, app/srpg/BattleScene.cpp, engine/Engine.cpp, platform/android/AndroidMain.cpp.
 
 [시나리오 목록](index.md)

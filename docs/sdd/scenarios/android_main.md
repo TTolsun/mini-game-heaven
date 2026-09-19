@@ -2,13 +2,13 @@
 status: ok
 section: scenarios
 reviewer: Codex (AI)
-reviewed: 2026-09-19
+reviewed: 2026-09-20
 ---
 
-# 앱 시작과 메인 루프
+# Android 시작과 루프
 
-윈도우 생성 이벤트에서 GlContext가 surface를 만들고 Engine의 그래픽을 초기화합니다. 안전 영역을 적용한 뒤 BattleScene을 설치하여 onEnter를 실행합니다. 이후 android_main 루프에서 이벤트와 입력을 처리하고, surface와 포커스가 있으면 프레임을 그립니다.
+android_main은 AppState와 플랫폼 서비스를 구성하고 native_app_glue 명령·입력을 처리합니다. 윈도우 생성 때 EGL surface와 Engine 그래픽을 준비하고 BattleScene을 설치합니다. 입력 처리 뒤 Engine::frame과 swap을 수행합니다. surface 재생성 때 기존 모델 상태를 유지합니다.
 
-윈도우 해제는 surface를 제거하고, 포커스 상실은 오디오를 멈춥니다. 앱 종료 시 AppState 소유 객체가 정리됩니다. 근거: `platform/android/AndroidMain.cpp:54`, `platform/android/AndroidMain.cpp:156`.
+근거: app/srpg/BattleModel.cpp, app/srpg/BattleScene.cpp, engine/Engine.cpp, platform/android/AndroidMain.cpp.
 
 [시나리오 목록](index.md)

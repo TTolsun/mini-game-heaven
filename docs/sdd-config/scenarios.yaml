@@ -15,18 +15,18 @@ scenarios:
     title: 터치 입력 전달
     from: "engine::Engine::onTouch(int32_t, engine::TouchEvent::Phase, float, float)"
   - id: command
-    title: 이동·행동과 상대 응답의 원자적 처리
+    title: 아군 명령과 진영 전환
     from: "app::srpg::BattleModel::execute(app::srpg::Command)"
   - id: progression
-    title: 배움을 유지하며 다음 수련 시작
+    title: 보상 수령과 다음 이야기
     from: "app::srpg::BattleModel::nextLesson()"
   - id: load_assets
-    title: 한국어 글꼴과 수련 상태 불러오기
+    title: 한국어 글꼴과 캠페인 불러오기
     from: "app::srpg::BattleScene::onEnter(engine::Engine &)"
   - id: preview
     title: 모델 복사본으로 명령 결과 예측
     from: "app::srpg::BattleModel::preview(app::srpg::Command)"
     depth: 3
   - id: save
-    title: 확정된 턴과 배움 저장
+    title: 캠페인과 출전 체크포인트 저장
     from: "app::srpg::BattleModel::save(const std::string &)"

@@ -1,82 +1,44 @@
 #include "app/srpg/BattleScene.h"
 #include "engine/Engine.h"
 #include "engine/asset/AssetLoader.h"
-
 #include <cassert>
 #include <cstdio>
-
 namespace app::srpg {
 struct BattleSceneTestAccess {
-    static void attach(BattleScene& scene, engine::Engine& engine, const std::string& path) {
-        scene.engine_=&engine; scene.savePath_=path; scene.sound_=false; scene.refresh();
-    }
-    static engine::Vec2 target(const BattleScene& scene, int kind, int value=0) {
-        for (int i=0;i<scene.hitCount_;++i) {
-            const auto& hit=scene.hits_[i];
-            if (static_cast<int>(hit.button)==kind && hit.value==value) return {hit.rect.x+hit.rect.w/2,hit.rect.y+hit.rect.h/2};
-        }
-        assert(false && "Expected an interactive target"); return {};
-    }
-    static bool has(const BattleScene& scene, int kind) {
-        for (int i=0;i<scene.hitCount_;++i) if (static_cast<int>(scene.hits_[i].button)==kind) return true;
-        return false;
-    }
-    static const BattleState& state(const BattleScene& scene) { return scene.model_.state(); }
-    static Cell destination(const BattleScene& scene) { return scene.destination_; }
-    static int targets(const BattleScene& scene) { return scene.hitCount_; }
-    static bool help(const BattleScene& scene) { return scene.help_; }
+ static void attach(BattleScene& s,engine::Engine& e,const std::string& path) { s.engine_=&e; s.savePath_=path; s.sound_=false; s.refresh(); }
+ static engine::Vec2 target(const BattleScene& s,int kind,int value=0) {
+  for(int i=0;i<s.hitCount_;++i) { const auto& h=s.hits_[i]; if(static_cast<int>(h.button)==kind && h.value==value) return {h.rect.x+h.rect.w/2,h.rect.y+h.rect.h/2}; }
+  std::printf("Missing target kind=%d value=%d phase=%d\n",kind,value,static_cast<int>(s.model_.state().phase)); assert(false); return {};
+ }
+ static int targets(const BattleScene& s) { return s.hitCount_; }
+ static const BattleState& state(const BattleScene& s) { return s.model_.state(); }
+ static Cell destination(const BattleScene& s) { return s.destination_; }
+ static int actor(const BattleScene& s) { return s.actor_; }
 };
 }
-class EmptyAssets final : public engine::AssetLoader {
-    std::vector<uint8_t> readFile(const std::string&) override { return {}; }
-};
-using namespace app::srpg;
-using Access=BattleSceneTestAccess;
-void tap(BattleScene& scene, engine::Vec2 point) {
-    scene.onTouch({0,engine::TouchEvent::Phase::Down,point});
-    scene.onTouch({0,engine::TouchEvent::Phase::Up,point});
-}
-int main(int argc, char** argv) {
-    const std::string file=std::string(argc>1?argv[1]:".")+"/srpg-scene-test-save.txt";
-    EmptyAssets assets;
-    engine::Engine engine(assets);
-    engine::SpriteBatch batch;
-    BattleScene scene;
-    Access::attach(scene,engine,file);
-    scene.render(batch);
-    tap(scene,Access::target(scene,1,static_cast<int>(Action::Guard)));
-    assert(Access::targets(scene)==0);
-    scene.render(batch);
-    const auto commit=Access::target(scene,2);
-    tap(scene,commit); tap(scene,commit);
-    assert(Access::state(scene).round==2 && Access::state(scene).health==67);
-    assert(Access::state(scene).insights==4 && Access::targets(scene)==0);
-    scene.render(batch); assert(!Access::has(scene,2)); // Animation lock.
-    scene.update(1); scene.render(batch);
-    tap(scene,Access::target(scene,0,index({4,3})));
-    assert(Access::destination(scene)==(Cell{4,3}));
-    // BACK rolls back the uncommitted move and cancels a queued release.
-    scene.render(batch);
-    const auto pending=Access::target(scene,2);
-    scene.onTouch({0,engine::TouchEvent::Phase::Down,pending});
-    assert(scene.onBack());
-    scene.onTouch({0,engine::TouchEvent::Phase::Up,pending});
-    assert(Access::state(scene).round==2 && Access::destination(scene)==Access::state(scene).roshi);
-    scene.render(batch);
-    tap(scene,Access::target(scene,1,static_cast<int>(Action::Technique)));
-    scene.render(batch); assert(!Access::has(scene,2)); // Locked technique cannot be confirmed.
-    tap(scene,Access::target(scene,3));
-    scene.render(batch);
-    assert(Access::help(scene) && Access::targets(scene)==1);
-    assert(scene.onBack() && !Access::help(scene));
-    scene.render(batch);
-    tap(scene,Access::target(scene,0,index({4,3})));
-    scene.render(batch);
-    tap(scene,Access::target(scene,1,static_cast<int>(Action::Observe)));
-    scene.render(batch); tap(scene,Access::target(scene,2));
-    assert(Access::state(scene).insights==kFullInsight);
-    BattleModel saved;
-    assert(saved.load(file) && saved.state()==Access::state(scene));
-    std::remove(file.c_str());
-    std::puts("PASS: real Scene targets, queued confirms, animation lock, BACK rollback, help modal, locked skill and saved learning");
+class EmptyAssets final : public engine::AssetLoader { std::vector<uint8_t> readFile(const std::string&) override { return {}; } };
+using namespace app::srpg; using Access=BattleSceneTestAccess;
+void tap(BattleScene& scene,engine::Vec2 at) { scene.onTouch({0,engine::TouchEvent::Phase::Down,at}); scene.onTouch({0,engine::TouchEvent::Phase::Up,at}); }
+int main(int argc,char** argv) {
+ const std::string file=std::string(argc>1?argv[1]:".")+"/srpg-scene-test-save.txt";
+ EmptyAssets assets; engine::Engine engine(assets); engine::SpriteBatch batch; BattleScene scene; Access::attach(scene,engine,file);
+ auto press=[&](int kind,int value=0) { scene.render(batch); tap(scene,Access::target(scene,kind,value)); };
+ scene.render(batch); const auto story=Access::target(scene,6); tap(scene,story); tap(scene,story);
+ assert(Access::state(scene).phase==Phase::Base && Access::state(scene).bond==1);
+ press(8,2); assert(Access::state(scene).trained);
+ press(12); assert(Access::state(scene).phase==Phase::Deployment);
+ press(14,1); assert(Access::state(scene).slots[0]==1);
+ press(15); assert(Access::state(scene).phase==Phase::Playing);
+ press(2,3); scene.render(batch); const auto commit=Access::target(scene,3); tap(scene,commit); tap(scene,commit);
+ assert(Access::state(scene).round==1 && Access::state(scene).units[0].acted && Access::state(scene).units[0].ki==30);
+ scene.render(batch); assert(Access::targets(scene)==0);
+ scene.update(1); press(0,index({2,4})); assert(Access::destination(scene)==(Cell{2,4}));
+ press(2,3); scene.render(batch); const auto pending=Access::target(scene,3);
+ scene.onTouch({0,engine::TouchEvent::Phase::Down,pending}); assert(scene.onBack()); scene.onTouch({0,engine::TouchEvent::Phase::Up,pending});
+ assert(Access::destination(scene)==Access::state(scene).units[Access::actor(scene)].cell && !Access::state(scene).units[1].acted);
+ press(4); scene.render(batch); assert(Access::targets(scene)==1); assert(scene.onBack());
+ press(16); scene.render(batch); assert(Access::targets(scene)==2); assert(scene.onBack()); assert(Access::state(scene).round==1);
+ press(16); press(17); assert(Access::state(scene).round==2); scene.update(1);
+ BattleModel restored; assert(restored.load(file) && restored.state()==Access::state(scene));
+ std::remove(file.c_str()); std::puts("PASS: story/base/deployment input, slot swap, queued confirms, animation lock, BACK, help/end-turn modals and save parity");
 }

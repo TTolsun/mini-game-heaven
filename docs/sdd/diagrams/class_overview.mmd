@@ -8,13 +8,15 @@ classDiagram
     }
     class Action {
     }
+    class BattleEvent {
+    }
     class BattleModel {
         +state()
         +lesson()
         +blocked()
-        +threatened()
-        +movement()
-        +preview()
+        +occupant()
+        +maxHealth()
+        +moveRange()
     }
     class BattleScene {
         +onEnter()
@@ -34,13 +36,26 @@ classDiagram
     }
     class Command {
     }
-    class Insight {
+    class EnemyData {
+    }
+    class EventKind {
+    }
+    class HeroData {
+    }
+    class HeroProgress {
     }
     class Lesson {
     }
     class Outcome {
+        +add()
     }
     class Phase {
+    }
+    class SkillData {
+    }
+    class SkillShape {
+    }
+    class Unit {
     }
     class Animation {
         +Animation()
@@ -248,11 +263,17 @@ classDiagram
     Particle --> Color
     Particle --> Sprite
     Sfx --> Sound
+    SkillData --> SkillShape
     Lesson --> Cell
-    BattleState --> Cell
+    Unit --> Cell
     BattleState --> Phase
+    BattleState --> HeroProgress
+    BattleState --> Unit
     Command --> Cell
     Command --> Action
+    BattleEvent --> EventKind
+    BattleEvent --> Cell
+    Outcome --> BattleEvent
     BattleModel --> BattleState
     BattleScene --> Engine
     BattleScene --> Font
