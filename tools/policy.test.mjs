@@ -81,6 +81,18 @@ test('CI cannot manufacture a review record', t => {
     '--reviewer', 'Bot', '--reason', 'Automatic'], {cwd: dir, env: {...process.env, CI: 'true'}, stdio: 'pipe'}),
     error => error.status === 1 && error.stderr.toString().includes('CI must not'));
 });
+test('workflow, policy, and release-note changes invalidate review', t => {
+  const {dir, write} = fixture(t);
+  fs.mkdirSync(path.join(dir, '.github/workflows'), {recursive: true});
+  fs.mkdirSync(path.join(dir, 'docs/releases'), {recursive: true});
+  for (const name of ['.github/workflows/release.yml', 'tools/release.mjs',
+    'docs/development-policy.md', 'docs/releases/0.1.0.md']) {
+    write(name, 'Reviewed content\n');
+    accept(dir, 'Test Reviewer', {}, 'Reviewed release policy');
+    write(name, 'Changed content\n');
+    assert.throws(() => check(dir), /Review is stale/);
+  }
+});
 const fingerprint = 'ab'.repeat(32);
 const certificates = `Signer #1 certificate SHA-256 digest: ${fingerprint}\n`;
 const badging = "package: name='com.ttolsun.minigameheaven' versionCode='1' versionName='0.1.0'\n";

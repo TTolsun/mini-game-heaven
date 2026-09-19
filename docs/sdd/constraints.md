@@ -19,7 +19,7 @@ evidence_files:
 
 ## 의존 방향: engine 은 app 과 platform 을 모른다
 
-`native/engine/` 은 `app/` 이나 `platform/` 헤더를 include 하지 않습니다. Android 의존 코드는 `platform/android/` 에만 둡니다. 근거: [설계 결정 D-001](decisions.md), `native/CMakeLists.txt` 의 디렉터리 구성.
+`native/engine/` 은 `app/` 이나 `platform/` 헤더를 include 하지 않습니다. Activity·AAudio·JNI 연결은 `platform/android/`에 둡니다. 다만 engine의 그래픽 구현은 GLES에, `engine/core/Log.h`는 Android 로그 API에 의존하므로 다른 플랫폼으로 옮길 때 교체가 필요합니다. 근거: [설계 결정 D-001](decisions.md), `native/CMakeLists.txt` 의 디렉터리 구성.
 
 ## Scene 은 콜백 안에서 자기 자신을 바꾸지 않는다
 

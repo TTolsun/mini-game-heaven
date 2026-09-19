@@ -8,7 +8,7 @@ export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const recordPath = 'docs/sdd-review.json';
 const sourcePaths = ['native', 'app/src/main', 'app/build.gradle.kts', 'build.gradle.kts',
   'settings.gradle.kts', 'gradle.properties', 'gradle', 'sdd.yaml', 'docs/sdd-config',
-  'tools/sdd-tool.json', 'tools/docs-review.mjs'];
+  'tools', '.github', 'docs/development-policy.md', 'docs/releases'];
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');
 export function canonical(value) {
   if (Array.isArray(value)) return value.map(canonical);
