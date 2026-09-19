@@ -1,164 +1,65 @@
 sequenceDiagram
     participant Engine
     participant Timer
-    participant DodgeGame
-    participant Particles
-    participant Vec2
-    participant Popups
-    participant Animation
-    participant Sprite
-    participant Rect
+    participant CastleScene
+    participant CastleModel
+    participant Hero
+    participant Mixer
+    participant Sound
     participant Haptics
     participant NullHaptics
     participant AndroidHaptics
-    participant Mixer
-    participant Sound
-    participant GameAssets
-    participant Burst
-    participant Color
-    participant Particle
-    participant JumpGame
-    participant TapGame
-    participant MiniGameApp
-    participant MenuScene
-    participant ResultScene
+    participant Vec2
     participant SpriteBatch
     participant Scene
+    participant Shader
+    participant Texture
     Engine->>Timer: tick()
-    Engine-->>DodgeGame: update() [virtual 후보]
-    DodgeGame->>Particles: update()
-    Particles->>Vec2: operator*=()
-    Particles->>Vec2: operator+=()
-    Particles->>Vec2: operator*()
-    Vec2->>Vec2: Vec2()
-    DodgeGame->>Popups: update()
-    DodgeGame->>Animation: update()
-    Animation->>Animation: duration()
-    DodgeGame->>DodgeGame: updateFalling()
-    DodgeGame->>Animation: frame()
-    Animation->>Sprite: Sprite()
-    DodgeGame->>Animation: frame()
-    Animation->>Sprite: Sprite()
-    DodgeGame->>Vec2: operator*()
-    Vec2->>Vec2: Vec2()
-    DodgeGame->>Sprite: size()
-    Sprite->>Vec2: Vec2()
-    DodgeGame->>Rect: fromCenter()
-    Rect->>Rect: Rect()
-    DodgeGame->>Vec2: Vec2()
-    DodgeGame->>Vec2: Vec2()
-    DodgeGame->>Vec2: operator*()
-    Vec2->>Vec2: Vec2()
-    DodgeGame->>Sprite: size()
-    Sprite->>Vec2: Vec2()
-    DodgeGame->>Rect: fromCenter()
-    Rect->>Rect: Rect()
-    DodgeGame->>Vec2: Vec2()
-    DodgeGame->>Vec2: operator*()
-    Vec2->>Vec2: Vec2()
-    DodgeGame->>Rect: overlaps()
-    DodgeGame->>DodgeGame: hit()
-    DodgeGame->>Animation: restart()
-    DodgeGame->>Engine: hitStop()
-    DodgeGame->>Engine: addTrauma()
-    DodgeGame->>Haptics: heavy()
+    Engine-->>CastleScene: update() [virtual, 현재 구현 하나]
+    CastleScene->>CastleModel: update()
+    CastleModel->>Hero: operator=()
+    CastleModel->>CastleModel: nextHeroHp()
+    CastleModel->>CastleModel: maxHp()
+    CastleModel->>CastleModel: attack()
+    CastleModel->>CastleModel: adjacentFacilities()
+    CastleModel->>CastleModel: attack()
+    CastleModel->>CastleModel: adjacentFacilities()
+    CastleModel->>CastleModel: roomCount()
+    CastleModel->>CastleModel: trapDamage()
+    CastleModel->>CastleModel: adjacentFacilities()
+    CastleModel->>CastleModel: resident()
+    CastleModel->>CastleModel: finishRaid()
+    CastleScene->>Mixer: play()
+    Mixer->>Sound: empty()
+    CastleScene->>Engine: mixer()
+    CastleScene->>CastleScene: save()
+    CastleScene->>CastleModel: save()
+    CastleScene->>Mixer: play()
+    Mixer->>Sound: empty()
+    CastleScene->>Engine: mixer()
+    CastleScene->>Haptics: light()
     Haptics-->>NullHaptics: vibrate() [virtual 후보]
     Haptics-->>AndroidHaptics: vibrate() [virtual 후보]
-    DodgeGame->>Engine: haptics()
-    DodgeGame->>Mixer: play()
-    Mixer->>Sound: empty()
-    DodgeGame->>Engine: mixer()
-    DodgeGame->>GameAssets: sfx()
-    DodgeGame->>Burst: Burst()
-    DodgeGame->>Color: operator=()
-    DodgeGame->>Color: rgb8()
-    Color->>Color: Color()
-    DodgeGame->>Color: operator=()
-    DodgeGame->>Color: rgb8()
-    Color->>Color: Color()
-    DodgeGame->>Particles: emit()
-    Particles-->>Particles: angle() [콜백 객체, 정적 추적 불가]
-    Particles-->>Particles: speed() [콜백 객체, 정적 추적 불가]
-    Particles-->>Particles: unit() [콜백 객체, 정적 추적 불가]
-    Particles->>Particle: Particle()
-    Particles->>Vec2: operator=()
-    Particles->>Vec2: operator=()
-    Particles->>Vec2: Vec2()
-    Particles-->>Particles: life() [콜백 객체, 정적 추적 불가]
-    Particles-->>Particles: size() [콜백 객체, 정적 추적 불가]
-    Particles-->>Particles: angle() [콜백 객체, 정적 추적 불가]
-    Particles-->>Particles: spin() [콜백 객체, 정적 추적 불가]
-    Particles->>Color: operator=()
-    Particles->>Color: Color()
-    Particles->>Sprite: operator=()
-    DodgeGame->>Vec2: Vec2()
-    DodgeGame->>DodgeGame: land()
-    DodgeGame->>Vec2: operator*()
-    Vec2->>Vec2: Vec2()
-    DodgeGame->>Sprite: size()
-    Sprite->>Vec2: Vec2()
-    DodgeGame->>Burst: Burst()
-    DodgeGame->>Color: operator=()
-    DodgeGame->>Color: rgb8()
-    Color->>Color: Color()
-    DodgeGame->>Color: operator=()
-    DodgeGame->>Color: rgb8()
-    Color->>Color: Color()
-    DodgeGame->>Mixer: play()
-    Mixer->>Sound: empty()
-    DodgeGame->>Engine: mixer()
-    DodgeGame->>GameAssets: sfx()
-    DodgeGame->>Engine: addTrauma()
-    DodgeGame->>Color: operator=()
-    DodgeGame->>Color: rgb8()
-    Color->>Color: Color()
-    DodgeGame->>Color: operator=()
-    DodgeGame->>Color: rgb8()
-    Color->>Color: Color()
-    DodgeGame->>Mixer: play()
-    Mixer->>Sound: empty()
-    DodgeGame->>Engine: mixer()
-    DodgeGame->>GameAssets: sfx()
-    DodgeGame->>Particles: emit()
-    Particles-->>Particles: angle() [콜백 객체, 정적 추적 불가]
-    Particles-->>Particles: speed() [콜백 객체, 정적 추적 불가]
-    Particles-->>Particles: unit() [콜백 객체, 정적 추적 불가]
-    Particles->>Particle: Particle()
-    Particles->>Vec2: operator=()
-    Particles->>Vec2: operator=()
-    Particles->>Vec2: Vec2()
-    Particles-->>Particles: life() [콜백 객체, 정적 추적 불가]
-    Particles-->>Particles: size() [콜백 객체, 정적 추적 불가]
-    Particles-->>Particles: angle() [콜백 객체, 정적 추적 불가]
-    Particles-->>Particles: spin() [콜백 객체, 정적 추적 불가]
-    Particles->>Color: operator=()
-    Particles->>Color: Color()
-    Particles->>Sprite: operator=()
-    DodgeGame->>Vec2: Vec2()
-    DodgeGame->>Popups: add()
-    DodgeGame->>Vec2: Vec2()
-    DodgeGame->>Color: rgb8()
-    Color->>Color: Color()
-    DodgeGame->>Mixer: play()
-    Mixer->>Sound: empty()
-    DodgeGame->>Engine: mixer()
-    DodgeGame->>GameAssets: sfx()
-    DodgeGame->>Haptics: light()
-    DodgeGame->>Engine: haptics()
-    DodgeGame->>DodgeGame: spawn()
-    DodgeGame->>DodgeGame: spawnIntervalAt()
-    DodgeGame->>DodgeGame: updateDino()
-    DodgeGame->>DodgeGame: updateFalling()
-    Engine-->>JumpGame: update() [virtual 후보]
-    Engine-->>TapGame: update() [virtual 후보]
-    Engine-->>MiniGameApp: update() [virtual 후보]
-    Engine-->>MenuScene: update() [virtual 후보]
-    Engine-->>ResultScene: update() [virtual 후보]
+    AndroidHaptics->>AndroidHaptics: attach()
+    AndroidHaptics->>AndroidHaptics: resolve()
+    AndroidHaptics->>AndroidHaptics: clearException()
+    AndroidHaptics->>AndroidHaptics: clearException()
+    AndroidHaptics->>AndroidHaptics: clearException()
+    AndroidHaptics->>AndroidHaptics: clearException()
+    AndroidHaptics->>AndroidHaptics: clearException()
+    CastleScene->>Engine: haptics()
     Engine->>Vec2: Vec2()
     Engine->>Vec2: Vec2()
     Engine->>Vec2: operator=()
     Engine->>Vec2: Vec2()
     Engine->>SpriteBatch: begin()
+    SpriteBatch->>Vec2: Vec2()
+    SpriteBatch->>SpriteBatch: makeOrtho()
+    SpriteBatch->>Vec2: Vec2()
     Engine->>Vec2: Vec2()
     Engine-->>Scene: render() [virtual, override 없음]
     Engine->>SpriteBatch: end()
+    SpriteBatch->>SpriteBatch: flush()
+    SpriteBatch->>Shader: use()
+    SpriteBatch->>Shader: uniform()
+    SpriteBatch->>Texture: bind()

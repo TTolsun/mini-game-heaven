@@ -3,105 +3,42 @@ classDiagram
         +AppState()
         +animating()
     }
-    class DodgeGame {
-        +DodgeGame()
-        +onEnter()
-        +update()
-        +render()
-        +onTouch()
-        +isFinished()
-    }
-    class Falling {
-    }
-    class Kind {
-    }
-    class GameAssets {
-        +load()
-        +dinoIdle()
-        +dinoRun()
-        +dinoJump()
-        +dinoDead()
-        +groundTile()
-    }
-    class GameId {
-    }
-    class GameInfo {
-    }
-    class HighScores {
-        +load()
-        +best()
-        +submit()
-        +save()
-    }
-    class IMiniGame {
-        +~IMiniGame()
-        +isFinished()
-        +score()
-    }
-    class JumpGame {
-        +JumpGame()
-        +onEnter()
-        +update()
-        +render()
-        +onTouch()
-        +isFinished()
-    }
-    class Column {
-    }
-    class DeathCause {
-    }
-    class MenuScene {
-        +MenuScene()
-        +onEnter()
-        +update()
-        +render()
-        +onTouch()
-        +iconFor()
-    }
-    class MiniGameApp {
-        +onEnter()
-        +update()
-        +render()
-        +onTouch()
-        +onBack()
-        +showMenu()
-    }
-    class ResultScene {
-        +ResultScene()
-        +onEnter()
-        +update()
-        +render()
-        +onTouch()
-        +onBack()
-    }
-    class Outcome {
-    }
     class Sfx {
         +build()
     }
-    class TapGame {
-        +TapGame()
+    class Action {
+    }
+    class CastleModel {
+        +CastleModel()
+        +resident()
+        +roomCount()
+        +digCost()
+        +trainingCost()
+        +maxHp()
+    }
+    class CastleScene {
         +onEnter()
+        +onExit()
         +update()
         +render()
         +onTouch()
-        +isFinished()
+        +onBack()
     }
-    class Button {
-        +Button()
-        +handleTouch()
-        +update()
-        +draw()
-        +rect()
-        +setRect()
+    class Hit {
     }
-    class Popups {
-        +add()
-        +update()
-        +render()
-        +clear()
+    class Facility {
     }
-    class Item {
+    class FacilityInfo {
+    }
+    class Hero {
+    }
+    class Monster {
+    }
+    class Phase {
+    }
+    class Room {
+    }
+    class Species {
     }
     class Animation {
         +Animation()
@@ -277,13 +214,7 @@ classDiagram
         +shutdown()
     }
     Haptics <|-- NullHaptics
-    Scene <|-- IMiniGame
-    IMiniGame <|-- DodgeGame
-    IMiniGame <|-- JumpGame
-    IMiniGame <|-- TapGame
-    Scene <|-- MiniGameApp
-    Scene <|-- MenuScene
-    Scene <|-- ResultScene
+    Scene <|-- CastleScene
     AssetLoader <|-- AndroidAssetLoader
     Haptics <|-- AndroidHaptics
     TouchEvent --> Phase
@@ -315,69 +246,18 @@ classDiagram
     Particle --> Color
     Particle --> Sprite
     Sfx --> Sound
-    GameAssets --> Texture
-    GameAssets --> Sprite
-    GameAssets --> Animation
-    GameAssets --> Font
-    GameAssets --> Sfx
-    File --> Sprite
-    GameInfo --> GameId
-    GameInfo --> Color
-    Popups --> Item
-    Item --> Vec2
-    Item --> Color
-    DodgeGame --> GameAssets
-    DodgeGame --> Engine
-    DodgeGame --> Font
-    DodgeGame --> Sprite
-    DodgeGame --> Animation
-    DodgeGame --> Particles
-    DodgeGame --> Popups
-    DodgeGame --> Vec2
-    DodgeGame --> Falling
-    Falling --> Kind
-    Falling --> Sprite
-    Falling --> Vec2
-    JumpGame --> GameAssets
-    JumpGame --> Engine
-    JumpGame --> Font
-    JumpGame --> Sprite
-    JumpGame --> Animation
-    JumpGame --> Particles
-    JumpGame --> Column
-    JumpGame --> Vec2
-    JumpGame --> DeathCause
-    TapGame --> GameAssets
-    TapGame --> Engine
-    TapGame --> Font
-    TapGame --> Sprite
-    TapGame --> Particles
-    TapGame --> Popups
-    TapGame --> Vec2
-    HighScores --> GameId
-    Button --> Rect
-    Button --> Sprite
-    MiniGameApp --> Engine
-    MiniGameApp --> GameAssets
-    MiniGameApp --> HighScores
-    MiniGameApp --> Scene
-    MiniGameApp --> IMiniGame
-    MiniGameApp --> GameId
-    MiniGameApp --> Button
-    MenuScene --> GameAssets
-    MenuScene --> HighScores
-    MenuScene --> Engine
-    MenuScene --> Sprite
-    MenuScene --> Animation
-    MenuScene --> Button
-    ResultScene --> GameAssets
-    ResultScene --> Outcome
-    ResultScene --> Engine
-    ResultScene --> Sprite
-    ResultScene --> Rect
-    ResultScene --> Button
-    ResultScene --> Particles
-    Outcome --> GameId
+    Room --> Facility
+    Monster --> Species
+    CastleModel --> Room
+    CastleModel --> Monster
+    CastleModel --> Hero
+    CastleModel --> Phase
+    CastleScene --> Engine
+    CastleScene --> Font
+    CastleScene --> Sfx
+    CastleScene --> CastleModel
+    CastleScene --> Hit
+    Hit --> Rect
     AndroidAssetLoader --> AAssetManager
     AndroidAudio --> Mixer
     AppState --> AndroidAssetLoader

@@ -1,100 +1,78 @@
-# mini-game-heaven
+# 마물 정원 (monster-garden)
 
-C++로 만드는 안드로이드 미니게임 모음. 게임 로직과 렌더링은 거의 전부 C++이고, Android 쪽은 GameActivity와 Gradle 포장 계층만 남긴다.
+마물을 소환하고, 먹이를 주고, 합성해서 도감을 채우는 Android 게임입니다. 작은 성에서 키운 마물들이 용사의 습격을 막습니다. 기존 Dodge / Jump / Tap 모음에서 **몬스터 수집·성장·합성 중심의 경영 게임**으로 방향을 바꾼 첫 플레이 가능한 프로토타입입니다.
 
-## 목표 (v0.1)
+## 플레이
 
-- APK 설치 → 메인 메뉴 → 게임 선택 → 플레이 → 점수 저장까지 한 사이클 완성
-- 미니게임 3개: Dodge / Jump / Tap
-- 세로 화면, 터치 입력, 효과음, 진동, 로컬 최고 점수
-- 60 / 120Hz 대응, FPS 표시 디버그 옵션
-- Release APK 생성
+1. 처음 만나는 슬라임과 임프가 있는 방을 누르고 각각 먹이를 주어 Lv.2로 키웁니다.
+2. `합성하기`에서 상대를 고르면 결과 종과 이어받을 레벨을 먼저 볼 수 있습니다. 두 마물을 소모하고 마력 40을 써서 합성합니다.
+3. `방어 시작`을 누르면 마물과 함정이 자동으로 용사를 막습니다. 2배속과 일시정지를 지원합니다.
+4. 보상 금화는 먹이·시설·확장에, 마력은 소환·합성에 사용합니다. 마물 도감에 수집 기록이 남습니다.
+5. 10일 차 방어에 성공하면 첫 캠페인을 마칩니다. 이후에도 마물을 키우고 성을 꾸밀 수 있습니다.
 
-## 기술 스택
+| 합성 조합 (둘 다 Lv.2 이상) | 결과 | 특징 |
+|---|---|---|
+| 슬라임 + 임프 | 달그림자 | 같은 방의 다른 용사에게 공격력 40%의 피해를 줍니다. |
+| 임프 + 골렘 | 새벽 드래곤 | 같은 방의 다른 용사에게 공격력 65%의 피해를 줍니다. |
+| 슬라임 + 슬라임 | 왕관 슬라임 | 살아 있는 동안 초당 체력 3을 회복합니다. |
 
-| 영역 | 선택 |
-|------|------|
-| Language | C++20 |
-| Android | NDK + GameActivity |
-| Build | CMake + Gradle |
-| Rendering | OpenGL ES 3.x |
-| Audio | AAudio + 자체 믹서, 효과음은 코드로 합성 (오디오 파일 없음) |
-| Input | GameActivity input |
-| Assets | AAssetManager |
-| UI | 자체 C++ UI |
-| Storage | native file (`highscores.txt`) |
-| Haptics | android.os.Vibrator (JNI 한 곳) |
-| Frame pacing | Choreographer |
+합성 결과는 두 마물의 평균 레벨(소수점 버림)을 이어받습니다. 도감은 재료로 사용한 종도 기억합니다. 기본 3종은 원하는 종을 선택해 소환하며 뽑기 확률은 없습니다. 마물은 최대 8마리, 레벨은 10까지입니다.
 
-## 구조
+## 성과 방어
 
-```
-mini-game-heaven/
-├── app/                      # Android shell (Gradle, Manifest, GameActivity)
-│   └── src/main/
-│       ├── AndroidManifest.xml
-│       ├── assets/
-│       └── cpp/
-└── native/                   # 거의 전부 C++
-    ├── CMakeLists.txt
-    ├── engine/               # GameLoop, Renderer, Input, Audio, Asset, Scene
-    ├── games/                # dodge/, jump/, tap/
-    └── app/                  # MiniGameApp, GameRegistry
-```
+12개 방을 순서대로 확장합니다. 숙소는 거주 마물의 체력을 높이고 인접 마물의 공격력을 보조합니다. 창고는 금화를, 서고는 마력을 생산합니다. 서고 옆의 함정은 피해량이 높아집니다. 생산은 방어가 끝날 때 지급됩니다. 패배해도 마물을 잃지 않고 보급품을 받아 같은 날에 다시 도전할 수 있습니다.
 
-공통 엔진과 개별 게임은 `IMiniGame` 인터페이스로 분리한다. 게임 추가는 `GameRegistry`에 한 줄 등록하면 끝나도록 설계한다.
+플레이어의 행동과 방어 결과는 앱 내부 `castle-v1.txt`에 저장됩니다. 임시 파일을 쓴 뒤 교체하고 불완전하거나 범위를 벗어난 저장 파일은 읽지 않습니다. 전투 도중 앱이 종료되면 해당 날의 준비 단계로 돌아갑니다. 결과 화면에서 종료해도 지급된 보상은 중복 수령되지 않습니다. 기존 `highscores.txt`와 분리됩니다.
 
-```cpp
-class IMiniGame {
-public:
-    virtual ~IMiniGame() = default;
+## 구현 범위와 다음 단계
 
-    virtual void onEnter() = 0;
-    virtual void update(float dt) = 0;
-    virtual void render(Renderer& renderer) = 0;
-    virtual void onTouch(const TouchEvent& event) = 0;
-    virtual bool isFinished() const = 0;
-    virtual int getScore() const = 0;
-};
+현재는 6종, 합성 3종, 시설 4종, 10일 캠페인입니다. 탐험·장비·분기 진화·온라인 기능·장기 밸런싱은 아직 구현하지 않았습니다. 픽셀 캐릭터는 코드로 그린 독자적인 임시 미술이며 참고작의 이미지나 캐릭터를 사용하지 않습니다.
+
+## 기술 구조
+
+- C++20, GameActivity, OpenGL ES 3, AAudio, 네이티브 터치·햅틱을 사용합니다.
+- `native/app/castle/CastleModel.*`: Android와 렌더러에 의존하지 않는 경제·합성·전투·저장 로직입니다.
+- `native/app/castle/CastleScene.*`: 지도, 마물 관리, 도감, 합성 확인, 방어 결과를 표시합니다.
+- `native/engine/graphics/Font.*`: UTF-8을 해석하고 필요한 글리프만 아틀라스에 올립니다.
+- 이전 미니게임 소스는 보존하지만 APK의 CMake 대상에는 포함하지 않습니다.
+
+## 빌드와 검증
+
+JDK 17, Android SDK platform 36, NDK 29.0.14206865, CMake 3.31.6이 필요합니다.
+
+```powershell
+android sdk install ndk/29.0.14206865 cmake/3.31.6
+.\gradlew.bat assembleDebug
+android run --apks=app/build/outputs/apk/debug/app-debug.apk --device=<serial>
 ```
 
-## 로드맵
+ARM64 기기와 x86_64 에뮬레이터를 지원합니다. 게임 로직 테스트는 다음 스크립트로 지정한 기기에서만 실행합니다.
 
-- v0.1: Dodge / Jump / Tap (완료: 게임 3개, GUI 팩 UI, 햅틱, 효과음, 점수 저장)
-- v0.2: + Shooter, Racing
-- v0.3: + Rhythm, Fishing, Memory
-- v1.0: 10~15 mini games + 성능 디버그 화면 (FPS, frame time, draw calls, memory)
+```powershell
+.\tools\test-castle.ps1 -Device <serial> -Abi arm64-v8a
+```
 
-## 빌드
+한국어 문구를 추가했다면 Google Fonts의 Noto Sans KR 원본 가변 TTF를 준비하고 다음 명령으로 글리프 목록과 굵기 600의 경량 폰트를 재생성합니다. OFL 라이선스는 assets/fonts에 포함되어 있습니다.
 
-요구 사항: JDK 17, Android SDK (platform 36, NDK 29.0.14206865, CMake 3.31.6). NDK와 CMake는 `android sdk install ndk/29.0.14206865 cmake/3.31.6`으로 설치한다.
+```powershell
+uv run --with fonttools python tools/prepare-castle-font.py <NotoSansKR-variable.ttf>
+```
+
+## 설계 문서와 릴리스
+
+게임 방향은 `docs/game-direction.md`, 코드 구조는 `docs/sdd/`, 실제 검증 결과는 `docs/validation.md`에 기록합니다. 문서 검토·머지·서명 APK 릴리스 절차는 [개발 정책](docs/development-policy.md)을 따릅니다.
+
+Node.js 24와 uv를 준비하고 다음 명령으로 고정된 SDD 엔진을 설치합니다. 문장 재생성에는 로컬 Ollama `qwen3.5:4b`를 사용합니다.
 
 ```bash
-export JAVA_HOME="C:/Program Files/Eclipse Adoptium/jdk-17.0.20.101-hotspot"
-./gradlew assembleDebug
-adb install -r app/build/outputs/apk/debug/app-debug.apk
+bash tools/setup-sdd.sh
+bash tools/docs-sync.sh --force
 ```
 
-`compile_commands.json`은 빌드마다 `app/.cxx/Debug/<hash>/arm64-v8a/`에 생성된다. clangd에서 쓰려면 `tools/sync-compile-commands.sh`로 저장소 루트에 복사한다.
-
-## 문서 (SDD)
-
-문서 검토 기록과 APK 릴리스 절차는 [개발 정책](docs/development-policy.md)을 따릅니다. 최초에는 `bash tools/setup-sdd.sh`로 커밋이 고정된 엔진을 설치합니다.
-
-`docs/sdd/`는 [camera-hal-sdd](https://github.com/TTolsun/camera-hal-sdd) 파이프라인이 `native/` C++ 소스에서 생성한 설계 문서입니다. 표와 시퀀스 다이어그램은 libclang이 읽은 사실에서 도구가 만들고, LLM(로컬 Ollama의 `qwen3.5:4b`)은 서술 문단만 씁니다. 문장마다 `파일:줄` 인용이 붙고, 인용이 사실에 없으면 `status: needs-review`로 남습니다. 단일 HTML은 `docs/index.html`입니다.
-
-정책은 hal-camera와 같습니다. 코드와 문서가 어긋난 채로 `main`에 들어가지 않습니다.
-
-| 언제 | 무엇을 | 어떻게 |
-|------|--------|--------|
-| PR마다 (CI `docs-check`) | 사실 최신성, 문서 최신성, 사이트 일치를 검사 | `tools/docs-check.sh --base <ref>` 와 같은 단계. LLM 없음 |
-| `main` push 후 (CI `docs-sync`, 로컬 러너) | 영향받은 절을 Qwen으로 다시 써서 PR 생성 | `tools/docs-sync.sh`. 러너 변수 `DOCGEN_LOCAL_RUNNER_ENABLED=true` 필요. 검토 기록은 자동 승인하지 않음 |
-| 로컬에서 코드를 바꾼 뒤 | 오래된 문서 확인 → 다시 생성 → 검토 → 커밋 | 아래 순서 |
+생성 문서를 코드와 대조한 뒤 검토자·검토 이유와 남은 한계를 기록하고 검사합니다. 상세 accept 명령은 개발 정책을 따릅니다. `status: ok`만으로 검토 승인을 대신하지 않습니다.
 
 ```bash
-bash tools/docs-check.sh                 # 어느 문서가 오래됐는지 (base: origin/main 과의 merge-base)
-bash tools/docs-sync.sh                  # 마지막 동기화 이후 영향 절만 Qwen 으로 재생성 (--force: 전체)
-bash tools/docs-sync.sh --site           # LLM 없이 facts.json 과 docs/index.html 만 재생성
+bash tools/docs-check.sh
 ```
 
-요구 사항: `tools/setup-sdd.sh`로 설치한 엔진, `uv`, Node.js 24, 그리고 `./gradlew assembleDebug`가 만든 `compile_commands.json`입니다. `tools/sync-compile-commands.sh`가 compile DB를 갱신하고 libclang용 `-resource-dir`를 붙입니다. 섹션과 시나리오 정의는 `docs/sdd-config/`, 파이프라인 설정은 `sdd.yaml`입니다. 수동 문서 `constraints.md`와 `decisions.md`는 덮어쓰지 않습니다. 문서를 코드와 대조한 뒤 `node tools/docs-review.mjs accept --reviewer NAME --reason TEXT`로 검토를 기록하고 `tools/docs-check.sh`를 실행합니다.
+`--site`는 LLM 없이 사실과 HTML만 갱신합니다. `constraints.md`와 `decisions.md`는 수동 기록입니다. CI는 정책 테스트, Debug·Release 빌드, lint와 사실·검토 기록·HTML 일치를 검사합니다. 서명 APK 릴리스는 검증된 main 커밋에 버전 태그를 만들 때만 초안으로 생성되며, 실제 서명키와 인증서 지문 설정이 필요합니다.
