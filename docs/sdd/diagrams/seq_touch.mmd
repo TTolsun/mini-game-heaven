@@ -1,9 +1,16 @@
 sequenceDiagram
     participant Engine
     participant TouchEvent
+    participant Rect
     participant Vec2
+    participant Viewport
     participant Scene
     Engine->>TouchEvent: TouchEvent()
+    Engine->>Rect: contains()
+    Engine->>Vec2: Vec2()
     Engine->>Vec2: operator=()
+    Engine->>Viewport: viewportPoint()
+    Viewport->>Vec2: Vec2()
+    Engine->>Rect: Rect()
     Engine->>Vec2: Vec2()
     Engine-->>Scene: onTouch() [virtual, 현재 구현 하나]

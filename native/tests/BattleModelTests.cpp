@@ -1,4 +1,5 @@
 #include "app/srpg/BattleModel.h"
+#include "app/srpg/BattleTimeline.h"
 #include <cassert>
 #include <chrono>
 #include <cstdio>
@@ -13,6 +14,11 @@ void launch(BattleModel& m) { assert(m.chooseStory(0)); assert(m.prepare()); ass
 Outcome turn(BattleModel& m,Command c) {
  const auto before=m.state(); const auto predicted=m.preview(c); assert(m.state()==before);
  const auto actual=m.execute(c); assert(actual.valid && predicted.valid);
+ const auto visual=timelineFrame(before.units,actual,timelineDuration(actual));
+ for(int i=0;i<kUnits;++i) {
+  assert(visual.units[i].health==m.state().units[i].health);
+  assert(visual.units[i].cell.x==m.state().units[i].cell.x && visual.units[i].cell.y==m.state().units[i].cell.y);
+ }
  assert(actual.dealt==predicted.dealt && actual.received==predicted.received && actual.chases==predicted.chases && actual.kiChange==predicted.kiChange && actual.count==predicted.count);
  for(int i=0;i<actual.count;++i) { assert(actual.events[i].kind==predicted.events[i].kind && actual.events[i].target==predicted.events[i].target && actual.events[i].amount==predicted.events[i].amount); }
  return actual;
@@ -64,6 +70,15 @@ int main(int argc,char** argv) {
  turn(m,{1,m.state().units[1].cell,Action::Charge}); turn(m,{2,m.state().units[2].cell,Action::Charge}); assert(m.state().round==2);
  assert(m.save(path)); BattleModel loaded; assert(loaded.load(path) && loaded.state()==m.state());
  { std::ofstream out(path,std::ios::app); out<<" trailing"; } assert(!loaded.load(path) && loaded.state()==m.state());
+ // Render movement must follow occupied-cell-aware BFS, never cut diagonally.
+ BattleModel walk;launch(walk);auto& w=Access::state(walk);
+ w.units[1].cell={2,3};w.units[0].cell={3,3};w.units[2].cell={0,6};w.units[3].cell={6,0};w.units[4].cell={6,1};
+ auto walkOut=turn(walk,{1,{3,4},Action::Wait});Cell lastStep={2,3};int steps=0;
+ for(int i=0;i<walkOut.count;++i)if(walkOut.events[i].kind==EventKind::Move && walkOut.events[i].actor==1) {
+  const auto& e=walkOut.events[i];assert(e.from==lastStep && e.to!=(Cell{3,3}));
+  assert(std::abs(e.to.x-e.from.x)+std::abs(e.to.y-e.from.y)==1);lastStep=e.to;++steps;
+ }
+ assert(lastStep==(Cell{3,4}) && steps==2);
  // Controlled collision: pushed enemy enters Shen's adjacency, once per round.
  BattleModel combo; launch(combo); auto& c=Access::state(combo);
  c.units[0].cell={2,2}; c.units[0].ki=100; c.units[1].cell={4,3}; c.units[2].cell={0,6}; c.units[3].cell={3,2}; c.units[4].cell={6,0};

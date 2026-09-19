@@ -27,6 +27,7 @@ public:
     void upload(int x, int y, int width, int height, const uint8_t* rgba);
 
     void bind(int unit = 0) const;
+    void setNearest();
 
     GLuint id() const { return id_; }
     int width() const { return width_; }

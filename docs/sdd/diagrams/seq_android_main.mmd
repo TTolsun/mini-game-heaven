@@ -8,10 +8,16 @@ sequenceDiagram
     participant GlContext
     participant android_poll_source
     participant TouchEvent
+    participant Rect
     participant Vec2
+    participant Viewport
     participant Scene
     participant BattleScene
     participant Timer
+    participant TimelineFrame
+    participant BattleTimeline
+    participant Haptics
+    participant Mixer
     participant SpriteBatch
     AndroidMain->>AppState: AppState()
     AppState->>AndroidAssetLoader: AndroidAssetLoader()
@@ -28,12 +34,20 @@ sequenceDiagram
     AndroidMain->>AndroidMain: phaseFor()
     AndroidMain->>Engine: onTouch()
     Engine->>TouchEvent: TouchEvent()
+    Engine->>Rect: contains()
+    Engine->>Vec2: Vec2()
     Engine->>Vec2: operator=()
+    Engine->>Viewport: viewportPoint()
+    Engine->>Rect: Rect()
     Engine->>Vec2: Vec2()
     Engine-->>Scene: onTouch() [virtual, 현재 구현 하나]
     AndroidMain->>Engine: onTouch()
     Engine->>TouchEvent: TouchEvent()
+    Engine->>Rect: contains()
+    Engine->>Vec2: Vec2()
     Engine->>Vec2: operator=()
+    Engine->>Viewport: viewportPoint()
+    Engine->>Rect: Rect()
     Engine->>Vec2: Vec2()
     Engine-->>Scene: onTouch() [virtual, 현재 구현 하나]
     AndroidMain->>Engine: onBack()
@@ -44,6 +58,14 @@ sequenceDiagram
     AndroidMain->>Engine: frame()
     Engine->>Timer: tick()
     Engine-->>BattleScene: update() [virtual, 현재 구현 하나]
+    BattleScene->>TimelineFrame: operator=()
+    BattleScene->>BattleTimeline: timelineFrame()
+    BattleScene->>Engine: hitStop()
+    BattleScene->>Engine: addTrauma()
+    BattleScene->>Haptics: light()
+    BattleScene->>Engine: haptics()
+    BattleScene->>Mixer: play()
+    BattleScene->>Engine: mixer()
     Engine->>Vec2: Vec2()
     Engine->>Vec2: Vec2()
     Engine->>Vec2: operator=()

@@ -17,13 +17,11 @@ namespace engine {
 class AssetLoader;
 
 // Platform-independent core: owns the renderer, the sprite atlas, the audio
-// mixer and the active scene, and maps screen pixels to a fixed-width world.
-//
-// World space is kWorldWidth units wide; the height follows the screen's
-// aspect ratio so nothing is stretched. Games read worldHeight() at runtime.
+// mixer and active scene. A 1280x720 target is nearest-blitted into a safe,
+// aspect-preserving viewport; touch uses that same viewport.
 class Engine {
 public:
-    static constexpr float kWorldWidth = 720.0f;
+    static constexpr float kWorldWidth = 1280.0f;
 
     explicit Engine(AssetLoader& assets);
     ~Engine();
@@ -41,7 +39,7 @@ public:
     bool graphicsReady() const { return graphicsReady_; }
 
     // Display cutout / system bar insets in screen pixels; HUD avoids them.
-    void setSafeInsets(int top, int bottom);
+    void setSafeInsets(int top, int bottom, int left=0, int right=0);
 
     void setScene(std::unique_ptr<Scene> scene);
 
@@ -92,12 +90,15 @@ private:
 
     int screenWidth_ = 0;
     int screenHeight_ = 0;
-    float worldHeight_ = 1280.0f;
-    float screenToWorld_ = 1.0f;
+    float worldHeight_ = 720.0f;
+    Texture renderTexture_;
+    GLuint framebuffer_=0;
+    Rect viewport_{0,0,1280,720};
     float safeTop_ = 0.0f;
     float safeBottom_ = 0.0f;
     int insetTopPx_ = 0;
     int insetBottomPx_ = 0;
+    int insetLeftPx_=0, insetRightPx_=0;
     bool graphicsReady_ = false;
 
     float trauma_ = 0.0f;

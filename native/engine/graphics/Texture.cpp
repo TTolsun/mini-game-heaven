@@ -58,6 +58,12 @@ void Texture::bind(int unit) const {
     glBindTexture(GL_TEXTURE_2D, id_);
 }
 
+void Texture::setNearest() {
+    bind();
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+}
+
 void Texture::release() {
     if (id_ != 0) {
         glDeleteTextures(1, &id_);
