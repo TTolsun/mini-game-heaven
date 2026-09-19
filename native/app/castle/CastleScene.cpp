@@ -1,10 +1,12 @@
 #include "app/castle/CastleScene.h"
+#include "app/castle/MonsterArt.h"
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
 #include "engine/Engine.h"
 #include "engine/asset/AssetLoader.h"
 #include "engine/graphics/SpriteBatch.h"
+#include "engine/core/Log.h"
 
 namespace app::castle {
 using engine::Color;
@@ -22,14 +24,6 @@ constexpr Color colors[] = {Color::rgb8(107, 194, 160), Color::rgb8(239, 133, 95
     Color::rgb8(164, 136, 218), Color::rgb8(116, 183, 213), Color::rgb8(239, 189, 91)};
 enum Action { RoomSelect, Tab, Summon, Feed, Move, FuseOpen, FusePartner, FuseConfirm, Close,
     Build, Dig, Raid, Continue, Speed, Pause, Sound };
-const char* sprites[] = {
-    "............" "............" "....1111...." "..11111111.." ".1111111111." ".1121111211." "111211112111" "111111111111" ".1111221111." "..11111111.." ".111....111." "............",
-    ".1........1." ".11......11." "..11111111.." "..11111111.." ".1121111211." "..12111121.." "...111111..." "..11122111.." ".1111111111." "...111111..." "...11..11..." "..111..111..",
-    "...111111..." "..11111111.." "..12111121.." "..11122111.." "...111111..." ".1111111111." "111111111111" "111112211111" "11.111111.11" "...111111..." "..111..111.." "..111..111..",
-    ".....11....." "....1111...." "...111111..." "..11111111.." ".1121111211." ".1121111211." "..11111111.." "...112211..." "..11111111.." ".1111111111." "..11.11.11.." "...1....1...",
-    ".1........1." ".11..11..11." ".1111111111." "..12111121.." "...111111..." "1..112211..1" "11.111111.11" "111111111111" "111111111111" "11.111111.11" "...11..11..." "..111..111..",
-    "..1..11..1.." "..11111111.." "..11111111.." "...111111..." "..11111111.." ".1111111111." "111211112111" "111211112111" "111111111111" ".1111221111." ".1111111111." "..111..111.."
-};
 int discoveredCount(unsigned mask) { int n = 0; while (mask) { n += mask & 1u; mask >>= 1; } return n; }
 }
 void CastleScene::onEnter(engine::Engine& engine) {
@@ -37,6 +31,14 @@ void CastleScene::onEnter(engine::Engine& engine) {
     const auto chars = engine.assets().readFile("fonts/castle-glyphs.txt");
     font_.load(engine.assets(), engine.atlas(), "castle_font", "fonts/NotoSansKR.ttf",
         std::string_view(reinterpret_cast<const char*>(chars.data()), chars.size()));
+    auto& atlas = engine.atlas();
+    if (!atlas.has("castle_monsters") && !atlas.add(engine.assets(), "castle_monsters", art::kAtlasPath)) {
+        LOGE("Monster artwork failed to load");
+    }
+    const auto sheet = atlas.get("castle_monsters");
+    for (int i = 0; i < static_cast<int>(monsterSprites_.size()); ++i) {
+        monsterSprites_[i] = art::frame(sheet, i);
+    }
     sfx_.build();
     savePath_ = engine.dataPath() + "/castle-v1.txt";
     model_.load(savePath_);
@@ -70,15 +72,13 @@ Rect CastleScene::roomRect(int i) const {
     return {40.0f + col * 218.0f, mapTop_ + (i / 3) * (roomHeight_ + 16), 204, roomHeight_};
 }
 void CastleScene::monster(engine::SpriteBatch& b, int species, float x, float y, float scale, bool dim) {
+    if (species < 0 || species >= static_cast<int>(monsterSprites_.size())) return;
+    const auto& sprite = monsterSprites_[species];
+    if (!sprite.isValid()) return;
     const float hop = dim ? 0 : std::sin(clock_ * 3 + species) * 2;
-    b.drawRect({x - scale * 4, y + scale * 5, scale * 8, scale}, ink.withAlpha(0.14f));
-    for (int row = 0; row < 12; ++row) for (int col = 0; col < 12; ++col) {
-        const char pixel = sprites[species][row * 12 + col];
-        if (pixel == '.') continue;
-        Color color = pixel == '2' ? ink : colors[species];
-        if (dim) color = Color::rgb8(174, 168, 168);
-        b.drawRect({x + (col - 6) * scale, y + (row - 6) * scale + hop, scale, scale}, color);
-    }
+    b.drawRect({x - scale * 4, y + scale * 7, scale * 8, scale}, ink.withAlpha(0.14f));
+    const Color tint = dim ? Color::rgb8(115, 112, 123).withAlpha(0.55f) : Color::white();
+    b.draw(sprite, {x, y + hop}, {scale * 18, scale * 18}, tint);
 }
 void CastleScene::renderMap(engine::SpriteBatch& b) {
     b.drawRect({20, mapTop_ - 18, 680, 4 * (roomHeight_ + 16) + 12}, Color::rgb8(61, 54, 77));
@@ -113,7 +113,7 @@ void CastleScene::renderMap(engine::SpriteBatch& b) {
             if (m >= 0) {
                 const Monster& mon = model_.monsters[m];
                 const bool down = model_.phase == Phase::Raid && mon.hp <= 0;
-                monster(b, static_cast<int>(mon.species), r.x + r.w * 0.48f, r.y + r.h * 0.63f, std::min(4.0f, (r.h - 38) / 13), down);
+                monster(b, static_cast<int>(mon.species), r.x + r.w * 0.48f, r.y + r.h * 0.63f, std::min(5.0f, (r.h - 38) / 16), down);
                 if (model_.phase == Phase::Raid) {
                     b.drawRect({r.x + 48, r.y + r.h - 9, 84, 5}, Color::rgb8(135,121,125));
                     b.drawRect({r.x + 48, r.y + r.h - 9, 84 * std::max(0.0f, mon.hp / model_.maxHp(mon)), 5}, teal);

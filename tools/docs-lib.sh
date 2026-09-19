@@ -15,6 +15,11 @@ sdd() {
     uv run --frozen --project "$SDD_TOOL_DIR" sdd --config "$SDD_CONFIG" "$@"
 }
 
+export_site() {
+    sdd export-html --title "$SITE_TITLE" --out "$1"
+    node "$ROOT/tools/docs-mascot.mjs" "$1"
+}
+
 require_tool() {
     if [[ ! -f "$SDD_TOOL_DIR/pyproject.toml" ]]; then
         echo "Run bash tools/setup-sdd.sh first: $SDD_TOOL_DIR" >&2

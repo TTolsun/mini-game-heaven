@@ -6,6 +6,17 @@ import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {accept, check, snapshot, normalizedFacts} from './docs-review.mjs';
 import {validateRelease} from './release.mjs';
+import {addMascot} from './docs-mascot.mjs';
+
+test('SDD export embeds its mascot and rejects missing or duplicate slots', () => {
+  const slot = '<div id="sdd-mascot"></div>';
+  const result = addMascot(`<h1>SDD</h1>${slot}`, Buffer.from('artwork'));
+  assert.match(result, /<h1>SDD<\/h1><figure/);
+  assert.ok(result.includes('data:image/png;base64,YXJ0d29yaw=='));
+  assert.equal((result.match(/<figure/g) ?? []).length, 1);
+  assert.throws(() => addMascot('<h1>SDD</h1>', Buffer.alloc(0)), /exactly one/);
+  assert.throws(() => addMascot(slot + slot, Buffer.alloc(0)), /exactly one/);
+});
 
 function fixture(t) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sdd-policy-test-'));

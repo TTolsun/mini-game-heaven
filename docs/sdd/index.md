@@ -1,5 +1,7 @@
 # monster-garden SDD
 
+<div id="sdd-mascot"></div>
+
 **수정할 기능이 있으면 [시스템 개요](overview.md)의 패키지 표에서 시작하세요.** 이 사이트는 `camera-hal-sdd` 파이프라인이 `native/` C++ 소스에서 추출한 사실, 코드 리뷰로 보완한 설명과, 사람이 기록한 설계 결정을 나눠서 담습니다.
 
 | 지금 확인할 내용 | 이동할 문서 |
